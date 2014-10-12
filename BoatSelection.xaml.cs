@@ -63,6 +63,7 @@ namespace IllegalOctopusFishing
                 selectBoatPromptTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 return;
             }
+            // TODO: find out why this is necessary
             this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 game.setIsPaused(false);
