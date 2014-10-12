@@ -115,6 +115,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="GameObject.cs" />
+    <Compile Include="Gravity.cs" />
     <Compile Include="Harpoon.cs" />
     <Compile Include="HeavenlyBody.cs" />
     <Compile Include="IllegalOctopusFishingGame.cs" />

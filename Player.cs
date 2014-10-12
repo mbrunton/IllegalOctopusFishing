@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IllegalOctopusFishing
 {
-    class Player
+    class Player : GameObject
     {
     }
 }
