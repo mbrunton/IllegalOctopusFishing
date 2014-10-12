@@ -108,9 +108,15 @@
     <Compile Include="BoatSelection.xaml.cs">
       <DependentUpon>BoatSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Camera.cs" />
+    <Compile Include="CoastGuardPersonel.cs" />
+    <Compile Include="Fish.cs" />
     <Compile Include="GameInput.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Harpoon.cs" />
+    <Compile Include="HeavenlyBody.cs" />
     <Compile Include="IllegalOctopusFishingGame.cs" />
     <Compile Include="Instructions.xaml.cs">
       <DependentUpon>Instructions.xaml</DependentUpon>
@@ -121,10 +127,20 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ocean.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Terrain.cs" />
+    <Compile Include="VertexPositionNormalColor.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Wind.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

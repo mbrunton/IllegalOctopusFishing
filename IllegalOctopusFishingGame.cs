@@ -22,10 +22,14 @@ namespace IllegalOctopusFishing
         private AccelerometerReading accelerometerReading;
         private GameInput input;
 
+        private World world;
+
         public IllegalOctopusFishingGame(MainPage mainPage)
         {
             this.mainPage = mainPage;
             this.isPaused = true;
+
+            world = new World(this);
 
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             input = new GameInput(this);
@@ -61,8 +65,7 @@ namespace IllegalOctopusFishing
             }
             keyboardState = input.keyboardManager.GetState();
             //accelerometerReading = input.accelerometer.GetCurrentReading();
-
-            // TODO
+            world.Update(gameTime, keyboardState, accelerometerReading);
             base.Update(gameTime);
         }
 
@@ -73,6 +76,7 @@ namespace IllegalOctopusFishing
                 return;
             }
             // TODO
+            world.Draw(gameTime);
             base.Draw(gameTime);
         }
 
