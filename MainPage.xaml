@@ -1,0 +1,17 @@
+﻿<SwapChainBackgroundPanel
+    x:Class="IllegalOctopusFishing.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IllegalOctopusFishing"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="titleTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Illegal Octopus Fishing" VerticalAlignment="Top" Margin="184,62,181,0" Height="74" Width="1001" FontSize="72" FontFamily="Simplified Arabic Fixed"/>
+        <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,267,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onPlayButtonClicked"/>
+        <Button x:Name="instructionsButton" Content="Instructions" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,358,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onInstructionsButtonClicked"/>
+        <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,454,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onSettingsButtonClicked"/>
+
+    </Grid>
+</SwapChainBackgroundPanel>
