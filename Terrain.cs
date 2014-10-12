@@ -20,5 +20,15 @@ namespace IllegalOctopusFishing
         {
             throw new NotImplementedException();
         }
+
+        internal Vector3 getOnWaterLocation()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Vector3 getPlayerStartPos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

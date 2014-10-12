@@ -10,6 +10,8 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
+    using SharpDX.Toolkit.Input;
     class World
     {
         private IllegalOctopusFishingGame game;
@@ -32,7 +34,6 @@ namespace IllegalOctopusFishing
         public World(IllegalOctopusFishingGame game)
         {
             this.game = game;
-            this.player = new Player();
 
             this.worldSize = 1000;
             this.seaLevel = 0;
@@ -52,20 +53,44 @@ namespace IllegalOctopusFishing
             Color moonSpectralColor = Color.GhostWhite;
             this.moon = new HeavenlyBody(moonInitialDir, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
 
+            Vector3 playerStartPos = terrain.getPlayerStartPos();
+            this.player = new Player(playerStartPos);
             this.camera = new Camera();
 
             numFish = 100;
             this.fish = new List<Fish>(numFish);
             for (int i = 0; i < numFish; i++)
             {
-                Vector3 fishStartingLoc = terrain.getUnderWaterLocation();
-                fish.Add(new Fish(fishStartingLoc));
+                Vector3 fishStartPos = terrain.getUnderWaterLocation();
+                fish.Add(new Fish(fishStartPos));
             }
-                numCoastGuard = 20;
+            numCoastGuard = 20;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
+            for (int i = 0; i < numCoastGuard; i++)
+            {
+                Vector3 coastGuardStartPos = terrain.getOnWaterLocation();
+                coastGuard.Add(new CoastGuardPersonel(coastGuardStartPos));
+            }
         }
 
-        internal void Update(GameTime gameTime, SharpDX.Toolkit.Input.KeyboardState keyboardState, AccelerometerReading accelerometerReading)
+        internal void setSelectedBoat(string selectedBoat)
+        {
+            switch (selectedBoat)
+            {
+                case "smallBoat":
+                    player.SetMass(500f);
+                    player.SetAcc(5f);
+                    break;
+                case "largeBoat":
+                    player.SetMass(1000f);
+                    player.SetAcc(7f);
+                    break;
+                default:
+                    throw new ArgumentException("selectedBoat string is not recognized");
+            }
+        }
+
+        internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
             throw new NotImplementedException();
         }

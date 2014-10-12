@@ -45,6 +45,11 @@ namespace IllegalOctopusFishing
             input.gestureRecognizer.ManipulationCompleted += OnManipulationCompleted;
         }
 
+        internal void setSelectedBoat(string selectedBoat)
+        {
+            world.setSelectedBoat(selectedBoat);
+        }
+
         protected override void LoadContent()
         {
             // TODO

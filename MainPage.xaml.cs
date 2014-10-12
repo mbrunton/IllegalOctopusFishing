@@ -37,6 +37,7 @@ namespace IllegalOctopusFishing
         internal void startGame(string selectedBoat)
         {
             this.Children.Remove(mainMenu);
+            game.setSelectedBoat(selectedBoat);
             game.setIsPaused(false);
         }
     }
