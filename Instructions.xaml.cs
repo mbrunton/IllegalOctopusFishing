@@ -23,9 +23,9 @@ namespace IllegalOctopusFishing
     public sealed partial class Instructions : Page
     {
         
-        private MainPage mainMenu;
+        private MainMenu mainMenu;
 
-        public Instructions(MainPage mainMenu)
+        public Instructions(MainMenu mainMenu)
         {
             this.InitializeComponent();
             this.mainMenu = mainMenu;

@@ -22,55 +22,22 @@ namespace IllegalOctopusFishing
     /// </summary>
     public sealed partial class MainPage
     {
-        private BoatSelection boatSelection = null;
-        private Instructions instructions = null;
-        private Settings settings = null;
+        private MainMenu mainMenu;
+        private IllegalOctopusFishingGame game;
 
         public MainPage()
         {
             this.InitializeComponent();
+            this.mainMenu = new MainMenu(this);
+            this.Children.Add(mainMenu);
+            game = new IllegalOctopusFishingGame(this);
+            game.Run(this);
         }
 
-        private void onPlayButtonClicked(object sender, RoutedEventArgs e)
+        internal void startGame(string selectedBoat)
         {
-            boatSelection = new BoatSelection(this);
-            this.Children.Add(boatSelection);
-        }
-
-        internal void removeBoatSelection()
-        {
-            if (boatSelection != null)
-            {
-                this.Children.Remove(boatSelection);
-            }
-        }
-
-        private void onInstructionsButtonClicked(object sender, RoutedEventArgs e)
-        {
-            instructions = new Instructions(this);
-            this.Children.Add(instructions);
-        }
-
-        internal void removeInstructions()
-        {
-            if (instructions != null)
-            {
-                this.Children.Remove(instructions);
-            }
-        }
-
-        private void onSettingsButtonClicked(object sender, RoutedEventArgs e)
-        {
-            settings = new Settings(this);
-            this.Children.Add(settings);
-        }
-
-        internal void removeSettings()
-        {
-            if (settings != null)
-            {
-                this.Children.Remove(settings);
-            }
+            this.Children.Remove(mainMenu);
+            game.setIsPaused(false);
         }
     }
 }

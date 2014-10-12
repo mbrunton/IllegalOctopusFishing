@@ -22,12 +22,12 @@ namespace IllegalOctopusFishing
     /// </summary>
     public sealed partial class Settings : Page
     {
-        private MainPage mainPage;
+        private MainMenu mainMenu;
 
-        public Settings(MainPage mainPage)
+        public Settings(MainMenu mainMenu)
         {
             this.InitializeComponent();
-            this.mainPage = mainPage;
+            this.mainMenu = mainMenu;
         }
 
         private void onDifficultySliderChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -37,7 +37,7 @@ namespace IllegalOctopusFishing
 
         private void onMainMenuButtonClicked(object sender, RoutedEventArgs e)
         {
-            mainPage.removeSettings();
+            mainMenu.removeSettings();
         }
     }
 }

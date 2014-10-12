@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Windows.Devices.Sensors;
+using Windows.UI.Input;
 using SharpDX;
 using SharpDX.Toolkit;
 
@@ -17,10 +18,9 @@ namespace IllegalOctopusFishing
         private bool isPaused;
 
         private GraphicsDeviceManager graphicsDeviceManager;
-        private KeyboardManager keyboardManager;
         private KeyboardState keyboardState;
-        private Accelerometer accelerometer;
         private AccelerometerReading accelerometerReading;
+        private GameInput input;
 
         public IllegalOctopusFishingGame(MainPage mainPage)
         {
@@ -28,6 +28,17 @@ namespace IllegalOctopusFishing
             this.isPaused = true;
 
             graphicsDeviceManager = new GraphicsDeviceManager(this);
+            input = new GameInput(this);
+
+            // Setup the relative directory to the executable directory
+            // for loading contents with the ContentManager
+            Content.RootDirectory = "Content";
+
+            // Initialise event handling.
+            input.gestureRecognizer.Tapped += Tapped;
+            input.gestureRecognizer.ManipulationStarted += OnManipulationStarted;
+            input.gestureRecognizer.ManipulationUpdated += OnManipulationUpdated;
+            input.gestureRecognizer.ManipulationCompleted += OnManipulationCompleted;
         }
 
         protected override void LoadContent()
@@ -48,8 +59,8 @@ namespace IllegalOctopusFishing
             {
                 return;
             }
-            keyboardState = keyboardManager.GetState();
-            accelerometerReading = accelerometer.GetCurrentReading();
+            keyboardState = input.keyboardManager.GetState();
+            //accelerometerReading = input.accelerometer.GetCurrentReading();
 
             // TODO
             base.Update(gameTime);
@@ -68,6 +79,26 @@ namespace IllegalOctopusFishing
         internal void setIsPaused(bool isPaused)
         {
             this.isPaused = isPaused;
+        }
+
+        public void Tapped(GestureRecognizer sender, TappedEventArgs args)
+        {
+            
+        }
+
+        public void OnManipulationStarted(GestureRecognizer sender, ManipulationStartedEventArgs args)
+        {
+
+        }
+
+        public void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
+        {
+            
+        }
+
+        public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
+        {
+
         }
     }
 }

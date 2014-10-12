@@ -22,17 +22,15 @@ namespace IllegalOctopusFishing
     /// </summary>
     public sealed partial class BoatSelection
     {
-        private MainPage mainPage;
-        private readonly IllegalOctopusFishingGame game = null;
+        private MainMenu mainMenu;
         private String selectedBoat;
         private bool isBoatSelected = false;
         private double unselectedOpacity = 0.5f;
 
-        public BoatSelection(MainPage mainPage)
+        public BoatSelection(MainMenu mainMenu)
         {
             this.InitializeComponent();
-            this.mainPage = mainPage;
-            this.game = new IllegalOctopusFishingGame(mainPage);
+            this.mainMenu = mainMenu;
         }
 
         private void onBasicBoatButtonClicked(object sender, RoutedEventArgs e)
@@ -53,7 +51,7 @@ namespace IllegalOctopusFishing
 
         private void onMainMenuButtonClicked(object sender, RoutedEventArgs e)
         {
-            mainPage.removeBoatSelection();
+            mainMenu.removeBoatSelection();
         }
 
         private void onSetSailButtonClicked(object sender, RoutedEventArgs e)
@@ -63,12 +61,8 @@ namespace IllegalOctopusFishing
                 selectBoatPromptTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 return;
             }
-            // TODO: find out why this is necessary
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                game.setIsPaused(false);
-                game.Run();
-            }).AsTask().Wait();
+
+            mainMenu.startGame(selectedBoat);
         }
     }
 }
