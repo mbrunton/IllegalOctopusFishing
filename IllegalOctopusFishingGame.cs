@@ -17,6 +17,9 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
+        public static List<String> modelNames = new List<string>() { "small_boat", "small_sail" };
+        public Dictionary<String, Model> nameToModel;
+
         private GraphicsDeviceManager graphicsDeviceManager;
         private KeyboardState keyboardState;
         private AccelerometerReading accelerometerReading;
@@ -50,14 +53,22 @@ namespace IllegalOctopusFishing
 
         protected override void LoadContent()
         {
-            // TODO
+            // load blender models
+            nameToModel = new Dictionary<string, Model>();
+            foreach (String name in modelNames)
+            {
+                Model model = Content.Load<Model>(name);
+                nameToModel.Add(name, model);
+            }
+
             world = new World(this);
+
             base.LoadContent();
         }
 
         protected override void Initialize()
         {
-            // TODO
+            Window.Title = "Illegal Octopus Fishing";
             base.Initialize();
         }
 

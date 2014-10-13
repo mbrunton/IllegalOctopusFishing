@@ -12,11 +12,11 @@ namespace IllegalOctopusFishing
     using SharpDX.Toolkit.Input;
     abstract class GameObject
     {
-        private IllegalOctopusFishingGame game;
-        private Buffer<VertexPositionNormalColor> vertices;
-        public VertexInputLayout inputLayout;
-        private BasicEffect basicEffect;
-        private Color diffuseColor;
+        protected IllegalOctopusFishingGame game;
+        protected Buffer<VertexPositionNormalColor> vertices;
+        protected VertexInputLayout inputLayout;
+        protected BasicEffect basicEffect;
+        protected Color diffuseColor;
 
         public GameObject(IllegalOctopusFishingGame game)
         {

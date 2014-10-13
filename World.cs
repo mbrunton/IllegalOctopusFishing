@@ -96,19 +96,7 @@ namespace IllegalOctopusFishing
 
         internal void setSelectedBoat(Player.BoatSize selectedBoat)
         {
-            switch (selectedBoat)
-            {
-                case Player.BoatSize.SMALL:
-                    player.SetMass(500f);
-                    player.SetAcc(5f);
-                    break;
-                case Player.BoatSize.LARGE:
-                    player.SetMass(1000f);
-                    player.SetAcc(7f);
-                    break;
-                default:
-                    throw new ArgumentException("selectedBoat is not recognized");
-            }
+            player.SetSelectedBoat(selectedBoat);
         }
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
