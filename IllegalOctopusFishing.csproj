@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="Camera.cs" />
     <Compile Include="CoastGuardPersonel.cs" />
+    <Compile Include="DiamondSquare.cs" />
     <Compile Include="Fish.cs" />
     <Compile Include="GameInput.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -118,6 +119,7 @@
     <Compile Include="Gravity.cs" />
     <Compile Include="Harpoon.cs" />
     <Compile Include="HeavenlyBody.cs" />
+    <Compile Include="HeightMap.cs" />
     <Compile Include="IllegalOctopusFishingGame.cs" />
     <Compile Include="Instructions.xaml.cs">
       <DependentUpon>Instructions.xaml</DependentUpon>

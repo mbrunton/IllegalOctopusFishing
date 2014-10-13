@@ -12,15 +12,20 @@ namespace IllegalOctopusFishing
         private float worldSize;
         private float verticesPerLength; // how many terrain vertices per unit length
         private HeightMap heightMap;
+        private DiamondSquare diamondSquare;
 
         public Terrain(IllegalOctopusFishingGame game, float worldSize) : base(game)
         {
             this.worldSize = worldSize;
             this.verticesPerLength = 4;
 
+            this.heightMap = new HeightMap(worldSize, verticesPerLength);
+
             float cornerHeight = 0f;
             float middleHeight = -50f;
-            this.heightMap = new HeightMap(worldSize, verticesPerLength, cornerHeight, middleHeight);
+            this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight);
+
+            heightMap.fillGridFromDiamondSquare(diamondSquare.heights);
         }
 
         internal Vector3 getRandomUnderWaterLocation()
