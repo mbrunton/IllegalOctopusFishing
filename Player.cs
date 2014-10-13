@@ -9,8 +9,22 @@ namespace IllegalOctopusFishing
 {
     class Player : MovingGameObject
     {
-        public Player(Vector3 startingPos) : base(startingPos)
+        private float length, width;
+
+        public Player(IllegalOctopusFishingGame game, Vector3 startingPos) : base(game, startingPos)
         {
+        }
+
+        public enum HullPositions {BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT};
+
+        internal Dictionary<HullPositions, Vector3> getBottomPositions()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> playerHeightMap, float seaLevel, Wind wind, Gravity gravity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

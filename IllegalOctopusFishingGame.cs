@@ -29,8 +29,6 @@ namespace IllegalOctopusFishing
             this.mainPage = mainPage;
             this.isPaused = true;
 
-            world = new World(this);
-
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             input = new GameInput(this);
 
@@ -53,6 +51,7 @@ namespace IllegalOctopusFishing
         protected override void LoadContent()
         {
             // TODO
+            world = new World(this);
             base.LoadContent();
         }
 

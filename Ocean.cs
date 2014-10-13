@@ -11,7 +11,7 @@ namespace IllegalOctopusFishing
         private float seaLevel;
         private float waterDensity;
 
-        public Ocean(float worldSize, float seaLevel)
+        public Ocean(IllegalOctopusFishingGame game, float worldSize, float seaLevel) : base(game)
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;

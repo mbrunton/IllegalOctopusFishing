@@ -14,11 +14,26 @@ namespace IllegalOctopusFishing
         private float mass;
         private float acc; // acceleration
 
-        public MovingGameObject(Vector3 pos)
+        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 pos) : base(game)
         {
             this.pos = pos;
             this.up = Vector3.UnitY;
             this.dir = Vector3.UnitX;
+        }
+
+        public Vector3 getPos()
+        {
+            return this.pos;
+        }
+
+        public Vector3 getDir()
+        {
+            return this.dir;
+        }
+
+        public Vector3 getVel()
+        {
+            return this.vel;
         }
 
         public void SetMass(float mass)

@@ -137,6 +137,7 @@
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sky.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="VertexPositionNormalColor.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
