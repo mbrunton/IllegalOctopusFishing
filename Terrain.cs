@@ -55,20 +55,52 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getRandomUnderWaterLocation()
         {
-            throw new NotImplementedException();
+            int maxAttempts = 100;
+            float buffer = 8f; // how shallow we'll allow water to be
+            for (int i = 0; i < maxAttempts; i++)
+            {
+                float x = diamondSquare.getRandInRange(minX, maxX);
+                float z = diamondSquare.getRandInRange(minZ, maxZ);
+                float height = getTerrainHeightAtPosition(x, z);
+                if (height + buffer <= seaLevel)
+                {
+                    float y = height + (seaLevel - height) / 2;
+                    return new Vector3(x, y, z);
+                }
+            }
+
+            throw new Exception("Could not find random location on water.. max attempts reached");
         }
 
         internal Vector3 getRandomOnWaterLocation()
         {
-            throw new NotImplementedException();
+            int maxAttempts = 100;
+            float buffer = 4f; // how shallow we'll allow water to be
+            for (int i = 0; i < maxAttempts; i++)
+            {
+                float x = diamondSquare.getRandInRange(minX, maxX);
+                float z = diamondSquare.getRandInRange(minZ, maxZ);
+                float height = getTerrainHeightAtPosition(x, z);
+                if (height + buffer <= seaLevel)
+                {
+                    return new Vector3(x, seaLevel, z);
+                }
+            }
+
+            throw new Exception("Could not find random location on water.. max attempts reached");    
         }
 
         internal Vector3 getPlayerStartPos()
         {
-            int maxAttempts = 1000;
-            for (int i = 0; i < maxAttempts; i++)
+            float x = minX + (maxX - minX) / 2;
+            float z = minZ + (maxZ - minZ) / 2;
+            float height = getTerrainHeightAtPosition(x, z);
+            if (height > seaLevel)
             {
+                throw new Exception("Player start pos is over land!");
             }
+
+            return new Vector3(x, seaLevel, z);
         }
 
         internal float getTerrainHeightAtPosition(float x, float z)

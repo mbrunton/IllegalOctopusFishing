@@ -31,8 +31,6 @@ namespace IllegalOctopusFishing
             };
         }
 
-        abstract public void fillVertices();
-
         public void SetupLighting(float ambientLight, HeavenlyBody sun, HeavenlyBody moon)
         {
             if (diffuseColor == null)
