@@ -39,6 +39,8 @@ namespace IllegalOctopusFishing
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 
+            heightMap.fillSearchTree();
+
             vertices = Buffer.Vertex.New(
                 game.GraphicsDevice, 
                 heightMap.getVertexPositionNormalColorList(getColorAtHeight).ToArray());

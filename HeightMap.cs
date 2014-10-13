@@ -16,8 +16,10 @@ namespace IllegalOctopusFishing
 
         private List<List<Vector3>> grid;
         private List<List<Vector3>> normalGrid;
+        private TwoDTree searchTree;
         private bool isGridFilled = false;
         private bool isNormalGridFilled = false;
+        private bool isSearchTreeFilled = false;
 
         public int numSideVertices;
         public float minX, maxX, minZ, maxZ;
@@ -37,7 +39,7 @@ namespace IllegalOctopusFishing
 
             // how many vertices down one side of map
             float floatSideVertices = worldSize * verticesPerLength + 1;
-            numSideVertices = (int)Math.Pow(Math.Ceiling(Math.Log(floatSideVertices, 2)), 2); // next power of 2
+            numSideVertices = (int)Math.Pow(Math.Ceiling(Math.Log(floatSideVertices, 2)), 2) + 1; // next power of 2, plus 1
             stepSize = worldSize / (numSideVertices - 1);
 
             if (fillWithZero)
@@ -204,8 +206,17 @@ namespace IllegalOctopusFishing
                     VPNClist.Add(bottomleft);
                 }
             }
-
+            
             return VPNClist;
+        }
+
+        internal void fillSearchTree()
+        {
+            if (!isGridFilled)
+            {
+                throw new ArgumentException("Cannot fill search tree until grid is filled");
+            }
+            searchTree = new TwoDTree(grid, numSideVertices);
         }
     }
 }
