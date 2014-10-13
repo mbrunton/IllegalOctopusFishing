@@ -41,7 +41,7 @@ namespace IllegalOctopusFishing
 
             this.worldSize = 1000;
             this.seaLevel = 0;
-            this.terrain = new Terrain(game, worldSize);
+            this.terrain = new Terrain(game, worldSize, seaLevel);
             objectsForDrawing.Add(terrain);
             this.ocean = new Ocean(game, worldSize, seaLevel);
             objectsForDrawing.Add(ocean);

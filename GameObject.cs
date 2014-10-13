@@ -29,9 +29,6 @@ namespace IllegalOctopusFishing
                 World = Matrix.Identity,
                 View = Matrix.Identity
             };
-
-            fillVertices();
-            inputLayout = VertexInputLayout.FromBuffer(0, vertices);
         }
 
         abstract public void fillVertices();
@@ -73,9 +70,7 @@ namespace IllegalOctopusFishing
             basicEffect.DirectionalLight1.Direction = moon.getDir();
         }
 
-        abstract public void Draw(GameTime gameTime);
-        /*
-        public void Draw(GameTime gameTime)
+        public virtual void Draw(GameTime gameTime)
         {
             // Setup the vertices
             game.GraphicsDevice.SetVertexBuffer(vertices);
@@ -85,8 +80,5 @@ namespace IllegalOctopusFishing
             basicEffect.CurrentTechnique.Passes[0].Apply();
             game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
-         */
-
-        
     }
 }

@@ -7,25 +7,47 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
+    using SharpDX.Toolkit.Input;
     class Terrain : GameObject
     {
         private float worldSize;
+        private float minX, maxX;
+        private float minZ, maxZ;
+        private float seaLevel;
         private float verticesPerLength; // how many terrain vertices per unit length
         private HeightMap heightMap;
         private DiamondSquare diamondSquare;
 
-        public Terrain(IllegalOctopusFishingGame game, float worldSize) : base(game)
+        public Terrain(IllegalOctopusFishingGame game, float worldSize, float seaLevel) : base(game)
         {
             this.worldSize = worldSize;
+            this.seaLevel = seaLevel;
             this.verticesPerLength = 4;
 
             this.heightMap = new HeightMap(worldSize, verticesPerLength);
+            this.minX = heightMap.minX;
+            this.maxX = heightMap.maxX;
+            this.minZ = heightMap.minZ;
+            this.maxZ = heightMap.maxZ;
 
             float cornerHeight = 0f;
             float middleHeight = -50f;
             this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight);
 
             heightMap.fillGridFromDiamondSquare(diamondSquare.heights);
+            bool isRound = true;
+            heightMap.fillNormalGrid(isRound);
+
+            vertices = Buffer.Vertex.New(
+                game.GraphicsDevice, 
+                heightMap.getVertexPositionNormalColorList(getColorAtHeight).ToArray());
+            inputLayout = VertexInputLayout.FromBuffer(0, vertices);
+        }
+
+        private Color getColorAtHeight(float y)
+        {
+            return Color.Brown;
         }
 
         internal Vector3 getRandomUnderWaterLocation()
