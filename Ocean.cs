@@ -17,5 +17,15 @@ namespace IllegalOctopusFishing
             this.seaLevel = seaLevel;
             this.waterDensity = 1000f; // kgm^-3
         }
+
+        internal void Update(SharpDX.Toolkit.GameTime gameTime)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public override void Draw(SharpDX.Toolkit.GameTime gameTime)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

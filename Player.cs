@@ -11,32 +11,46 @@ namespace IllegalOctopusFishing
     class Player : MovingGameObject
     {
         public enum BoatSize { SMALL, LARGE };
+        public enum HullPositions { BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT };
 
         private float length, width;
         private Model boatModel;
         private Model sailModel;
         private bool isModelsSet = false;
+        private Dictionary<HullPositions, Vector3> hullPositions;
 
         public Player(IllegalOctopusFishingGame game, Vector3 startingPos) : base(game, startingPos)
         {
+            hullPositions = new Dictionary<HullPositions, Vector3>();
         }
 
-        public enum HullPositions {BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT};
-
-        internal Dictionary<HullPositions, Vector3> getBottomPositions()
+        internal Dictionary<HullPositions, Vector3> getHullPositions()
         {
-            throw new NotImplementedException();
+            if (!isModelsSet)
+            {
+                throw new Exception("Player models not loaded, yet trying to get hull positions");
+            }
+            return hullPositions;
         }
 
-        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> playerHeightMap, float seaLevel, Wind wind, Gravity gravity)
+        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullHeights, float seaLevel, Wind wind, Gravity gravity)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            boatModel.Draw(game.GraphicsDevice, basicEffect.World, basicEffect.View, basicEffect.Projection);
         }
 
         internal void SetSelectedBoat(BoatSize selectedBoat)
         {
             bool success = false;
             success = game.nameToModel.TryGetValue("Car", out boatModel);
+            success &= game.nameToModel.TryGetValue("Skull", out sailModel);
+            length = 10;
+            width = 5;
+            
             /*
             switch (selectedBoat)
             {

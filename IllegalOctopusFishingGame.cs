@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"Car"};//{ "Car", "small_boat", "small_sail" };
+        public static List<String> modelNames = new List<String>() {"Car", "Skull"};//{ "Car", "small_boat", "small_sail" };
         public Dictionary<String, Model> nameToModel;
 
         private GraphicsDeviceManager graphicsDeviceManager;

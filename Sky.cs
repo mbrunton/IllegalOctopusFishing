@@ -28,7 +28,7 @@ namespace IllegalOctopusFishing
 
         public void Update(HeavenlyBody sun, HeavenlyBody moon) 
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public Color getColor()

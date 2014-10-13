@@ -113,16 +113,16 @@ namespace IllegalOctopusFishing
             return height;
         }
 
-        internal Dictionary<Player.HullPositions, float> getTerrainHeightsForPlayerHull(Dictionary<Player.HullPositions, Vector3> posMap)
+        internal Dictionary<Player.HullPositions, float> getTerrainHeightsForPlayerHull(Dictionary<Player.HullPositions, Vector3> hullPositions)
         {
-            Dictionary<Player.HullPositions, float> heightMap = new Dictionary<Player.HullPositions,float>();
-            foreach (KeyValuePair<Player.HullPositions,Vector3> keyVal in posMap)
+            Dictionary<Player.HullPositions, float> hullHeights = new Dictionary<Player.HullPositions,float>();
+            foreach (KeyValuePair<Player.HullPositions,Vector3> keyVal in hullPositions)
             {
-                Player.HullPositions hullPos = keyVal.Key;
-                Vector3 pos = keyVal.Value;
-                heightMap.Add(hullPos, getTerrainHeightAtPosition(pos.X, pos.Z));               
+                Player.HullPositions hullKey = keyVal.Key;
+                Vector3 hullPosition = keyVal.Value;
+                hullHeights.Add(hullKey, getTerrainHeightAtPosition(hullPosition.X, hullPosition.Z));               
             }
-            return heightMap;
+            return hullHeights;
         }
     }
 }

@@ -43,8 +43,10 @@ namespace IllegalOctopusFishing
             this.seaLevel = 0;
             this.terrain = new Terrain(game, worldSize, seaLevel);
             objectsForDrawing.Add(terrain);
+            
             this.ocean = new Ocean(game, worldSize, seaLevel);
             objectsForDrawing.Add(ocean);
+            
             this.wind = new Wind();
             this.gravity = new Gravity(-1 * Vector3.UnitY, 9.81f);
 
@@ -101,8 +103,8 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
-            Dictionary<Player.HullPositions, float> playerHeightMap = terrain.getTerrainHeightsForPlayerHull(player.getBottomPositions());
-            player.Update(gameTime, playerHeightMap, seaLevel, wind, gravity);
+            Dictionary<Player.HullPositions, float> playerHullHeights = terrain.getTerrainHeightsForPlayerHull(player.getHullPositions());
+            player.Update(gameTime, playerHullHeights, seaLevel, wind, gravity);
 
             camera.Update(player.getPos(), player.getDir(), player.getVel());
 
@@ -128,6 +130,7 @@ namespace IllegalOctopusFishing
             sun.Update(gameTime);
             moon.Update(gameTime);
             sky.Update(sun, moon);
+            ocean.Update(gameTime);
 
             foreach (GameObject obj in objectsForDrawing)
             {
@@ -144,7 +147,6 @@ namespace IllegalOctopusFishing
             {
                 obj.Draw(gameTime);
             }
-            throw new NotImplementedException();
         }
     }
 }

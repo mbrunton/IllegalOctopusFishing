@@ -157,6 +157,9 @@
     <ToolkitModel Include="Content\Car.x">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
+    <ToolkitModel Include="Content\Skull.x">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
