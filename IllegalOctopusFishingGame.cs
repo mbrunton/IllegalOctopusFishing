@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<string>() { "small_boat", "small_sail" };
+        public static List<String> modelNames = new List<String>() { "small_boat.dae", "small_sail.dae" };
         public Dictionary<String, Model> nameToModel;
 
         private GraphicsDeviceManager graphicsDeviceManager;
@@ -54,13 +54,15 @@ namespace IllegalOctopusFishing
         protected override void LoadContent()
         {
             // load blender models
-            nameToModel = new Dictionary<string, Model>();
+            nameToModel = new Dictionary<String, Model>();
+            // TODO: these are getting AssetNotFoundExceptions
+            /*
             foreach (String name in modelNames)
             {
                 Model model = Content.Load<Model>(name);
                 nameToModel.Add(name, model);
             }
-
+            */
             world = new World(this);
 
             base.LoadContent();

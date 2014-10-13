@@ -37,7 +37,7 @@ namespace IllegalOctopusFishing
 
             // how many vertices down one side of map
             float floatSideVertices = worldSize * verticesPerLength + 1;
-            numSideVertices = (int)Math.Pow(Math.Ceiling(Math.Log(floatSideVertices, 2)), 2) + 1; // next power of 2, plus 1
+            numSideVertices = (int)Math.Pow(2, Math.Ceiling(Math.Log(floatSideVertices, 2))) + 1; // next power of 2, plus 1
             stepSize = worldSize / (numSideVertices - 1);
 
             if (fillWithZero)
@@ -99,7 +99,7 @@ namespace IllegalOctopusFishing
                 for (int j = 0; j < numSideVertices; j++)
                 {
                     float x = minX + i * stepSize;
-                    float z = minZ + i * stepSize;
+                    float z = minZ + j * stepSize;
                     float y = diamondSquareHeights[i][j];
                     zRow.Add(new Vector3(x, y, z));
                 }

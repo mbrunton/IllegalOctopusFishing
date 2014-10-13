@@ -39,7 +39,7 @@ namespace IllegalOctopusFishing
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();
 
-            this.worldSize = 1000;
+            this.worldSize = 100;
             this.seaLevel = 0;
             this.terrain = new Terrain(game, worldSize, seaLevel);
             objectsForDrawing.Add(terrain);
@@ -101,7 +101,7 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
-            Dictionary<Player.HullPositions, float> playerHeightMap = terrain.getTerrainHeightsAtPositions(player.getBottomPositions());
+            Dictionary<Player.HullPositions, float> playerHeightMap = terrain.getTerrainHeightsForPlayerHull(player.getBottomPositions());
             player.Update(gameTime, playerHeightMap, seaLevel, wind, gravity);
 
             camera.Update(player.getPos(), player.getDir(), player.getVel());

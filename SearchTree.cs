@@ -61,7 +61,7 @@ namespace IllegalOctopusFishing
         public Index getIndexAtPosition(float x, float z)
         {
             float xFloor = getFloorOfX(x);
-            float zFloor = getFloorOfZ(x);
+            float zFloor = getFloorOfZ(z);
 
             Dictionary<float, Index> zToIndex;
             map.TryGetValue(xFloor, out zToIndex);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using SharpDX;
 using SharpDX.Toolkit;
 
@@ -40,6 +41,8 @@ namespace IllegalOctopusFishing
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 
+            //Debug.WriteLine(heightMap.getGrid().ToString());
+
             searchTree = new SearchTree(heightMap);
 
             vertices = Buffer.Vertex.New(
@@ -55,7 +58,7 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getRandomUnderWaterLocation()
         {
-            int maxAttempts = 100;
+            int maxAttempts = (int)(worldSize * worldSize);
             float buffer = 8f; // how shallow we'll allow water to be
             for (int i = 0; i < maxAttempts; i++)
             {
@@ -74,7 +77,7 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getRandomOnWaterLocation()
         {
-            int maxAttempts = 100;
+            int maxAttempts = (int)(worldSize * worldSize);
             float buffer = 4f; // how shallow we'll allow water to be
             for (int i = 0; i < maxAttempts; i++)
             {
@@ -110,7 +113,7 @@ namespace IllegalOctopusFishing
             return height;
         }
 
-        internal Dictionary<Player.HullPositions, float> getTerrainHeightsAtPositions(Dictionary<Player.HullPositions, Vector3> posMap)
+        internal Dictionary<Player.HullPositions, float> getTerrainHeightsForPlayerHull(Dictionary<Player.HullPositions, Vector3> posMap)
         {
             Dictionary<Player.HullPositions, float> heightMap = new Dictionary<Player.HullPositions,float>();
             foreach (KeyValuePair<Player.HullPositions,Vector3> keyVal in posMap)
