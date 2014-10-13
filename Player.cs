@@ -9,6 +9,7 @@ namespace IllegalOctopusFishing
 {
     class Player : MovingGameObject
     {
+        public static enum BoatSize { SMALL, LARGE };
         private float length, width;
 
         public Player(IllegalOctopusFishingGame game, Vector3 startingPos) : base(game, startingPos)

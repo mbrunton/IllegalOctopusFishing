@@ -12,13 +12,16 @@ namespace IllegalOctopusFishing
         private Color color;
         private Color noonColor;
         private Color midnightColor;
-        private Vector3 ambientLight;
+        private float ambientLight;
 
-        public Sky(Color noonColor, Color midnightColor, Vector3 ambientLight)
-        {
+        public Sky(Color noonColor, Color midnightColor)
+        { 
             this.noonColor = noonColor;
             this.midnightColor = midnightColor;
-            this.ambientLight = ambientLight;
+
+            this.ambientLight = noonColor.ToVector3().Length();
+            this.ambientLight += midnightColor.ToVector3().Length();
+            this.ambientLight = ambientLight / 2f;
 
             this.color = new Color(noonColor.ToVector3());
         }
@@ -33,7 +36,7 @@ namespace IllegalOctopusFishing
             return this.color;
         }
 
-        internal Vector3 getAmbientLight()
+        internal float getAmbientLight()
         {
             return this.ambientLight;
         }

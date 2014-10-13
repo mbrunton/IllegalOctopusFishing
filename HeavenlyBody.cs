@@ -12,15 +12,15 @@ namespace IllegalOctopusFishing
         private Vector3 dir;
         private Vector3 revolutionNormal;
         private float omega;
-        private Color spectralColor;
+        private Color specularColor;
 
-        public HeavenlyBody(Vector3 initialDir, Vector3 revolutionNormal, float secsPerGameDay, Color spectralColor)
+        public HeavenlyBody(Vector3 initialDir, Vector3 revolutionNormal, float secsPerGameDay, Color specularColor)
         {
             this.dir = initialDir;
             this.revolutionNormal = revolutionNormal;
             // want to revolve by 2pi radians every "secsPerGameDay" seconds
             this.omega = 2 * (float)Math.PI / secsPerGameDay;
-            this.spectralColor = spectralColor;
+            this.specularColor = specularColor;
         }
 
         public void Update(GameTime gameTime) {
@@ -35,9 +35,9 @@ namespace IllegalOctopusFishing
             return this.dir;
         }
 
-        public Color getSpectralColor()
+        public Color getSpecularColor()
         {
-            return this.spectralColor;
+            return this.specularColor;
         }
     }
 }

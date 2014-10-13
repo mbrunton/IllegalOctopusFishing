@@ -75,7 +75,7 @@ namespace IllegalOctopusFishing
             }
         }
 
-        internal void startGame(string selectedBoat)
+        internal void startGame(Player.BoatSize selectedBoat)
         {
             mainPage.Children.Remove(boatSelection);
             mainPage.startGame(selectedBoat);

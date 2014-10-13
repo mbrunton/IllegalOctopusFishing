@@ -23,7 +23,7 @@ namespace IllegalOctopusFishing
     public sealed partial class BoatSelection
     {
         private MainMenu mainMenu;
-        private String selectedBoat;
+        private Player.BoatSize selectedBoat;
         private bool isBoatSelected = false;
         private double unselectedOpacity = 0.5f;
 
@@ -38,7 +38,7 @@ namespace IllegalOctopusFishing
             isBoatSelected = true;
             advancedBoatButton.Opacity = unselectedOpacity;
             basicBoatButton.Opacity = 1f;
-            selectedBoat = "basicBoat";
+            selectedBoat = Player.BoatSize.SMALL;
         }
 
         private void onAdvancedBoatButtonClicked(object sender, RoutedEventArgs e)
@@ -46,7 +46,7 @@ namespace IllegalOctopusFishing
             isBoatSelected = true;
             basicBoatButton.Opacity = unselectedOpacity;
             advancedBoatButton.Opacity = 1f;
-            selectedBoat = "advancedBoat";
+            selectedBoat = Player.BoatSize.LARGE;
         }
 
         private void onMainMenuButtonClicked(object sender, RoutedEventArgs e)

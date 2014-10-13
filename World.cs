@@ -61,13 +61,13 @@ namespace IllegalOctopusFishing
 
             Color noonColor = Color.CornflowerBlue;
             Color midnightColor = Color.DarkBlue;
-            Vector3 ambientLight = 0.2f * Vector3.One;
-            this.sky = new Sky(noonColor, midnightColor, ambientLight);
+            this.sky = new Sky(noonColor, midnightColor);
 
             Vector3 playerStartPos = terrain.getPlayerStartPos();
             this.player = new Player(game, playerStartPos);
             objectsForDrawing.Add(player);
-            this.camera = new Camera();
+
+            this.camera = new Camera(game, player.getPos(), player.getDir(), player.getVel());
 
             numFish = 100;
             this.fish = new List<Fish>(numFish);
@@ -94,20 +94,20 @@ namespace IllegalOctopusFishing
             }
         }
 
-        internal void setSelectedBoat(string selectedBoat)
+        internal void setSelectedBoat(Player.BoatSize selectedBoat)
         {
             switch (selectedBoat)
             {
-                case "smallBoat":
+                case Player.BoatSize.SMALL:
                     player.SetMass(500f);
                     player.SetAcc(5f);
                     break;
-                case "largeBoat":
+                case Player.BoatSize.LARGE:
                     player.SetMass(1000f);
                     player.SetAcc(7f);
                     break;
                 default:
-                    throw new ArgumentException("selectedBoat string is not recognized");
+                    throw new ArgumentException("selectedBoat is not recognized");
             }
         }
 
@@ -140,6 +140,12 @@ namespace IllegalOctopusFishing
             sun.Update(gameTime);
             moon.Update(gameTime);
             sky.Update(sun, moon);
+
+            foreach (GameObject obj in objectsForDrawing)
+            {
+                obj.AlignWithCamera(camera);
+                obj.SetLightingDirections(sun, moon);
+            }
         }
 
         internal void Draw(GameTime gameTime)
