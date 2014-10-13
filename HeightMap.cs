@@ -16,10 +16,8 @@ namespace IllegalOctopusFishing
 
         private List<List<Vector3>> grid;
         private List<List<Vector3>> normalGrid;
-        private TwoDTree searchTree;
         private bool isGridFilled = false;
         private bool isNormalGridFilled = false;
-        private bool isSearchTreeFilled = false;
 
         public int numSideVertices;
         public float minX, maxX, minZ, maxZ;
@@ -46,6 +44,13 @@ namespace IllegalOctopusFishing
             {
                 fillGridWithZero();
             }
+        }
+
+        internal float getHeightAtIndex(Index index)
+        {
+            int i = index.i;
+            int j = index.j;
+            return grid[i][j].Y;
         }
 
         public List<List<Vector3>> getGrid()
@@ -208,15 +213,6 @@ namespace IllegalOctopusFishing
             }
             
             return VPNClist;
-        }
-
-        internal void fillSearchTree()
-        {
-            if (!isGridFilled)
-            {
-                throw new ArgumentException("Cannot fill search tree until grid is filled");
-            }
-            searchTree = new TwoDTree(grid, numSideVertices);
         }
     }
 }

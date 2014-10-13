@@ -35,25 +35,6 @@ namespace IllegalOctopusFishing
             fillHeights();
         }
 
-        public class Index
-        {
-            public int i, j;
-            public Index(int i, int j)
-            {
-                this.i = i; this.j = j;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null)
-                {
-                    return false;
-                }
-                Index that = obj as Index;
-                return this.i == that.i && this.j == that.j;
-            }
-        }
-
         private void fillHeights()
         {
             for (int i = 0; i < numSideVertices; i++)
@@ -178,7 +159,7 @@ namespace IllegalOctopusFishing
             return average;
         }
 
-        private float getRandInRange(float a, float b)
+        public float getRandInRange(float a, float b)
         {
             float fl = (float)random.NextDouble();
             fl = fl * (b - a);

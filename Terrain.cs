@@ -18,6 +18,7 @@ namespace IllegalOctopusFishing
         private float verticesPerLength; // how many terrain vertices per unit length
         private HeightMap heightMap;
         private DiamondSquare diamondSquare;
+        private SearchTree searchTree;
 
         public Terrain(IllegalOctopusFishingGame game, float worldSize, float seaLevel) : base(game)
         {
@@ -39,7 +40,7 @@ namespace IllegalOctopusFishing
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 
-            heightMap.fillSearchTree();
+            searchTree = new SearchTree(heightMap);
 
             vertices = Buffer.Vertex.New(
                 game.GraphicsDevice, 
@@ -64,12 +65,17 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getPlayerStartPos()
         {
-            throw new NotImplementedException();
+            int maxAttempts = 1000;
+            for (int i = 0; i < maxAttempts; i++)
+            {
+            }
         }
 
         internal float getTerrainHeightAtPosition(float x, float z)
         {
-            throw new NotImplementedException();
+            Index index = searchTree.getIndexAtPosition(x, z);
+            float height = heightMap.getHeightAtIndex(index);
+            return height;
         }
 
         internal Dictionary<Player.HullPositions, float> getTerrainHeightsAtPositions(Dictionary<Player.HullPositions, Vector3> posMap)
