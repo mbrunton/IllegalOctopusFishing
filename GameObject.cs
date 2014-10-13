@@ -12,12 +12,16 @@ namespace IllegalOctopusFishing
     using SharpDX.Toolkit.Input;
     abstract class GameObject
     {
+        private IllegalOctopusFishingGame game;
         private Buffer<VertexPositionNormalColor> vertices;
+        public VertexInputLayout inputLayout;
         private BasicEffect basicEffect;
         private Color diffuseColor;
 
         public GameObject(IllegalOctopusFishingGame game)
         {
+            this.game = game;
+
             basicEffect = new BasicEffect(game.GraphicsDevice)
             {
                 VertexColorEnabled = true,
@@ -25,7 +29,12 @@ namespace IllegalOctopusFishing
                 World = Matrix.Identity,
                 View = Matrix.Identity
             };
+
+            fillVertices();
+            inputLayout = VertexInputLayout.FromBuffer(0, vertices);
         }
+
+        abstract public void fillVertices();
 
         public void SetupLighting(float ambientLight, HeavenlyBody sun, HeavenlyBody moon)
         {
@@ -62,6 +71,17 @@ namespace IllegalOctopusFishing
         {
             basicEffect.DirectionalLight0.Direction = sun.getDir();
             basicEffect.DirectionalLight1.Direction = moon.getDir();
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            // Setup the vertices
+            game.GraphicsDevice.SetVertexBuffer(vertices);
+            game.GraphicsDevice.SetVertexInputLayout(inputLayout);
+
+            // Apply the basic effect technique and draw
+            basicEffect.CurrentTechnique.Passes[0].Apply();
+            game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
     }
 }

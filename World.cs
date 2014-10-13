@@ -150,6 +150,12 @@ namespace IllegalOctopusFishing
 
         internal void Draw(GameTime gameTime)
         {
+            game.GraphicsDevice.Clear(sky.getColor());
+
+            foreach (GameObject obj in objectsForDrawing)
+            {
+                obj.Draw(gameTime);
+            }
             throw new NotImplementedException();
         }
     }
