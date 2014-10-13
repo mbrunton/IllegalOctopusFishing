@@ -36,6 +36,8 @@ namespace IllegalOctopusFishing
         internal void SetSelectedBoat(BoatSize selectedBoat)
         {
             bool success = false;
+            success = game.nameToModel.TryGetValue("Car", out boatModel);
+            /*
             switch (selectedBoat)
             {
                 case BoatSize.SMALL:
@@ -47,6 +49,7 @@ namespace IllegalOctopusFishing
                     success &= game.nameToModel.TryGetValue("large_sail", out boatModel);
                     break;
             }
+            */
 
             if (!success)
             {

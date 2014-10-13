@@ -154,12 +154,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Content\small_boat.blend">
+    <ToolkitModel Include="Content\Car.x">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\small_sail.blend">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -173,34 +170,6 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
-    <Content Include="SharpDX\SharpDX.D3DCompiler.dll" />
-    <Content Include="SharpDX\SharpDX.D3DCompiler.xml" />
-    <Content Include="SharpDX\SharpDX.Direct2D1.dll" />
-    <Content Include="SharpDX\SharpDX.Direct2D1.xml" />
-    <Content Include="SharpDX\SharpDX.Direct3D11.dll" />
-    <Content Include="SharpDX\SharpDX.Direct3D11.xml" />
-    <Content Include="SharpDX\SharpDX.dll" />
-    <Content Include="SharpDX\SharpDX.DXGI.dll" />
-    <Content Include="SharpDX\SharpDX.DXGI.xml" />
-    <Content Include="SharpDX\SharpDX.MediaFoundation.dll" />
-    <Content Include="SharpDX\SharpDX.MediaFoundation.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Audio.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Audio.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Game.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Game.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Graphics.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Graphics.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Input.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Input.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.xml" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Yaml.dll" />
-    <Content Include="SharpDX\SharpDX.Toolkit.Yaml.xml" />
-    <Content Include="SharpDX\SharpDX.XAudio2.dll" />
-    <Content Include="SharpDX\SharpDX.XAudio2.xml" />
-    <Content Include="SharpDX\SharpDX.XInput.dll" />
-    <Content Include="SharpDX\SharpDX.XInput.xml" />
-    <Content Include="SharpDX\SharpDX.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -233,60 +202,46 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="SharpDX, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX">
       <HintPath>SharpDX\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.D3DCompiler, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.D3DCompiler">
       <HintPath>SharpDX\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Direct2D1">
       <HintPath>SharpDX\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D11, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Direct3D11">
       <HintPath>SharpDX\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.DXGI">
       <HintPath>SharpDX\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.MediaFoundation, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.MediaFoundation">
       <HintPath>SharpDX\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit">
       <HintPath>SharpDX\SharpDX.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit.Audio, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit.Audio">
       <HintPath>SharpDX\SharpDX.Toolkit.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit.Game, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit.Game">
       <HintPath>SharpDX\SharpDX.Toolkit.Game.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit.Graphics, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit.Graphics">
       <HintPath>SharpDX\SharpDX.Toolkit.Graphics.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit.Input, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit.Input">
       <HintPath>SharpDX\SharpDX.Toolkit.Input.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Toolkit.Yaml, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.Toolkit.Yaml">
       <HintPath>SharpDX\SharpDX.Toolkit.Yaml.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XAudio2, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.XAudio2">
       <HintPath>SharpDX\SharpDX.XAudio2.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="SharpDX.XInput">
       <HintPath>SharpDX\SharpDX.XInput.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -294,6 +249,7 @@
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="SharpDX\SharpDX.Toolkit.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

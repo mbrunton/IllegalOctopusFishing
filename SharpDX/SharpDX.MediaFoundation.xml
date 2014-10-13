@@ -9400,20 +9400,6 @@
             <unmanaged>HRESULT MFCreateMediaExtensionActivate([In] const wchar_t* szActivatableClassId,[In, Optional] IUnknown* pConfiguration,[In] const GUID&amp; riid,[Out] void** ppvObject)</unmanaged>	
             <unmanaged-short>MFCreateMediaExtensionActivate</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.MediaFoundation.MediaFactory.InvokeCallback(SharpDX.MediaFoundation.AsyncResult)">
-            <summary>	
-            <p> Invokes a callback method to complete an asynchronous operation. </p>	
-            </summary>	
-            <param name="asyncResultRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.AsyncResult"/></strong> interface. To create this object, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateAsyncResult(SharpDX.ComObject,System.IntPtr,SharpDX.ComObject,SharpDX.MediaFoundation.AsyncResult@)"/></strong>.</p> </dd></param>	
-            <returns><p>The function returns an <strong><see cref="T:SharpDX.Result"/></strong>. Possible values include, but are not limited to, those in the following table.</p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.Result.Ok"/></strong></strong></dt> </dl> </td><td> <p> The function succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.InvalidWorkqueue"/></strong></strong></dt> </dl> </td><td> <p>Invalid work queue. For more information, see <strong><see cref="!:SharpDX.MediaFoundation.IAsyncCallback.GetParameters"/></strong>.</p> </td></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.Shutdown"/></strong></strong></dt> </dl> </td><td> <p>The <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> function was called to shut down the Media Foundation platform.</p> </td></tr> </table><p>?</p></returns>	
-            <remarks>	
-            <p> If you are implementing an asynchronous method, use this function to invoke the caller's <strong><see cref="M:SharpDX.MediaFoundation.IAsyncCallback.Invoke(SharpDX.MediaFoundation.AsyncResult)"/></strong> method.</p><p>The callback is invoked from a Media Foundation work queue. For more information, see Writing an Asynchronous Method.</p><p>The <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> function shuts down the work queue threads, so the callback is not guaranteed to be invoked after <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> is called.</p><p><strong>Windows?Phone?8:</strong> This API is supported.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
-            </remarks>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFInvokeCallback']/*"/>	
-            <msdn-id>ms695400</msdn-id>	
-            <unmanaged>HRESULT MFInvokeCallback([In] IMFAsyncResult* pAsyncResult)</unmanaged>	
-            <unmanaged-short>MFInvokeCallback</unmanaged-short>	
-        </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.CancelWorkItem(System.Int64)">
             <summary>	
             <p> Attempts to cancel an asynchronous operation that was scheduled with <strong>MFScheduleWorkItem</strong> or <strong>MFScheduleWorkItemEx</strong>.</p>	
@@ -9477,21 +9463,20 @@
             <unmanaged>HRESULT MFPutWaitingWorkItem([In] void* hEvent,[In] int Priority,[In] IMFAsyncResult* pResult,[Out, Optional] unsigned longlong* pKey)</unmanaged>	
             <unmanaged-short>MFPutWaitingWorkItem</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.MediaFoundation.MediaFactory.GetAttributesAsBlob(SharpDX.MediaFoundation.MediaAttributes,System.Byte[],System.Int32)">
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.UnwrapMediaType(SharpDX.MediaFoundation.MediaType,SharpDX.MediaFoundation.MediaType@)">
             <summary>	
-            <p> </p><p>Converts the contents of an attribute store to a byte array.</p>	
+            <p> Retrieves a media type that was wrapped in another media type by the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.WrapMediaType(SharpDX.MediaFoundation.MediaType,System.Guid,System.Guid,SharpDX.MediaFoundation.MediaType@)"/></strong> function. </p>	
             </summary>	
-            <param name="attributesRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.MediaAttributes"/></strong> interface of the attribute store.</p> </dd></param>	
-            <param name="bufRef"><dd> <p>Pointer to an array that receives the attribute data.</p> </dd></param>	
-            <param name="cbBufSize"><dd> <p>Size of the <em>pBuf</em> array, in bytes. To get the required size of the buffer, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.GetAttributesAsBlobSize(SharpDX.MediaFoundation.MediaAttributes,System.Int32@)"/></strong>.</p> </dd></param>	
-            <returns><p>The function returns an <strong><see cref="T:SharpDX.Result"/></strong>. Possible values include, but are not limited to, those in the following table.</p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> </dl> </td><td> <p>The function succeeded.</p> </td></tr> <tr><td> <dl> <dt><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.BufferTooSmall"/></strong></dt> </dl> </td><td> <p>The buffer given in <em>pBuf</em> is too small.</p> </td></tr> </table><p>?</p></returns>	
+            <param name="wrapRef">No documentation.</param>	
+            <param name="origOut">No documentation.</param>	
+            <returns><p>If this function succeeds, it returns <strong><see cref="F:SharpDX.Result.Ok"/></strong>. Otherwise, it returns an <strong><see cref="T:SharpDX.Result"/></strong> error code.</p></returns>	
             <remarks>	
-            <p>The function skips any attributes with <strong><see cref="T:SharpDX.ComObject"/></strong> reference values (<see cref="F:SharpDX.MediaFoundation.AttributeType.IUnknown"/>); they are not stored in the array.</p><p>To convert the byte array back into an attribute store, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.InitAttributesFromBlob(SharpDX.MediaFoundation.MediaAttributes,System.Byte[],System.Int32)"/></strong>.</p><p>To write an attribute store to a stream, call the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.SerializeAttributesToStream(SharpDX.MediaFoundation.MediaAttributes,System.Int32,System.IntPtr)"/></strong> function.</p><p><strong>Windows?Phone?8:</strong> This API is supported.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            <p>This function is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
             </remarks>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFGetAttributesAsBlob']/*"/>	
-            <msdn-id>ms694877</msdn-id>	
-            <unmanaged>HRESULT MFGetAttributesAsBlob([In] IMFAttributes* pAttributes,[Out, Buffer] unsigned char* pBuf,[In] unsigned int cbBufSize)</unmanaged>	
-            <unmanaged-short>MFGetAttributesAsBlob</unmanaged-short>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFUnwrapMediaType']/*"/>	
+            <msdn-id>ms696190</msdn-id>	
+            <unmanaged>HRESULT MFUnwrapMediaType([In] IMFMediaType* pWrap,[Out] IMFMediaType** ppOrig)</unmanaged>	
+            <unmanaged-short>MFUnwrapMediaType</unmanaged-short>	
         </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.LlMulDiv(System.Int64,System.Int64,System.Int64,System.Int64)">
             <summary>	
@@ -9528,21 +9513,6 @@
             <msdn-id>bb970554</msdn-id>	
             <unmanaged>HRESULT MFCopyImage([Out, Buffer] unsigned char* pDest,[In] int lDestStride,[In, Buffer] const unsigned char* pSrc,[In] int lSrcStride,[In] unsigned int dwWidthInBytes,[In] unsigned int dwLines)</unmanaged>	
             <unmanaged-short>MFCopyImage</unmanaged-short>	
-        </member>
-        <member name="M:SharpDX.MediaFoundation.MediaFactory.UnwrapMediaType(SharpDX.MediaFoundation.MediaType,SharpDX.MediaFoundation.MediaType@)">
-            <summary>	
-            <p> Retrieves a media type that was wrapped in another media type by the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.WrapMediaType(SharpDX.MediaFoundation.MediaType,System.Guid,System.Guid,SharpDX.MediaFoundation.MediaType@)"/></strong> function. </p>	
-            </summary>	
-            <param name="wrapRef">No documentation.</param>	
-            <param name="origOut">No documentation.</param>	
-            <returns><p>If this function succeeds, it returns <strong><see cref="F:SharpDX.Result.Ok"/></strong>. Otherwise, it returns an <strong><see cref="T:SharpDX.Result"/></strong> error code.</p></returns>	
-            <remarks>	
-            <p>This function is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
-            </remarks>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFUnwrapMediaType']/*"/>	
-            <msdn-id>ms696190</msdn-id>	
-            <unmanaged>HRESULT MFUnwrapMediaType([In] IMFMediaType* pWrap,[Out] IMFMediaType** ppOrig)</unmanaged>	
-            <unmanaged-short>MFUnwrapMediaType</unmanaged-short>	
         </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.PutWorkItem2(System.Int32,System.Int32,System.IntPtr,SharpDX.ComObject)">
             <summary>	
@@ -9699,23 +9669,6 @@
             <unmanaged>HRESULT MFCreateDXGIDeviceManager([Out] unsigned int* resetToken,[Out, Fast] IMFDXGIDeviceManager** ppDeviceManager)</unmanaged>	
             <unmanaged-short>MFCreateDXGIDeviceManager</unmanaged-short>	
         </member>
-        <member name="M:SharpDX.MediaFoundation.MediaFactory.WrapMediaType(SharpDX.MediaFoundation.MediaType,System.Guid,System.Guid,SharpDX.MediaFoundation.MediaType@)">
-            <summary>	
-            <p> Creates a media type that wraps another media type. </p>	
-            </summary>	
-            <param name="origRef"><dd> <p> A reference to the <strong><see cref="T:SharpDX.MediaFoundation.MediaType"/></strong> interface of the media type to wrap in a new media type. </p> </dd></param>	
-            <param name="majorType"><dd> <p>A  <see cref="T:System.Guid"/> that specifies the major type for the new media type. For a list of possible values, see Major Media Types. </p> </dd></param>	
-            <param name="subType"><dd> <p>A  <see cref="T:System.Guid"/> that specifies the subtype for the new media type. For possible values, see:</p> <ul> <li> <strong>Audio Subtypes</strong> </li> <li> Video Subtypes </li> </ul> <p>Applications can define custom subtype GUIDs.</p> </dd></param>	
-            <param name="wrapOut"><dd> <p> Receives a reference to the <strong><see cref="T:SharpDX.MediaFoundation.MediaType"/></strong> interface of the new media type that wraps the original media type. The caller must release the interface. </p> </dd></param>	
-            <returns><p>If this function succeeds, it returns <strong><see cref="F:SharpDX.Result.Ok"/></strong>. Otherwise, it returns an <strong><see cref="T:SharpDX.Result"/></strong> error code.</p></returns>	
-            <remarks>	
-            <p> The original media type (<em>pOrig</em>) is stored in the new media type under the <strong><see cref="F:SharpDX.MediaFoundation.MediaTypeAttributeKeys.WrappedType"/></strong> attribute. To extract the original media type, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.UnwrapMediaType(SharpDX.MediaFoundation.MediaType,SharpDX.MediaFoundation.MediaType@)"/></strong>. </p><p>This function is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
-            </remarks>	
-            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFWrapMediaType']/*"/>	
-            <msdn-id>ms701782</msdn-id>	
-            <unmanaged>HRESULT MFWrapMediaType([In] IMFMediaType* pOrig,[In] const GUID&amp; MajorType,[In] const GUID&amp; SubType,[Out] IMFMediaType** ppWrap)</unmanaged>	
-            <unmanaged-short>MFWrapMediaType</unmanaged-short>	
-        </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.CreateMediaBufferWrapper(SharpDX.MediaFoundation.MediaBuffer,System.Int32,System.Int32,SharpDX.MediaFoundation.MediaBuffer@)">
             <summary>	
             <p>Creates a media buffer that wraps an existing media buffer. The new media buffer points to the same memory as the original media buffer, or to an offset from the start of the memory.</p>	
@@ -9802,6 +9755,20 @@
             <unmanaged>HRESULT MFCreateVideoSampleAllocatorEx([In] const GUID&amp; riid,[Out] void** ppSampleAllocator)</unmanaged>	
             <unmanaged-short>MFCreateVideoSampleAllocatorEx</unmanaged-short>	
         </member>
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.InvokeCallback(SharpDX.MediaFoundation.AsyncResult)">
+            <summary>	
+            <p> Invokes a callback method to complete an asynchronous operation. </p>	
+            </summary>	
+            <param name="asyncResultRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.AsyncResult"/></strong> interface. To create this object, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateAsyncResult(SharpDX.ComObject,System.IntPtr,SharpDX.ComObject,SharpDX.MediaFoundation.AsyncResult@)"/></strong>.</p> </dd></param>	
+            <returns><p>The function returns an <strong><see cref="T:SharpDX.Result"/></strong>. Possible values include, but are not limited to, those in the following table.</p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.Result.Ok"/></strong></strong></dt> </dl> </td><td> <p> The function succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.InvalidWorkqueue"/></strong></strong></dt> </dl> </td><td> <p>Invalid work queue. For more information, see <strong><see cref="!:SharpDX.MediaFoundation.IAsyncCallback.GetParameters"/></strong>.</p> </td></tr> <tr><td> <dl> <dt><strong><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.Shutdown"/></strong></strong></dt> </dl> </td><td> <p>The <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> function was called to shut down the Media Foundation platform.</p> </td></tr> </table><p>?</p></returns>	
+            <remarks>	
+            <p> If you are implementing an asynchronous method, use this function to invoke the caller's <strong><see cref="M:SharpDX.MediaFoundation.IAsyncCallback.Invoke(SharpDX.MediaFoundation.AsyncResult)"/></strong> method.</p><p>The callback is invoked from a Media Foundation work queue. For more information, see Writing an Asynchronous Method.</p><p>The <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> function shuts down the work queue threads, so the callback is not guaranteed to be invoked after <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Shutdown"/></strong> is called.</p><p><strong>Windows?Phone?8:</strong> This API is supported.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFInvokeCallback']/*"/>	
+            <msdn-id>ms695400</msdn-id>	
+            <unmanaged>HRESULT MFInvokeCallback([In] IMFAsyncResult* pAsyncResult)</unmanaged>	
+            <unmanaged-short>MFInvokeCallback</unmanaged-short>	
+        </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.Shutdown">
             <summary>	
             <p>Shuts down the Microsoft Media Foundation platform. Call this function once for every call to <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Startup(System.Int32,System.Int32)"/></strong>. Do not call this function from work queue threads.</p>	
@@ -9829,6 +9796,23 @@
             <msdn-id>hh162770</msdn-id>	
             <unmanaged>HRESULT MFLockDXGIDeviceManager([Out, Optional] unsigned int* pResetToken,[Out] IMFDXGIDeviceManager** ppManager)</unmanaged>	
             <unmanaged-short>MFLockDXGIDeviceManager</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.WrapMediaType(SharpDX.MediaFoundation.MediaType,System.Guid,System.Guid,SharpDX.MediaFoundation.MediaType@)">
+            <summary>	
+            <p> Creates a media type that wraps another media type. </p>	
+            </summary>	
+            <param name="origRef"><dd> <p> A reference to the <strong><see cref="T:SharpDX.MediaFoundation.MediaType"/></strong> interface of the media type to wrap in a new media type. </p> </dd></param>	
+            <param name="majorType"><dd> <p>A  <see cref="T:System.Guid"/> that specifies the major type for the new media type. For a list of possible values, see Major Media Types. </p> </dd></param>	
+            <param name="subType"><dd> <p>A  <see cref="T:System.Guid"/> that specifies the subtype for the new media type. For possible values, see:</p> <ul> <li> <strong>Audio Subtypes</strong> </li> <li> Video Subtypes </li> </ul> <p>Applications can define custom subtype GUIDs.</p> </dd></param>	
+            <param name="wrapOut"><dd> <p> Receives a reference to the <strong><see cref="T:SharpDX.MediaFoundation.MediaType"/></strong> interface of the new media type that wraps the original media type. The caller must release the interface. </p> </dd></param>	
+            <returns><p>If this function succeeds, it returns <strong><see cref="F:SharpDX.Result.Ok"/></strong>. Otherwise, it returns an <strong><see cref="T:SharpDX.Result"/></strong> error code.</p></returns>	
+            <remarks>	
+            <p> The original media type (<em>pOrig</em>) is stored in the new media type under the <strong><see cref="F:SharpDX.MediaFoundation.MediaTypeAttributeKeys.WrappedType"/></strong> attribute. To extract the original media type, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.UnwrapMediaType(SharpDX.MediaFoundation.MediaType,SharpDX.MediaFoundation.MediaType@)"/></strong>. </p><p>This function is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFWrapMediaType']/*"/>	
+            <msdn-id>ms701782</msdn-id>	
+            <unmanaged>HRESULT MFWrapMediaType([In] IMFMediaType* pOrig,[In] const GUID&amp; MajorType,[In] const GUID&amp; SubType,[Out] IMFMediaType** ppWrap)</unmanaged>	
+            <unmanaged-short>MFWrapMediaType</unmanaged-short>	
         </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.CreateAlignedMemoryBuffer(System.Int32,System.Int32,SharpDX.MediaFoundation.MediaBuffer@)">
             <summary>	
@@ -9886,6 +9870,22 @@
             <msdn-id>ms695212</msdn-id>	
             <unmanaged>HRESULT MFCreateMemoryBuffer([In] unsigned int cbMaxLength,[Out] IMFMediaBuffer** ppBuffer)</unmanaged>	
             <unmanaged-short>MFCreateMemoryBuffer</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.GetAttributesAsBlob(SharpDX.MediaFoundation.MediaAttributes,System.Byte[],System.Int32)">
+            <summary>	
+            <p> </p><p>Converts the contents of an attribute store to a byte array.</p>	
+            </summary>	
+            <param name="attributesRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.MediaAttributes"/></strong> interface of the attribute store.</p> </dd></param>	
+            <param name="bufRef"><dd> <p>Pointer to an array that receives the attribute data.</p> </dd></param>	
+            <param name="cbBufSize"><dd> <p>Size of the <em>pBuf</em> array, in bytes. To get the required size of the buffer, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.GetAttributesAsBlobSize(SharpDX.MediaFoundation.MediaAttributes,System.Int32@)"/></strong>.</p> </dd></param>	
+            <returns><p>The function returns an <strong><see cref="T:SharpDX.Result"/></strong>. Possible values include, but are not limited to, those in the following table.</p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> </dl> </td><td> <p>The function succeeded.</p> </td></tr> <tr><td> <dl> <dt><strong><see cref="F:SharpDX.MediaFoundation.ResultCode.BufferTooSmall"/></strong></dt> </dl> </td><td> <p>The buffer given in <em>pBuf</em> is too small.</p> </td></tr> </table><p>?</p></returns>	
+            <remarks>	
+            <p>The function skips any attributes with <strong><see cref="T:SharpDX.ComObject"/></strong> reference values (<see cref="F:SharpDX.MediaFoundation.AttributeType.IUnknown"/>); they are not stored in the array.</p><p>To convert the byte array back into an attribute store, call <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.InitAttributesFromBlob(SharpDX.MediaFoundation.MediaAttributes,System.Byte[],System.Int32)"/></strong>.</p><p>To write an attribute store to a stream, call the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.SerializeAttributesToStream(SharpDX.MediaFoundation.MediaAttributes,System.Int32,System.IntPtr)"/></strong> function.</p><p><strong>Windows?Phone?8:</strong> This API is supported.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFGetAttributesAsBlob']/*"/>	
+            <msdn-id>ms694877</msdn-id>	
+            <unmanaged>HRESULT MFGetAttributesAsBlob([In] IMFAttributes* pAttributes,[Out, Buffer] unsigned char* pBuf,[In] unsigned int cbBufSize)</unmanaged>	
+            <unmanaged-short>MFGetAttributesAsBlob</unmanaged-short>	
         </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.CreateMediaBufferFromMediaType(SharpDX.MediaFoundation.MediaType,System.Int64,System.Int32,System.Int32,SharpDX.MediaFoundation.MediaBuffer@)">
             <summary>	
@@ -10172,6 +10172,38 @@
             <msdn-id>dd388108</msdn-id>	
             <unmanaged>HRESULT MFCreateSourceReaderFromMediaSource([In] IMFMediaSource* pMediaSource,[In, Optional] IMFAttributes* pAttributes,[Out, Fast] IMFSourceReader** ppSourceReader)</unmanaged>	
             <unmanaged-short>MFCreateSourceReaderFromMediaSource</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromURL(System.String,System.IntPtr,SharpDX.MediaFoundation.MediaAttributes)">
+            <summary>	
+            <p>Creates the sink writer from a URL or byte stream.</p>	
+            </summary>	
+            <param name="wszOutputURLRef"><dd> <p>A null-terminated string that contains the URL of the output file. This parameter can be <strong><c>null</c></strong>.</p> </dd></param>	
+            <param name="byteStreamRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.IByteStream"/></strong> interface of a byte stream. This parameter can be <strong><c>null</c></strong>.</p> <p>If this parameter is a valid reference, the sink writer writes to the provided byte stream. (The byte stream must be writable.) Otherwise, if <em>pByteStream</em> is <strong><c>null</c></strong>, the sink writer creates a new file named <em>pwszOutputURL</em>.</p> </dd></param>	
+            <param name="attributesRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.MediaAttributes"/></strong> interface. You can use this parameter to configure the sink writer. For more information, see Sink Writer Attributes. This parameter can be <strong><c>null</c></strong>. </p> </dd></param>	
+            <returns><dd> <p>Receives a reference to the <strong><see cref="T:SharpDX.MediaFoundation.SinkWriter"/></strong> interface. The caller must release the interface.</p> </dd></returns>	
+            <remarks>	
+            <p>Call <strong>CoInitialize(Ex)</strong> and <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Startup(System.Int32,System.Int32)"/></strong> before calling this function.</p><p>The first three parameters to this function can be <strong><c>null</c></strong>; however, only certain combinations are valid:</p><p> </p><table> <tr><th>Description</th><th><em>pwszOutputURL</em></th><th><em>pByteStream</em></th><th><em>pAttributes</em></th></tr> <tr><td>Specify a byte stream, with no URL.</td><td><strong><c>null</c></strong></td><td>non-<strong><c>null</c></strong></td><td>Required (must not be <strong><c>null</c></strong>).</td></tr> <tr><td>Specify a URL, with no byte stream.</td><td>not <strong><c>null</c></strong></td><td><strong><c>null</c></strong></td><td>Optional (may be <strong><c>null</c></strong>).</td></tr> <tr><td>Specify both a URL and a byte stream.</td><td>non-<strong><c>null</c></strong></td><td>non-<strong><c>null</c></strong></td><td>Optional (may be <strong><c>null</c></strong>).</td></tr> </table><p>?</p><p>The <em>pAttributes</em> parameter is required in the first case and optional in the others.</p><ul> <li>Case 1: Specify a byte stream without a URL. The <em>pAttributes</em> parameter must point to an attribute store that contains the MF_TRANSCODE_CONTAINERTYPE attribute. The sink writer uses the  MF_TRANSCODE_CONTAINERTYPE attribute to determine the type of file container to write, such as ASF or MP4.</li> <li>Case 2: Specify a URL without a byte stream. The sink writer creates a new file named <em>pwszOutputURL</em>. If <em>pAttributes</em> specifies an attribute store with the MF_TRANSCODE_CONTAINERTYPE attribute, the sink writer uses that attribute to determine the type of file container. Otherwise, if the MF_TRANSCODE_CONTAINERTYPE attribute is absent or <em>pAttributes</em> is <strong><c>null</c></strong>, the sink writer uses the file name extension to select the container type; for example, ".asf" for an ASF file.</li> <li>Case 3: Specify both a URL and a byte stream. The sink writer writes to the byte stream. The URL provided in <em>pwszOutputURL</em> is informational only; the sink writer does not create a new file. If <em>pAttributes</em> specifies an attribute store with the MF_TRANSCODE_CONTAINERTYPE attribute, the sink writer uses that attribute to determine the type of file container. Otherwise, the sink writer uses the file name extension to select the container type. The MF_TRANSCODE_CONTAINERTYPE attribute overrides the URL file name extension in this case.</li> </ul><p>This function is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFCreateSinkWriterFromURL']/*"/>	
+            <msdn-id>dd388105</msdn-id>	
+            <unmanaged>HRESULT MFCreateSinkWriterFromURL([In, Optional] const wchar_t* pwszOutputURL,[In, Optional] IMFByteStream* pByteStream,[In, Optional] IMFAttributes* pAttributes,[Out] IMFSinkWriter** ppSinkWriter)</unmanaged>	
+            <unmanaged-short>MFCreateSinkWriterFromURL</unmanaged-short>	
+        </member>
+        <member name="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromMediaSink(SharpDX.MediaFoundation.MediaSink,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SinkWriter@)">
+            <summary>	
+            <p>Creates the sink writer from a media sink.</p>	
+            </summary>	
+            <param name="mediaSinkRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.MediaSink"/></strong> interface of a media sink. </p> </dd></param>	
+            <param name="attributesRef"><dd> <p>Pointer to the <strong><see cref="T:SharpDX.MediaFoundation.MediaAttributes"/></strong> interface. You can use this parameter to configure the sink writer. For more information, see Sink Writer Attributes. This parameter can be <strong><c>null</c></strong>. </p> </dd></param>	
+            <param name="sinkWriterOut"><dd> <p>Receives a reference to the <strong><see cref="T:SharpDX.MediaFoundation.SinkWriter"/></strong> interface. The caller must release the interface.</p> </dd></param>	
+            <returns><p>If this function succeeds, it returns <strong><see cref="F:SharpDX.Result.Ok"/></strong>. Otherwise, it returns an <strong><see cref="T:SharpDX.Result"/></strong> error code.</p></returns>	
+            <remarks>	
+            <p>Call <strong>CoInitialize(Ex)</strong> and <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Startup(System.Int32,System.Int32)"/></strong> before calling this function.</p><p>When you are done using the media sink, call the media sink's <strong><see cref="M:SharpDX.MediaFoundation.MediaSink.Shutdown"/></strong> method. (The sink writer does not shut down the media sink.) Release the sink writer before calling <strong>Shutdown</strong> on the media sink.</p><p>This function is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
+            </remarks>	
+            <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='MFCreateSinkWriterFromMediaSink']/*"/>	
+            <msdn-id>dd388103</msdn-id>	
+            <unmanaged>HRESULT MFCreateSinkWriterFromMediaSink([In] IMFMediaSink* pMediaSink,[In, Optional] IMFAttributes* pAttributes,[Out] IMFSinkWriter** ppSinkWriter)</unmanaged>	
+            <unmanaged-short>MFCreateSinkWriterFromMediaSink</unmanaged-short>	
         </member>
         <member name="M:SharpDX.MediaFoundation.MediaFactory.DeserializeAttributesFromStream(SharpDX.MediaFoundation.MediaAttributes,System.Int32,System.IntPtr)">
             <summary>	
@@ -10731,6 +10763,10 @@
             <summary>Constant GrlUnrecognizedFormat.</summary>
             <unmanaged>MF_E_GRL_UNRECOGNIZED_FORMAT</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.SequencerUnknownSegmentId">
+            <summary>Constant SequencerUnknownSegmentId.</summary>
+            <unmanaged>MF_E_SEQUENCER_UNKNOWN_SEGMENT_ID</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetManualssNotSupported">
             <summary>Constant NetManualssNotSupported.</summary>
             <unmanaged>MF_E_NET_MANUALSS_NOT_SUPPORTED</unmanaged>
@@ -10755,21 +10791,29 @@
             <summary>Constant NetResourceGone.</summary>
             <unmanaged>MF_E_NET_RESOURCE_GONE</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidPosition">
+            <summary>Constant InvalidPosition.</summary>
+            <unmanaged>MF_E_INVALID_POSITION</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.PolicyMgrActionOufOfBounds">
             <summary>Constant PolicyMgrActionOufOfBounds.</summary>
             <unmanaged>MF_E_POLICY_MGR_ACTION_OUTOFBOUNDS</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRenSurfaceNotShared">
+            <summary>Constant VideoRenSurfaceNotShared.</summary>
+            <unmanaged>MF_E_VIDEO_REN_SURFACE_NOT_SHARED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.SignatureVerificationFailed">
             <summary>Constant SignatureVerificationFailed.</summary>
             <unmanaged>MF_E_SIGNATURE_VERIFICATION_FAILED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NewVideoDevice">
-            <summary>Constant NewVideoDevice.</summary>
-            <unmanaged>MF_E_NEW_VIDEO_DEVICE</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.Mp3OufOfData">
             <summary>Constant Mp3OufOfData.</summary>
             <unmanaged>MF_E_MP3_OUTOFDATA</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.LateSample">
+            <summary>Constant LateSample.</summary>
+            <unmanaged>MF_E_LATE_SAMPLE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.Mp3NotSupported">
             <summary>Constant Mp3NotSupported.</summary>
@@ -10802,10 +10846,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetStreamGroupsNotSupported">
             <summary>Constant NetStreamGroupsNotSupported.</summary>
             <unmanaged>MF_E_NET_STREAMGROUPS_NOT_SUPPORTED</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetTooManyRedirects">
-            <summary>Constant NetTooManyRedirects.</summary>
-            <unmanaged>MF_E_NET_TOO_MANY_REDIRECTS</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.AsfParsingincomplete">
             <summary>Constant AsfParsingincomplete.</summary>
@@ -10859,10 +10899,6 @@
             <summary>Constant NetSessionNotFound.</summary>
             <unmanaged>MF_E_NET_SESSION_NOT_FOUND</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.LicenseIncorrectRights">
-            <summary>Constant LicenseIncorrectRights.</summary>
-            <unmanaged>MF_E_LICENSE_INCORRECT_RIGHTS</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.BufferTooSmall">
             <summary>Constant BufferTooSmall.</summary>
             <unmanaged>MF_E_BUFFERTOOSMALL</unmanaged>
@@ -10875,21 +10911,17 @@
             <summary>Constant NoAudioPlaybackDevice.</summary>
             <unmanaged>MF_E_NO_AUDIO_PLAYBACK_DEVICE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.PeauthNotStarted">
-            <summary>Constant PeauthNotStarted.</summary>
-            <unmanaged>MF_E_PEAUTH_NOT_STARTED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.AsfNoindex">
             <summary>Constant AsfNoindex.</summary>
             <unmanaged>MF_E_ASF_NOINDEX</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfIndexNotLoaded">
+            <summary>Constant AsfIndexNotLoaded.</summary>
+            <unmanaged>MF_E_ASF_INDEXNOTLOADED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NotAccepting">
             <summary>Constant NotAccepting.</summary>
             <unmanaged>MF_E_NOTACCEPTING</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetServerAccessDenied">
-            <summary>Constant NetServerAccessDenied.</summary>
-            <unmanaged>MF_E_NET_SERVER_ACCESSDENIED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.ItaUnrecognizedDigitalVideoOutput">
             <summary>Constant ItaUnrecognizedDigitalVideoOutput.</summary>
@@ -10903,25 +10935,13 @@
             <summary>Constant InvalidMediaType.</summary>
             <unmanaged>MF_E_INVALIDMEDIATYPE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.RtWorkqueueClassNotSpecified">
-            <summary>Constant RtWorkqueueClassNotSpecified.</summary>
-            <unmanaged>MF_E_RT_WORKQUEUE_CLASS_NOT_SPECIFIED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.Unexpected">
             <summary>Constant Unexpected.</summary>
             <unmanaged>MF_E_UNEXPECTED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.SequencerUnknownSegmentId">
-            <summary>Constant SequencerUnknownSegmentId.</summary>
-            <unmanaged>MF_E_SEQUENCER_UNKNOWN_SEGMENT_ID</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TransformPropertyArrayValueWrongNumDim">
             <summary>Constant TransformPropertyArrayValueWrongNumDim.</summary>
             <unmanaged>MF_E_TRANSFORM_PROPERTY_ARRAY_VALUE_WRONG_NUM_DIM</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.KernelUntrusted">
-            <summary>Constant KernelUntrusted.</summary>
-            <unmanaged>MF_E_KERNEL_UNTRUSTED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.DrmUnsupported">
             <summary>Constant DrmUnsupported.</summary>
@@ -10935,10 +10955,6 @@
             <summary>Constant NetInvalidPushTemplate.</summary>
             <unmanaged>MF_E_NET_INVALID_PUSH_TEMPLATE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfFilesinkBitRateUnknown">
-            <summary>Constant AsfFilesinkBitRateUnknown.</summary>
-            <unmanaged>MF_E_ASF_FILESINK_BITRATE_UNKNOWN</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.RtUnavailable">
             <summary>Constant RtUnavailable.</summary>
             <unmanaged>MF_E_RT_UNAVAILABLE</unmanaged>
@@ -10946,6 +10962,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidFileFormat">
             <summary>Constant InvalidFileFormat.</summary>
             <unmanaged>MF_E_INVALID_FILE_FORMAT</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.StreamError">
+            <summary>Constant StreamError.</summary>
+            <unmanaged>MF_E_STREAM_ERROR</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.AllOcatorNotCommited">
             <summary>Constant AllOcatorNotCommited.</summary>
@@ -10955,6 +10975,10 @@
             <summary>Constant WmdrmotaDrmHeaderNotAvailable.</summary>
             <unmanaged>MF_E_WMDRMOTA_DRM_HEADER_NOT_AVAILABLE</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.MultipleBegin">
+            <summary>Constant MultipleBegin.</summary>
+            <unmanaged>MF_E_MULTIPLE_BEGIN</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.InsufficientBuffer">
             <summary>Constant InsufficientBuffer.</summary>
             <unmanaged>MF_E_INSUFFICIENT_BUFFER</unmanaged>
@@ -10963,17 +10987,17 @@
             <summary>Constant NetTooMuchData.</summary>
             <unmanaged>MF_E_NET_TOO_MUCH_DATA</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.RtWouldblock">
-            <summary>Constant RtWouldblock.</summary>
-            <unmanaged>MF_E_RT_WOULDBLOCK</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.CodeExpired">
+            <summary>Constant CodeExpired.</summary>
+            <unmanaged>MF_E_CODE_EXPIRED</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.TopoMissingStreamDescriptor">
+            <summary>Constant TopoMissingStreamDescriptor.</summary>
+            <unmanaged>MF_E_TOPO_MISSING_STREAM_DESCRIPTOR</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedRate">
             <summary>Constant UnsupportedRate.</summary>
             <unmanaged>MF_E_UNSUPPORTED_RATE</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.TestSignedComponentsNotAllowEd">
-            <summary>Constant TestSignedComponentsNotAllowEd.</summary>
-            <unmanaged>MF_E_TEST_SIGNED_COMPONENTS_NOT_ALLOWED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.RebootRequired">
             <summary>Constant RebootRequired.</summary>
@@ -11003,10 +11027,6 @@
             <summary>Constant ComponentRevoked.</summary>
             <unmanaged>MF_E_COMPONENT_REVOKED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfIndexNotLoaded">
-            <summary>Constant AsfIndexNotLoaded.</summary>
-            <unmanaged>MF_E_ASF_INDEXNOTLOADED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.Shutdown">
             <summary>Constant Shutdown.</summary>
             <unmanaged>MF_E_SHUTDOWN</unmanaged>
@@ -11015,13 +11035,13 @@
             <summary>Constant MediaSourceNotStarted.</summary>
             <unmanaged>MF_E_MEDIA_SOURCE_NOT_STARTED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.TopoMissingStreamDescriptor">
-            <summary>Constant TopoMissingStreamDescriptor.</summary>
-            <unmanaged>MF_E_TOPO_MISSING_STREAM_DESCRIPTOR</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TopoStreamDescriptorNotSelected">
             <summary>Constant TopoStreamDescriptorNotSelected.</summary>
             <unmanaged>MF_E_TOPO_STREAM_DESCRIPTOR_NOT_SELECTED</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.CaptureSinkMirrorError">
+            <summary>Constant CaptureSinkMirrorError.</summary>
+            <unmanaged>MF_E_CAPTURE_SINK_MIRROR_ERROR</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.SinkHeadersNotFound">
             <summary>Constant SinkHeadersNotFound.</summary>
@@ -11051,10 +11071,6 @@
             <summary>Constant SampleallocatorCanceled.</summary>
             <unmanaged>MF_E_SAMPLEALLOCATOR_CANCELED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NoMoreQualityLevels">
-            <summary>Constant NoMoreQualityLevels.</summary>
-            <unmanaged>MF_E_NO_MORE_QUALITY_LEVELS</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetIncompatibleServer">
             <summary>Constant NetIncompatibleServer.</summary>
             <unmanaged>MF_E_NET_INCOMPATIBLE_SERVER</unmanaged>
@@ -11066,10 +11082,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.CaptureSinkRotateError">
             <summary>Constant CaptureSinkRotateError.</summary>
             <unmanaged>MF_E_CAPTURE_SINK_ROTATE_ERROR</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.EndOfStream">
-            <summary>Constant EndOfStream.</summary>
-            <unmanaged>MF_E_END_OF_STREAM</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TopologyVerificationFailed">
             <summary>Constant TopologyVerificationFailed.</summary>
@@ -11103,6 +11115,10 @@
             <summary>Constant SampleHasTooManyBuffers.</summary>
             <unmanaged>MF_E_SAMPLE_HAS_TOO_MANY_BUFFERS</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetInternalServerError">
+            <summary>Constant NetInternalServerError.</summary>
+            <unmanaged>MF_E_NET_INTERNAL_SERVER_ERROR</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.Mp3NotMp3">
             <summary>Constant Mp3NotMp3.</summary>
             <unmanaged>MF_E_MP3_NOTMP3</unmanaged>
@@ -11110,10 +11126,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.StreamsInkExists">
             <summary>Constant StreamsInkExists.</summary>
             <unmanaged>MF_E_STREAMSINK_EXISTS</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetBadControlData">
-            <summary>Constant NetBadControlData.</summary>
-            <unmanaged>MF_E_NET_BAD_CONTROL_DATA</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRenNoProcampHw">
             <summary>Constant VideoRenNoProcampHw.</summary>
@@ -11155,21 +11167,21 @@
             <summary>Constant HwMftFailedStartStreaming.</summary>
             <unmanaged>MF_E_HW_MFT_FAILED_START_STREAMING</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRenSurfaceNotShared">
-            <summary>Constant VideoRenSurfaceNotShared.</summary>
-            <unmanaged>MF_E_VIDEO_REN_SURFACE_NOT_SHARED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.StateTransitionPending">
             <summary>Constant StateTransitionPending.</summary>
             <unmanaged>MF_E_STATE_TRANSITION_PENDING</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfFilesinkBitRateUnknown">
+            <summary>Constant AsfFilesinkBitRateUnknown.</summary>
+            <unmanaged>MF_E_ASF_FILESINK_BITRATE_UNKNOWN</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoMoreDropModes">
             <summary>Constant NoMoreDropModes.</summary>
             <unmanaged>MF_E_NO_MORE_DROP_MODES</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetUnsupportedConfiguration">
-            <summary>Constant NetUnsupportedConfiguration.</summary>
-            <unmanaged>MF_E_NET_UNSUPPORTED_CONFIGURATION</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.RtWouldblock">
+            <summary>Constant RtWouldblock.</summary>
+            <unmanaged>MF_E_RT_WOULDBLOCK</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoContentProtectionManager">
             <summary>Constant NoContentProtectionManager.</summary>
@@ -11191,17 +11203,13 @@
             <summary>Constant NoBitpump.</summary>
             <unmanaged>MF_E_NO_BITPUMP</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.StreamError">
-            <summary>Constant StreamError.</summary>
-            <unmanaged>MF_E_STREAM_ERROR</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.MultipleBegin">
-            <summary>Constant MultipleBegin.</summary>
-            <unmanaged>MF_E_MULTIPLE_BEGIN</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.ByteStreamUnknownLength">
             <summary>Constant ByteStreamUnknownLength.</summary>
             <unmanaged>MF_E_BYTESTREAM_UNKNOWN_LENGTH</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetSessionInvalid">
+            <summary>Constant NetSessionInvalid.</summary>
+            <unmanaged>MF_E_NET_SESSION_INVALID</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetProxyAccessDenied">
             <summary>Constant NetProxyAccessDenied.</summary>
@@ -11211,10 +11219,6 @@
             <summary>Constant PlatformNotInitializeD.</summary>
             <unmanaged>MF_E_PLATFORM_NOT_INITIALIZED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetSessionInvalid">
-            <summary>Constant NetSessionInvalid.</summary>
-            <unmanaged>MF_E_NET_SESSION_INVALID</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedContentProtectionSystem">
             <summary>Constant UnsupportedContentProtectionSystem.</summary>
             <unmanaged>MF_E_UNSUPPORTED_CONTENT_PROTECTION_SYSTEM</unmanaged>
@@ -11222,10 +11226,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.ClockNoTimeSource">
             <summary>Constant ClockNoTimeSource.</summary>
             <unmanaged>MF_E_CLOCK_NO_TIME_SOURCE</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.LateSample">
-            <summary>Constant LateSample.</summary>
-            <unmanaged>MF_E_LATE_SAMPLE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.AudioRecordingDeviceInUse">
             <summary>Constant AudioRecordingDeviceInUse.</summary>
@@ -11263,6 +11263,10 @@
             <summary>Constant VideoDeviceLocked.</summary>
             <unmanaged>MF_E_VIDEO_DEVICE_LOCKED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.DrmMigrationNotSupported">
+            <summary>Constant DrmMigrationNotSupported.</summary>
+            <unmanaged>MF_E_DRM_MIGRATION_NOT_SUPPORTED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedRateTransition">
             <summary>Constant UnsupportedRateTransition.</summary>
             <unmanaged>MF_E_UNSUPPORTED_RATE_TRANSITION</unmanaged>
@@ -11270,6 +11274,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.TransformProfileInvalidOrCorrupt">
             <summary>Constant TransformProfileInvalidOrCorrupt.</summary>
             <unmanaged>MF_E_TRANSFORM_PROFILE_INVALID_OR_CORRUPT</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.PeauthNotStarted">
+            <summary>Constant PeauthNotStarted.</summary>
+            <unmanaged>MF_E_PEAUTH_NOT_STARTED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidAkeChannelParameters">
             <summary>Constant InvalidAkeChannelParameters.</summary>
@@ -11286,6 +11294,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.PolicyUnsupported">
             <summary>Constant PolicyUnsupported.</summary>
             <unmanaged>MF_E_POLICY_UNSUPPORTED</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfInvalidData">
+            <summary>Constant AsfInvalidData.</summary>
+            <unmanaged>MF_E_ASF_INVALIDDATA</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.StreamsInkRemoved">
             <summary>Constant StreamsInkRemoved.</summary>
@@ -11306,6 +11318,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.RtOufOfMemory">
             <summary>Constant RtOufOfMemory.</summary>
             <unmanaged>MF_E_RT_OUTOFMEMORY</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetUnsupportedConfiguration">
+            <summary>Constant NetUnsupportedConfiguration.</summary>
+            <unmanaged>MF_E_NET_UNSUPPORTED_CONFIGURATION</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedFormat">
             <summary>Constant UnsupportedFormat.</summary>
@@ -11359,6 +11375,10 @@
             <summary>Constant TopoCodecNotFound.</summary>
             <unmanaged>MF_E_TOPO_CODEC_NOT_FOUND</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.HwAcceleratedThumbnailNotSupported">
+            <summary>Constant HwAcceleratedThumbnailNotSupported.</summary>
+            <unmanaged>MF_E_HW_ACCELERATED_THUMBNAIL_NOT_SUPPORTED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.PeauthPublickeyRevoked">
             <summary>Constant PeauthPublickeyRevoked.</summary>
             <unmanaged>MF_E_PEAUTH_PUBLICKEY_REVOKED</unmanaged>
@@ -11399,10 +11419,6 @@
             <summary>Constant TransformNotPossibleForCurrentInputMediaType.</summary>
             <unmanaged>MF_E_TRANSFORM_NOT_POSSIBLE_FOR_CURRENT_INPUT_MEDIATYPE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.HwAcceleratedThumbnailNotSupported">
-            <summary>Constant HwAcceleratedThumbnailNotSupported.</summary>
-            <unmanaged>MF_E_HW_ACCELERATED_THUMBNAIL_NOT_SUPPORTED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.PropertyTypeNotAllowEd">
             <summary>Constant PropertyTypeNotAllowEd.</summary>
             <unmanaged>MF_E_PROPERTY_TYPE_NOT_ALLOWED</unmanaged>
@@ -11410,6 +11426,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.BadStartupVersion">
             <summary>Constant BadStartupVersion.</summary>
             <unmanaged>MF_E_BAD_STARTUP_VERSION</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedByteStreamType">
+            <summary>Constant UnsupportedByteStreamType.</summary>
+            <unmanaged>MF_E_UNSUPPORTED_BYTESTREAM_TYPE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoSampleDuration">
             <summary>Constant NoSampleDuration.</summary>
@@ -11423,6 +11443,10 @@
             <summary>Constant ReverseUnsupported.</summary>
             <unmanaged>MF_E_REVERSE_UNSUPPORTED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetBusy">
+            <summary>Constant NetBusy.</summary>
+            <unmanaged>MF_E_NET_BUSY</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TransformConflictsWithOtherCurrentlyEnabledFeatures">
             <summary>Constant TransformConflictsWithOtherCurrentlyEnabledFeatures.</summary>
             <unmanaged>MF_E_TRANSFORM_CONFLICTS_WITH_OTHER_CURRENTLY_ENABLED_FEATURES</unmanaged>
@@ -11430,6 +11454,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.MediaProcWrongState">
             <summary>Constant MediaProcWrongState.</summary>
             <unmanaged>MF_E_MEDIAPROC_WRONGSTATE</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.LicenseIncorrectRights">
+            <summary>Constant LicenseIncorrectRights.</summary>
+            <unmanaged>MF_E_LICENSE_INCORRECT_RIGHTS</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.QualityknobWaitLonger">
             <summary>Constant QualityknobWaitLonger.</summary>
@@ -11447,13 +11475,17 @@
             <summary>Constant AsfUnsupportedStreamType.</summary>
             <unmanaged>MF_E_ASF_UNSUPPORTED_STREAM_TYPE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.DrmMigrationNotSupported">
-            <summary>Constant DrmMigrationNotSupported.</summary>
-            <unmanaged>MF_E_DRM_MIGRATION_NOT_SUPPORTED</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.TestSignedComponentsNotAllowEd">
+            <summary>Constant TestSignedComponentsNotAllowEd.</summary>
+            <unmanaged>MF_E_TEST_SIGNED_COMPONENTS_NOT_ALLOWED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.OutOfRange">
             <summary>Constant OutOfRange.</summary>
             <unmanaged>MF_E_OUT_OF_RANGE</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.CannotFindKeyframeSample">
+            <summary>Constant CannotFindKeyframeSample.</summary>
+            <unmanaged>MF_E_CANNOT_FIND_KEYFRAME_SAMPLE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.WmdrmotaActionAlreadySet">
             <summary>Constant WmdrmotaActionAlreadySet.</summary>
@@ -11479,6 +11511,10 @@
             <summary>Constant PropertyVectorRequired.</summary>
             <unmanaged>MF_E_PROPERTY_VECTOR_REQUIRED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetTooManyRedirects">
+            <summary>Constant NetTooManyRedirects.</summary>
+            <unmanaged>MF_E_NET_TOO_MANY_REDIRECTS</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.SinkNoStreams">
             <summary>Constant SinkNoStreams.</summary>
             <unmanaged>MF_E_SINK_NO_STREAMS</unmanaged>
@@ -11487,17 +11523,17 @@
             <summary>Constant ByteStreamNotSeekable.</summary>
             <unmanaged>MF_E_BYTESTREAM_NOT_SEEKABLE</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetBusy">
-            <summary>Constant NetBusy.</summary>
-            <unmanaged>MF_E_NET_BUSY</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetConnectionFailure">
+            <summary>Constant NetConnectionFailure.</summary>
+            <unmanaged>MF_E_NET_CONNECTION_FAILURE</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NoMoreQualityLevels">
+            <summary>Constant NoMoreQualityLevels.</summary>
+            <unmanaged>MF_E_NO_MORE_QUALITY_LEVELS</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.WmdrmotaInvalidPolicy">
             <summary>Constant WmdrmotaInvalidPolicy.</summary>
             <unmanaged>MF_E_WMDRMOTA_INVALID_POLICY</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetConnectionFailure">
-            <summary>Constant NetConnectionFailure.</summary>
-            <unmanaged>MF_E_NET_CONNECTION_FAILURE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoDuration">
             <summary>Constant NoDuration.</summary>
@@ -11511,13 +11547,13 @@
             <summary>Constant PeauthUntrusted.</summary>
             <unmanaged>MF_E_PEAUTH_UNTRUSTED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetServerAccessDenied">
+            <summary>Constant NetServerAccessDenied.</summary>
+            <unmanaged>MF_E_NET_SERVER_ACCESSDENIED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.CaptureSourceDeviceExtendedpropOperationInProgress">
             <summary>Constant CaptureSourceDeviceExtendedpropOperationInProgress.</summary>
             <unmanaged>MF_E_CAPTURE_SOURCE_DEVICE_EXTENDEDPROP_OP_IN_PROGRESS</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRenNoDeinterlaceHw">
-            <summary>Constant VideoRenNoDeinterlaceHw.</summary>
-            <unmanaged>MF_E_VIDEO_REN_NO_DEINTERLACE_HW</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.SampleNotWritable">
             <summary>Constant SampleNotWritable.</summary>
@@ -11579,17 +11615,17 @@
             <summary>Constant TopoInvalidTimeAttributes.</summary>
             <unmanaged>MF_E_TOPO_INVALID_TIME_ATTRIBUTES</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidPosition">
-            <summary>Constant InvalidPosition.</summary>
-            <unmanaged>MF_E_INVALID_POSITION</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.RtWorkqueueClassNotSpecified">
+            <summary>Constant RtWorkqueueClassNotSpecified.</summary>
+            <unmanaged>MF_E_RT_WORKQUEUE_CLASS_NOT_SPECIFIED</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRenNoDeinterlaceHw">
+            <summary>Constant VideoRenNoDeinterlaceHw.</summary>
+            <unmanaged>MF_E_VIDEO_REN_NO_DEINTERLACE_HW</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.MediaSourceWrongState">
             <summary>Constant MediaSourceWrongState.</summary>
             <unmanaged>MF_E_MEDIA_SOURCE_WRONGSTATE</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedScheme">
-            <summary>Constant UnsupportedScheme.</summary>
-            <unmanaged>MF_E_UNSUPPORTED_SCHEME</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.ItaUnrecognizedAnalogVideoOutput">
             <summary>Constant ItaUnrecognizedAnalogVideoOutput.</summary>
@@ -11607,6 +11643,10 @@
             <summary>Constant CannotCreateSink.</summary>
             <unmanaged>MF_E_CANNOT_CREATE_SINK</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.EndOfStream">
+            <summary>Constant EndOfStream.</summary>
+            <unmanaged>MF_E_END_OF_STREAM</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NotFound">
             <summary>Constant NotFound.</summary>
             <unmanaged>MF_E_NOT_FOUND</unmanaged>
@@ -11614,10 +11654,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetClientClose">
             <summary>Constant NetClientClose.</summary>
             <unmanaged>MF_E_NET_CLIENT_CLOSE</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.CaptureSinkMirrorError">
-            <summary>Constant CaptureSinkMirrorError.</summary>
-            <unmanaged>MF_E_CAPTURE_SINK_MIRROR_ERROR</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TransformPropertyPidNotRecognized">
             <summary>Constant TransformPropertyPidNotRecognized.</summary>
@@ -11659,10 +11695,6 @@
             <summary>Constant ItaOperationLDataNotInitializeD.</summary>
             <unmanaged>MF_E_ITA_OPL_DATA_NOT_INITIALIZED</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedByteStreamType">
-            <summary>Constant UnsupportedByteStreamType.</summary>
-            <unmanaged>MF_E_UNSUPPORTED_BYTESTREAM_TYPE</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TimerOrphaned">
             <summary>Constant TimerOrphaned.</summary>
             <unmanaged>MF_E_TIMER_ORPHANED</unmanaged>
@@ -11695,9 +11727,9 @@
             <summary>Constant CaptureSinkOutputNotSet.</summary>
             <unmanaged>MF_E_CAPTURE_SINK_OUTPUT_NOT_SET</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidAsfStreamId">
-            <summary>Constant InvalidAsfStreamId.</summary>
-            <unmanaged>MF_E_INVALID_ASF_STREAMID</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.MediaSourceNoStreamsSelected">
+            <summary>Constant MediaSourceNoStreamsSelected.</summary>
+            <unmanaged>MF_E_MEDIA_SOURCE_NO_STREAMS_SELECTED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.TopoSinkActivatesUnsupported">
             <summary>Constant TopoSinkActivatesUnsupported.</summary>
@@ -11755,6 +11787,10 @@
             <summary>Constant NetRedirect.</summary>
             <unmanaged>MF_E_NET_REDIRECT</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NetBadControlData">
+            <summary>Constant NetBadControlData.</summary>
+            <unmanaged>MF_E_NET_BAD_CONTROL_DATA</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.LicenseRequired">
             <summary>Constant LicenseRequired.</summary>
             <unmanaged>MF_E_LICENSE_REQUIRED</unmanaged>
@@ -11779,6 +11815,10 @@
             <summary>Constant StreamsInksFixed.</summary>
             <unmanaged>MF_E_STREAMSINKS_FIXED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.DxgiVideoDeviceLocked">
+            <summary>Constant DxgiVideoDeviceLocked.</summary>
+            <unmanaged>MF_E_DXGI_VIDEO_DEVICE_LOCKED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.VideoRecordingDevicePreempted">
             <summary>Constant VideoRecordingDevicePreempted.</summary>
             <unmanaged>MF_E_VIDEO_RECORDING_DEVICE_PREEMPTED</unmanaged>
@@ -11794,10 +11834,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.SinkNoSamplesProcessed">
             <summary>Constant SinkNoSamplesProcessed.</summary>
             <unmanaged>MF_E_SINK_NO_SAMPLES_PROCESSED</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.AsfInvalidData">
-            <summary>Constant AsfInvalidData.</summary>
-            <unmanaged>MF_E_ASF_INVALIDDATA</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.SessionPausewhilestopped">
             <summary>Constant SessionPausewhilestopped.</summary>
@@ -11819,10 +11855,6 @@
             <summary>Constant TransformProfileMissing.</summary>
             <unmanaged>MF_E_TRANSFORM_PROFILE_MISSING</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.DxgiVideoDeviceLocked">
-            <summary>Constant DxgiVideoDeviceLocked.</summary>
-            <unmanaged>MF_E_DXGI_VIDEO_DEVICE_LOCKED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoCaptureDevicesAvailable">
             <summary>Constant NoCaptureDevicesAvailable.</summary>
             <unmanaged>MF_E_NO_CAPTURE_DEVICES_AVAILABLE</unmanaged>
@@ -11830,6 +11862,10 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedD3DType">
             <summary>Constant UnsupportedD3DType.</summary>
             <unmanaged>MF_E_UNSUPPORTED_D3D_TYPE</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.NewVideoDevice">
+            <summary>Constant NewVideoDevice.</summary>
+            <unmanaged>MF_E_NEW_VIDEO_DEVICE</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.RtTooManyClassEs">
             <summary>Constant RtTooManyClassEs.</summary>
@@ -11839,6 +11875,10 @@
             <summary>Constant TopoUnsupported.</summary>
             <unmanaged>MF_E_TOPO_UNSUPPORTED</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.KernelUntrusted">
+            <summary>Constant KernelUntrusted.</summary>
+            <unmanaged>MF_E_KERNEL_UNTRUSTED</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetIncompatiblePushserver">
             <summary>Constant NetIncompatiblePushserver.</summary>
             <unmanaged>MF_E_NET_INCOMPATIBLE_PUSHSERVER</unmanaged>
@@ -11847,14 +11887,6 @@
             <summary>Constant TranscodeNoMatchingEncoder.</summary>
             <unmanaged>MF_E_TRANSCODE_NO_MATCHING_ENCODER</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.NetInternalServerError">
-            <summary>Constant NetInternalServerError.</summary>
-            <unmanaged>MF_E_NET_INTERNAL_SERVER_ERROR</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.MediaSourceNoStreamsSelected">
-            <summary>Constant MediaSourceNoStreamsSelected.</summary>
-            <unmanaged>MF_E_MEDIA_SOURCE_NO_STREAMS_SELECTED</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.CapturePropertySetDuringPhoto">
             <summary>Constant CapturePropertySetDuringPhoto.</summary>
             <unmanaged>MF_E_CAPTURE_PROPERTY_SET_DURING_PHOTO</unmanaged>
@@ -11862,10 +11894,6 @@
         <member name="F:SharpDX.MediaFoundation.ResultCode.TopoCannotConnect">
             <summary>Constant TopoCannotConnect.</summary>
             <unmanaged>MF_E_TOPO_CANNOT_CONNECT</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.CodeExpired">
-            <summary>Constant CodeExpired.</summary>
-            <unmanaged>MF_E_CODE_EXPIRED</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NetBwlevelNotSupported">
             <summary>Constant NetBwlevelNotSupported.</summary>
@@ -11879,9 +11907,13 @@
             <summary>Constant CannotParseByteStream.</summary>
             <unmanaged>MF_E_CANNOT_PARSE_BYTESTREAM</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.ResultCode.CannotFindKeyframeSample">
-            <summary>Constant CannotFindKeyframeSample.</summary>
-            <unmanaged>MF_E_CANNOT_FIND_KEYFRAME_SAMPLE</unmanaged>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.InvalidAsfStreamId">
+            <summary>Constant InvalidAsfStreamId.</summary>
+            <unmanaged>MF_E_INVALID_ASF_STREAMID</unmanaged>
+        </member>
+        <member name="F:SharpDX.MediaFoundation.ResultCode.UnsupportedScheme">
+            <summary>Constant UnsupportedScheme.</summary>
+            <unmanaged>MF_E_UNSUPPORTED_SCHEME</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.ResultCode.NoMoreTypes">
             <summary>Constant NoMoreTypes.</summary>
@@ -12437,10 +12469,6 @@
             <summary>Constant Wmv2.</summary>
             <unmanaged>MFVideoFormat_WMV2</unmanaged>
         </member>
-        <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.MultisampledS2">
-            <summary>Constant MultisampledS2.</summary>
-            <unmanaged>MFVideoFormat_MSS2</unmanaged>
-        </member>
         <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.M4S2">
             <summary>Constant M4S2.</summary>
             <unmanaged>MFVideoFormat_M4S2</unmanaged>
@@ -12529,6 +12557,10 @@
             <summary>Constant P016.</summary>
             <unmanaged>MFVideoFormat_P016</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.Y41P">
+            <summary>Constant Y41P.</summary>
+            <unmanaged>MFVideoFormat_Y41P</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.Mjpg">
             <summary>Constant Mjpg.</summary>
             <unmanaged>MFVideoFormat_MJPG</unmanaged>
@@ -12569,6 +12601,10 @@
             <summary>Constant MultisampledS1.</summary>
             <unmanaged>MFVideoFormat_MSS1</unmanaged>
         </member>
+        <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.MultisampledS2">
+            <summary>Constant MultisampledS2.</summary>
+            <unmanaged>MFVideoFormat_MSS2</unmanaged>
+        </member>
         <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.AI44">
             <summary>Constant AI44.</summary>
             <unmanaged>MFVideoFormat_AI44</unmanaged>
@@ -12604,10 +12640,6 @@
         <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.Y416">
             <summary>Constant Y416.</summary>
             <unmanaged>MFVideoFormat_Y416</unmanaged>
-        </member>
-        <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.Y41P">
-            <summary>Constant Y41P.</summary>
-            <unmanaged>MFVideoFormat_Y41P</unmanaged>
         </member>
         <member name="F:SharpDX.MediaFoundation.VideoFormatGuids.Y41T">
             <summary>Constant Y41T.</summary>
@@ -16956,7 +16988,7 @@
             <p>Creates an instance of either the sink writer or the source reader.</p>	
             </summary>	
             <remarks>	
-            <p>To get a reference to this interface, call the <strong>CoCreateInstance</strong> function. The CLSID is <strong>CLSID_MFReadWriteClassFactory</strong>. Call the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Startup(System.Int32,System.Int32)"/></strong> function before using  the interface.</p><p>As an alternative to using this interface, you can call any of the following functions:</p><ul> <li> <strong>MFCreateSinkWriterFromMediaSink</strong> </li> <li> <strong>MFCreateSinkWriterFromURL</strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromByteStream(System.IntPtr,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromMediaSource(SharpDX.MediaFoundation.MediaSource,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromURL(System.String,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> </ul><p>Internally, these functions use the <strong><see cref="T:SharpDX.MediaFoundation.ReadWriteClassFactory"/></strong> interface.</p><p>This interface is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p>	
+            <p>To get a reference to this interface, call the <strong>CoCreateInstance</strong> function. The CLSID is <strong>CLSID_MFReadWriteClassFactory</strong>. Call the <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.Startup(System.Int32,System.Int32)"/></strong> function before using  the interface.</p><p>As an alternative to using this interface, you can call any of the following functions:</p><ul> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromMediaSink(SharpDX.MediaFoundation.MediaSink,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SinkWriter@)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromURL(System.String,System.IntPtr,SharpDX.MediaFoundation.MediaAttributes)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromByteStream(System.IntPtr,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromMediaSource(SharpDX.MediaFoundation.MediaSource,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSourceReaderFromURL(System.String,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SourceReader)"/></strong> </li> </ul><p>Internally, these functions use the <strong><see cref="T:SharpDX.MediaFoundation.ReadWriteClassFactory"/></strong> interface.</p><p>This interface is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IMFReadWriteClassFactory']/*"/>	
             <msdn-id>dd374514</msdn-id>	
@@ -17783,7 +17815,7 @@
             <p>Implemented by the Microsoft Media Foundation sink writer object.</p>	
             </summary>	
             <remarks>	
-            <p>To create the sink writer, call one of the following functions:</p><ul> <li> <strong>MFCreateSinkWriterFromMediaSink</strong> </li> <li> <strong>MFCreateSinkWriterFromURL</strong> </li> </ul><p>Alternatively, use the <strong><see cref="T:SharpDX.MediaFoundation.ReadWriteClassFactory"/></strong> interface.</p><p>This interface is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p><p>In Windows?8, this interface is extended with <strong><see cref="T:SharpDX.MediaFoundation.SinkWriterEx"/></strong>.</p>	
+            <p>To create the sink writer, call one of the following functions:</p><ul> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromMediaSink(SharpDX.MediaFoundation.MediaSink,SharpDX.MediaFoundation.MediaAttributes,SharpDX.MediaFoundation.SinkWriter@)"/></strong> </li> <li> <strong><see cref="M:SharpDX.MediaFoundation.MediaFactory.CreateSinkWriterFromURL(System.String,System.IntPtr,SharpDX.MediaFoundation.MediaAttributes)"/></strong> </li> </ul><p>Alternatively, use the <strong><see cref="T:SharpDX.MediaFoundation.ReadWriteClassFactory"/></strong> interface.</p><p>This interface is available on Windows?Vista if Platform Update Supplement for Windows?Vista is installed.</p><p>In Windows?8, this interface is extended with <strong><see cref="T:SharpDX.MediaFoundation.SinkWriterEx"/></strong>.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file=".\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IMFSinkWriter']/*"/>	
             <msdn-id>dd374642</msdn-id>	
