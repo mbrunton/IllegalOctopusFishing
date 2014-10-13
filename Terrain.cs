@@ -10,18 +10,25 @@ namespace IllegalOctopusFishing
     class Terrain : GameObject
     {
         private float worldSize;
+        private float verticesPerLength; // how many terrain vertices per unit length
+        private HeightMap heightMap;
 
         public Terrain(IllegalOctopusFishingGame game, float worldSize) : base(game)
         {
             this.worldSize = worldSize;
+            this.verticesPerLength = 4;
+
+            float cornerHeight = 0f;
+            float middleHeight = -50f;
+            this.heightMap = new HeightMap(worldSize, verticesPerLength, cornerHeight, middleHeight);
         }
 
-        internal Vector3 getUnderWaterLocation()
+        internal Vector3 getRandomUnderWaterLocation()
         {
             throw new NotImplementedException();
         }
 
-        internal Vector3 getOnWaterLocation()
+        internal Vector3 getRandomOnWaterLocation()
         {
             throw new NotImplementedException();
         }

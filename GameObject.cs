@@ -73,6 +73,8 @@ namespace IllegalOctopusFishing
             basicEffect.DirectionalLight1.Direction = moon.getDir();
         }
 
+        abstract public void Draw(GameTime gameTime);
+        /*
         public void Draw(GameTime gameTime)
         {
             // Setup the vertices
@@ -83,5 +85,8 @@ namespace IllegalOctopusFishing
             basicEffect.CurrentTechnique.Passes[0].Apply();
             game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
         }
+         */
+
+        
     }
 }

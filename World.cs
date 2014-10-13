@@ -73,7 +73,7 @@ namespace IllegalOctopusFishing
             this.fish = new List<Fish>(numFish);
             for (int i = 0; i < numFish; i++)
             {
-                Vector3 fishStartPos = terrain.getUnderWaterLocation();
+                Vector3 fishStartPos = terrain.getRandomUnderWaterLocation();
                 Fish f = new Fish(game, fishStartPos);
                 fish.Add(f);
                 objectsForDrawing.Add(f);
@@ -82,7 +82,7 @@ namespace IllegalOctopusFishing
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
-                Vector3 coastGuardStartPos = terrain.getOnWaterLocation();
+                Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
                 CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos);
                 coastGuard.Add(c);
             }
