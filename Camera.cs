@@ -20,8 +20,8 @@ namespace IllegalOctopusFishing
 
         internal void Update(Vector3 playerPos, Vector3 playerDir, Vector3 playerVel)
         {
-            float speedSquared = playerVel.LengthSquared();
-            float metresBackFromPlayer = 10 + speedSquared;
+            float playerSpeed = playerVel.Length();
+            float metresBackFromPlayer = 0.1f * playerSpeed + 10f;
             float metresAbovePlayer = 0.3f * metresBackFromPlayer;
             Vector3 eye = playerPos - (metresBackFromPlayer * playerDir) + (metresAbovePlayer * Vector3.UnitY);
 

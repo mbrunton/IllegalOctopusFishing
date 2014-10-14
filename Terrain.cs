@@ -44,8 +44,6 @@ namespace IllegalOctopusFishing
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 
-            //Debug.WriteLine(heightMap.getGrid().ToString());
-
             searchTree = new SearchTree(heightMap);
 
             vertices = Buffer.Vertex.New(
@@ -58,14 +56,6 @@ namespace IllegalOctopusFishing
         {
             return Color.Brown;
         }
-
-        // DEBUGGING (this is actually handled by VirtualGameObject
-        /*
-        public override void Draw(GameTime gameTime)
-        {
-            
-        }
-        */
 
         internal Vector3 getRandomUnderWaterLocation()
         {
@@ -106,6 +96,8 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getPlayerStartPos()
         {
+            return new Vector3(0, 0, 0);
+            /*
             int maxAttempts = (int)(worldSize * worldSize);
             float buffer = 4f; // how shallow we'll allow water to be
             for (int i = 0; i < maxAttempts; i++)
@@ -119,8 +111,8 @@ namespace IllegalOctopusFishing
                 }
             }
 
-            return new Vector3(0, 0, 0);
-            //throw new Exception("Could not find suitable Player start pos");
+            throw new Exception("Could not find suitable Player start pos");
+            */
         }
 
         internal float getTerrainHeightAtPosition(float x, float z)

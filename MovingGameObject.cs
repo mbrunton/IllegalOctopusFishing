@@ -8,42 +8,21 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
     abstract class MovingGameObject : GameObject
     {
-        private Vector3 pos, dir, vel, up;
-        private float mass;
-        private float acc; // acceleration
+        internal Model model;
+        internal bool isModelSet = false;
+        internal Vector3 pos, dir, vel, up;
+        internal float mass;
+        internal float acc;
+        internal float maxVel;
 
-        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 pos) : base(game)
+        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 startPos) : base(game)
         {
-            this.pos = pos;
+            this.pos = startPos;
             this.up = Vector3.UnitY;
             this.dir = Vector3.UnitX;
-        }
-
-        public Vector3 getPos()
-        {
-            return this.pos;
-        }
-
-        public Vector3 getDir()
-        {
-            return this.dir;
-        }
-
-        public Vector3 getVel()
-        {
-            return this.vel;
-        }
-
-        public void SetMass(float mass)
-        {
-            this.mass = mass;
-        }
-
-        public void SetAcc(float acc)
-        {
-            this.acc = acc;
         }
     }
 }

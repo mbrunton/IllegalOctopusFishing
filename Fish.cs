@@ -12,10 +12,8 @@ namespace IllegalOctopusFishing
         public Fish(IllegalOctopusFishingGame game, Vector3 startingPos)
             : base(game, startingPos)
         {
-            float fishMass = 10f;
-            float fishAcc = 4f;
-            base.SetMass(fishMass);
-            base.SetAcc(fishAcc);
+            mass = 10f;
+            acc = 0.01f;
         }
 
         internal void Update(GameTime gameTime, float fishTerrainHeight, float seaLevel, Gravity gravity)

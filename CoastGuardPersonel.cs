@@ -12,10 +12,9 @@ namespace IllegalOctopusFishing
         public CoastGuardPersonel(IllegalOctopusFishingGame game, Vector3 startingPos)
             : base(game, startingPos)
         {
-            float mass = 1000f;
-            float acc = 6f;
-            base.SetMass(mass);
-            base.SetAcc(acc);
+            mass = 1000f;
+            acc = 0.01f;
+            maxVel = 0.01f;
         }
 
         internal void Update(GameTime gameTime, float coastGuardTerrainHeight, float seaLevel, Gravity gravity)

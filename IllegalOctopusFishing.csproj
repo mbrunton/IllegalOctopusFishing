@@ -155,10 +155,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <ToolkitModel Include="Content\Car.x">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitModel>
-    <ToolkitModel Include="Content\Skull.x">
+    <ToolkitModel Include="Content\smallboat.blend">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />

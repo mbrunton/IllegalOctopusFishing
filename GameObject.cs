@@ -46,13 +46,12 @@ namespace IllegalOctopusFishing
             }
             ambientLightVector = ambientLight * ambientLightVector;
             basicEffect.AmbientLightColor = ambientLightVector;
-
+            
             basicEffect.DirectionalLight0.DiffuseColor = diffuseColor.ToVector3();
             basicEffect.DirectionalLight1.DiffuseColor = diffuseColor.ToVector3();
 
             basicEffect.DirectionalLight0.SpecularColor = sun.getSpecularColor().ToVector3();
             basicEffect.DirectionalLight1.SpecularColor = moon.getSpecularColor().ToVector3();
-
         }
 
         internal void AlignWithCamera(Camera camera)

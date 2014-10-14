@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"Car", "Skull"};//{ "Car", "small_boat", "small_sail" };
+        public static List<String> modelNames = new List<String>() {"smallboat"};
         public Dictionary<String, Model> nameToModel;
 
         private GraphicsDeviceManager graphicsDeviceManager;
@@ -48,7 +48,17 @@ namespace IllegalOctopusFishing
 
         internal void setSelectedBoat(Player.BoatSize selectedBoat)
         {
-            world.setSelectedBoat(selectedBoat);
+            String modelName;
+            if (selectedBoat == Player.BoatSize.SMALL)
+            {
+                modelName = "smallboat";
+            }
+            else
+            {
+                // TODO: add largeboat model
+                modelName = "smallboat";
+            }
+            world.setPlayerModel(selectedBoat, modelName);
         }
 
         protected override void LoadContent()

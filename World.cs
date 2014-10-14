@@ -69,7 +69,7 @@ namespace IllegalOctopusFishing
             this.player = new Player(game, playerStartPos);
             objectsForDrawing.Add(player);
 
-            this.camera = new Camera(game, player.getPos(), player.getDir(), player.getVel());
+            this.camera = new Camera(game, player.pos, player.dir, player.vel);
 
             numFish = 100;
             this.fish = new List<Fish>(numFish);
@@ -96,9 +96,10 @@ namespace IllegalOctopusFishing
             }
         }
 
-        internal void setSelectedBoat(Player.BoatSize selectedBoat)
+        internal void setPlayerModel(Player.BoatSize selectedBoat, String modelName)
         {
-            player.SetSelectedBoat(selectedBoat);
+            player.setModel(selectedBoat, modelName);
+            player.setModelLighting(sky.getAmbientLight(), sun, moon);
         }
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
@@ -106,17 +107,17 @@ namespace IllegalOctopusFishing
             Dictionary<Player.HullPositions, float> playerHullHeights = terrain.getTerrainHeightsForPlayerHull(player.getHullPositions());
             player.Update(gameTime, playerHullHeights, seaLevel, wind, gravity);
 
-            camera.Update(player.getPos(), player.getDir(), player.getVel());
+            camera.Update(player.pos, player.dir, player.vel);
 
             foreach (Fish f in fish)
             {
-                float fishTerrainHeight = terrain.getTerrainHeightAtPosition(f.getPos().X, f.getPos().Z);
+                float fishTerrainHeight = terrain.getTerrainHeightAtPosition(f.pos.X, f.pos.Z);
                 f.Update(gameTime, fishTerrainHeight, seaLevel, gravity);
             }
 
             foreach (CoastGuardPersonel c in coastGuard)
             {
-                float coastGuardTerrainHeight = terrain.getTerrainHeightAtPosition(c.getPos().X, c.getPos().Z);
+                float coastGuardTerrainHeight = terrain.getTerrainHeightAtPosition(c.pos.X, c.pos.Z);
                 c.Update(gameTime, coastGuardTerrainHeight, seaLevel, gravity);
             }
 
