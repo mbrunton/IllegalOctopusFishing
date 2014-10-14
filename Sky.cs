@@ -7,7 +7,7 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
-    class Sky
+    public class Sky
     {
         private Color color;
         private Color noonColor;

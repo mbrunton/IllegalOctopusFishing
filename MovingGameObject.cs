@@ -9,20 +9,50 @@ using SharpDX.Toolkit;
 namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
-    abstract class MovingGameObject : GameObject
+    abstract public class MovingGameObject : GameObject
     {
         internal Model model;
-        internal bool isModelSet = false;
         internal Vector3 pos, dir, vel, up;
         internal float mass;
         internal float acc;
         internal float maxVel;
 
-        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 startPos) : base(game)
+        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 startPos, String modelName) : base(game)
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
             this.dir = Vector3.UnitX;
+
+            bool success = game.nameToModel.TryGetValue(modelName, out model);
+            if (!success)
+            {
+                throw new ArgumentException("failed to load model");
+            }
+        }
+
+        public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
+        {
+            // maybe i don't have to do anything here
+            /*
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                mesh.Effects[0].Parameters["DirLight0Direction"].SetValue(sun.getDir());
+                mesh.Effects[0].Parameters["DirLight1Direction"].SetValue(moon.getDir());
+            }*/
+        }
+
+        public override void UpdateLightingDirections(HeavenlyBody sun, HeavenlyBody moon)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                mesh.Effects[0].Parameters["DirLight0Direction"].SetValue(sun.getDir());
+                mesh.Effects[0].Parameters["DirLight1Direction"].SetValue(moon.getDir());
+            }
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            model.Draw(game.GraphicsDevice, World, View, Projection);
         }
     }
 }

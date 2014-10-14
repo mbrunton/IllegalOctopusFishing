@@ -7,7 +7,7 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
-    class HeavenlyBody
+    public class HeavenlyBody
     {
         private Vector3 dir;
         private Vector3 revolutionNormal;

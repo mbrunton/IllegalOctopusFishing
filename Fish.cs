@@ -9,11 +9,12 @@ namespace IllegalOctopusFishing
 {
     class Fish : MovingGameObject
     {
-        public Fish(IllegalOctopusFishingGame game, Vector3 startingPos)
-            : base(game, startingPos)
+        public Fish(IllegalOctopusFishingGame game, Vector3 startingPos, String modelName)
+            : base(game, startingPos, modelName)
         {
             mass = 10f;
             acc = 0.01f;
+            maxVel = 0.4f;
         }
 
         internal void Update(GameTime gameTime, float fishTerrainHeight, float seaLevel, Gravity gravity)

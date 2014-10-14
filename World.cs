@@ -34,72 +34,89 @@ namespace IllegalOctopusFishing
 
         private List<GameObject> objectsForDrawing;
 
-        public World(IllegalOctopusFishingGame game)
+        public World(IllegalOctopusFishingGame game, Player.BoatSize selectedBoat)
         {
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();
 
             this.worldSize = 500f;
             this.seaLevel = 0;
-            this.terrain = new Terrain(game, worldSize, seaLevel);
-            objectsForDrawing.Add(terrain);
-            
-            this.ocean = new Ocean(game, worldSize, seaLevel);
-            objectsForDrawing.Add(ocean);
             
             this.wind = new Wind();
             this.gravity = new Gravity(-1 * Vector3.UnitY, 9.81f);
 
+            // sun
             this.secsPerGameDay = 180;
             Vector3 sunInitialDir = -1 * Vector3.UnitY;
             Vector3 sunRevolutionNormal = Vector3.UnitX; // normal to sun's plane of motion
             Color sunSpectralColor = Color.LightYellow;
             this.sun = new HeavenlyBody(sunInitialDir, sunRevolutionNormal, secsPerGameDay, sunSpectralColor);
 
+            // moon
             Vector3 moonInitialDir = Vector3.UnitY;
             Vector3 moonRevolutionNormal = Vector3.UnitZ; // normal to moon's plane of motion
             Color moonSpectralColor = Color.GhostWhite;
             this.moon = new HeavenlyBody(moonInitialDir, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
 
+            // sky
             Color noonColor = Color.CornflowerBlue;
             Color midnightColor = Color.DarkBlue;
             this.sky = new Sky(noonColor, midnightColor);
 
+            // terrain
+            this.terrain = new Terrain(game, worldSize, seaLevel);
+            objectsForDrawing.Add(terrain);
+            
+            // ocean
+            this.ocean = new Ocean(game, worldSize, seaLevel);
+            objectsForDrawing.Add(ocean);
+
+            // player
             Vector3 playerStartPos = terrain.getPlayerStartPos();
-            this.player = new Player(game, playerStartPos);
+            String playerModelName;
+            if (selectedBoat == Player.BoatSize.SMALL)
+            {
+                playerModelName = "smallboat";
+            }
+            else
+            {
+                playerModelName = "largeboat";
+            }
+            this.player = new Player(game, playerStartPos, playerModelName, selectedBoat);
             objectsForDrawing.Add(player);
 
+            // camera
             this.camera = new Camera(game, player.pos, player.dir, player.vel);
 
+            // fish
             numFish = 100;
             this.fish = new List<Fish>(numFish);
             for (int i = 0; i < numFish; i++)
             {
                 Vector3 fishStartPos = terrain.getRandomUnderWaterLocation();
-                Fish f = new Fish(game, fishStartPos);
+                Fish f = new Fish(game, fishStartPos, "fish");
                 fish.Add(f);
                 objectsForDrawing.Add(f);
             }
+
+            //coastguard
             numCoastGuard = 20;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
                 Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
-                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos);
+                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, "coastguard");
                 coastGuard.Add(c);
             }
+
+            // harpoons
             harpoons = new List<Harpoon>();
 
+            // setup lighting
             foreach (GameObject obj in objectsForDrawing)
             {
-                obj.SetupLighting(sky.getAmbientLight(), sun, moon);
+                obj.SetupLighting(sky, sun, moon);
             }
-        }
-
-        internal void setPlayerModel(Player.BoatSize selectedBoat, String modelName)
-        {
-            player.setModel(selectedBoat, modelName);
-            player.setModelLighting(sky.getAmbientLight(), sun, moon);
         }
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
@@ -132,12 +149,6 @@ namespace IllegalOctopusFishing
             moon.Update(gameTime);
             sky.Update(sun, moon);
             ocean.Update(gameTime);
-
-            foreach (GameObject obj in objectsForDrawing)
-            {
-                obj.AlignWithCamera(camera);
-                obj.SetLightingDirections(sun, moon);
-            }
         }
 
         internal void Draw(GameTime gameTime)
@@ -146,6 +157,8 @@ namespace IllegalOctopusFishing
 
             foreach (GameObject obj in objectsForDrawing)
             {
+                obj.AlignWithCamera(camera);
+                obj.UpdateLightingDirections(sun, moon);
                 obj.Draw(gameTime);
             }
         }

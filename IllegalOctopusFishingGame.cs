@@ -17,8 +17,9 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"smallboat"};
+        public static List<String> modelNames = new List<String>() {"smallboat", "largeboat", "fish", "coastguard"};
         public Dictionary<String, Model> nameToModel;
+        public Player.BoatSize selectedBoat;
 
         private GraphicsDeviceManager graphicsDeviceManager;
         private KeyboardState keyboardState;
@@ -27,10 +28,11 @@ namespace IllegalOctopusFishing
 
         private World world;
 
-        public IllegalOctopusFishingGame(MainPage mainPage)
+        public IllegalOctopusFishingGame(MainPage mainPage, Player.BoatSize selectedBoat)
         {
             this.mainPage = mainPage;
             this.isPaused = true;
+            this.selectedBoat = selectedBoat;
 
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             input = new GameInput(this);
@@ -46,21 +48,6 @@ namespace IllegalOctopusFishing
             input.gestureRecognizer.ManipulationCompleted += OnManipulationCompleted;
         }
 
-        internal void setSelectedBoat(Player.BoatSize selectedBoat)
-        {
-            String modelName;
-            if (selectedBoat == Player.BoatSize.SMALL)
-            {
-                modelName = "smallboat";
-            }
-            else
-            {
-                // TODO: add largeboat model
-                modelName = "smallboat";
-            }
-            world.setPlayerModel(selectedBoat, modelName);
-        }
-
         protected override void LoadContent()
         {
             // load blender models
@@ -72,8 +59,8 @@ namespace IllegalOctopusFishing
                 Model model = Content.Load<Model>(name);
                 nameToModel.Add(name, model);
             }
-            
-            world = new World(this);
+
+            world = new World(this, selectedBoat);
 
             base.LoadContent();
         }

@@ -30,14 +30,13 @@ namespace IllegalOctopusFishing
             this.InitializeComponent();
             this.mainMenu = new MainMenu(this);
             this.Children.Add(mainMenu);
-            game = new IllegalOctopusFishingGame(this);
-            game.Run(this);
         }
 
         internal void startGame(Player.BoatSize selectedBoat)
         {
             this.Children.Remove(mainMenu);
-            game.setSelectedBoat(selectedBoat);
+            game = new IllegalOctopusFishingGame(this, selectedBoat);
+            game.Run(this);
             game.setIsPaused(false);
         }
     }
