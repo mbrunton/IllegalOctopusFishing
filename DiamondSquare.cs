@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Toolkit;
+using System.Diagnostics;
 
 namespace IllegalOctopusFishing
 {
@@ -19,13 +20,14 @@ namespace IllegalOctopusFishing
         public List<List<float>> heights;
         private Dictionary<Index, bool> preSelected;
 
-        public DiamondSquare(int numSideVertices, float cornerHeight, float middleHeight)
+        public DiamondSquare(int numSideVertices, float cornerHeight, float middleHeight, float randomFactor)
         {
             this.numSideVertices = numSideVertices;
             this.cornerHeight = cornerHeight;
             this.middleHeight = middleHeight;
-            this.minPossibleY = 1.5f * middleHeight;
-            this.maxPossibleY = -1f * minPossibleY;
+
+            this.minPossibleY = -1 * randomFactor * Math.Abs(middleHeight);
+            this.maxPossibleY = -1 * minPossibleY;
 
             this.random = new Random();
 
@@ -56,12 +58,21 @@ namespace IllegalOctopusFishing
             heights[numSideVertices - 1][0] = cornerHeight;
             heights[numSideVertices / 2][numSideVertices / 2] = middleHeight;
 
-            preSelected.Add(new Index(0, 0), true);
-            preSelected.Add(new Index(0, numSideVertices - 1), true);
-            preSelected.Add(new Index(numSideVertices - 1, numSideVertices - 1), true);
-            preSelected.Add(new Index(numSideVertices - 1, 0), true);
-            preSelected.Add(new Index(numSideVertices / 2, numSideVertices / 2), true);
+            preSelected[new Index(0, 0)] =  true;
+            preSelected[new Index(0, numSideVertices - 1)] =  true;
+            preSelected[new Index(numSideVertices - 1, numSideVertices - 1)] =  true;
+            preSelected[new Index(numSideVertices - 1, 0)] =  true;
+            preSelected[new Index(numSideVertices / 2, numSideVertices / 2)] =  true;
 
+            fillIterative();
+        }
+
+        public void fillRecursive()
+        {
+            // TODO
+        }
+
+        public void fillIterative() {
             // diamond square
             float minRandY = minPossibleY;
             float maxRandY = maxPossibleY;
@@ -73,11 +84,9 @@ namespace IllegalOctopusFishing
                 {
                     for (int j = 0; j < numSideVertices - sideLength; j += sideLength)
                     {
-                        int mi = i / 2;
-                        int mj = j / 2;
-                        bool pre;
-                        preSelected.TryGetValue(new Index(mi, mj), out pre);
-                        if (pre)
+                        int mi = i + sideLength / 2;
+                        int mj = j + sideLength / 2;
+                        if (preSelected[new Index(mi, mj)])
                         {
                             continue;
                         }
@@ -91,9 +100,7 @@ namespace IllegalOctopusFishing
                 {
                     for (int j = 0; j < numSideVertices; j += sideLength)
                     {
-                        bool pre;
-                        preSelected.TryGetValue(new Index(i, j), out pre);
-                        if (pre)
+                        if (preSelected[new Index(i, j)])
                         {
                             continue;
                         }
@@ -106,9 +113,7 @@ namespace IllegalOctopusFishing
                 {
                     for (int j = sideLength / 2; j < numSideVertices - sideLength / 2; j += sideLength)
                     {
-                        bool pre;
-                        preSelected.TryGetValue(new Index(i, j), out pre);
-                        if (pre)
+                        if (preSelected[new Index(i, j)])
                         {
                             continue;
                         }

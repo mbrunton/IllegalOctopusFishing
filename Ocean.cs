@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IllegalOctopusFishing
 {
-    class Ocean : GameObject
+    class Ocean : VertexGameObject
     {
         private float worldSize;
         private float seaLevel;
@@ -25,7 +25,7 @@ namespace IllegalOctopusFishing
 
         public override void Draw(SharpDX.Toolkit.GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            //base.Draw(gameTime);
         }
     }
 }

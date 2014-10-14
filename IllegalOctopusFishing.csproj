@@ -144,6 +144,7 @@
     </Compile>
     <Compile Include="Sky.cs" />
     <Compile Include="Terrain.cs" />
+    <Compile Include="VertexGameObject.cs" />
     <Compile Include="VertexPositionNormalColor.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

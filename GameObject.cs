@@ -13,8 +13,6 @@ namespace IllegalOctopusFishing
     abstract class GameObject
     {
         protected IllegalOctopusFishingGame game;
-        protected Buffer<VertexPositionNormalColor> vertices;
-        protected VertexInputLayout inputLayout;
         protected BasicEffect basicEffect;
         protected Color diffuseColor;
 
@@ -24,7 +22,6 @@ namespace IllegalOctopusFishing
 
             basicEffect = new BasicEffect(game.GraphicsDevice)
             {
-                VertexColorEnabled = true,
                 Projection = Matrix.Identity,
                 World = Matrix.Identity,
                 View = Matrix.Identity
@@ -37,6 +34,7 @@ namespace IllegalOctopusFishing
             {
                 throw new ArgumentException("diffuseColor is null, but SetupLighting is being called");
             }
+            
             basicEffect.LightingEnabled = true;
             basicEffect.DirectionalLight0.Enabled = true;
             basicEffect.DirectionalLight1.Enabled = true;
@@ -54,6 +52,7 @@ namespace IllegalOctopusFishing
 
             basicEffect.DirectionalLight0.SpecularColor = sun.getSpecularColor().ToVector3();
             basicEffect.DirectionalLight1.SpecularColor = moon.getSpecularColor().ToVector3();
+
         }
 
         internal void AlignWithCamera(Camera camera)
@@ -68,15 +67,6 @@ namespace IllegalOctopusFishing
             basicEffect.DirectionalLight1.Direction = moon.getDir();
         }
 
-        public virtual void Draw(GameTime gameTime)
-        {
-            // Setup the vertices
-            game.GraphicsDevice.SetVertexBuffer(vertices);
-            game.GraphicsDevice.SetVertexInputLayout(inputLayout);
-
-            // Apply the basic effect technique and draw
-            basicEffect.CurrentTechnique.Passes[0].Apply();
-            game.GraphicsDevice.Draw(PrimitiveType.TriangleList, vertices.ElementCount);
-        }
+        abstract public void Draw(GameTime gameTime);
     }
 }

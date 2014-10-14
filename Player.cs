@@ -22,6 +22,7 @@ namespace IllegalOctopusFishing
         public Player(IllegalOctopusFishingGame game, Vector3 startingPos) : base(game, startingPos)
         {
             hullPositions = new Dictionary<HullPositions, Vector3>();
+            diffuseColor = Color.Red;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -40,7 +41,8 @@ namespace IllegalOctopusFishing
 
         public override void Draw(GameTime gameTime)
         {
-            boatModel.Draw(game.GraphicsDevice, basicEffect.World, basicEffect.View, basicEffect.Projection);
+            boatModel.Draw(game.GraphicsDevice, basicEffect.World, basicEffect.View, basicEffect.Projection, effectOverride:basicEffect);
+            sailModel.Draw(game.GraphicsDevice, basicEffect.World, basicEffect.View, basicEffect.Projection, effectOverride:new BasicEffect(game.GraphicsDevice));
         }
 
         internal void SetSelectedBoat(BoatSize selectedBoat)

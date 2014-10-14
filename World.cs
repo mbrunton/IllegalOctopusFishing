@@ -39,7 +39,7 @@ namespace IllegalOctopusFishing
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();
 
-            this.worldSize = 100;
+            this.worldSize = 500f;
             this.seaLevel = 0;
             this.terrain = new Terrain(game, worldSize, seaLevel);
             objectsForDrawing.Add(terrain);

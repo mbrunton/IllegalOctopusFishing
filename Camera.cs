@@ -25,6 +25,8 @@ namespace IllegalOctopusFishing
             float metresAbovePlayer = 0.3f * metresBackFromPlayer;
             Vector3 eye = playerPos - (metresBackFromPlayer * playerDir) + (metresAbovePlayer * Vector3.UnitY);
 
+            // DEBUGGING - hold bird's eye view
+            //this.view = Matrix.LookAtLH(100 * Vector3.UnitY, Vector3.Zero, Vector3.UnitX);
             this.view = Matrix.LookAtLH(eye, playerPos, Vector3.UnitY);
         }
 

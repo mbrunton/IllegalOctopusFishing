@@ -10,7 +10,7 @@ namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
-    class Terrain : GameObject
+    class Terrain : VertexGameObject
     {
         private float worldSize;
         private float minX, maxX;
@@ -25,7 +25,9 @@ namespace IllegalOctopusFishing
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
-            this.verticesPerLength = 4;
+            this.verticesPerLength = 1;
+
+            this.diffuseColor = Color.Blue;
 
             this.heightMap = new HeightMap(worldSize, verticesPerLength);
             this.minX = heightMap.minX;
@@ -34,8 +36,9 @@ namespace IllegalOctopusFishing
             this.maxZ = heightMap.maxZ;
 
             float cornerHeight = 0f;
-            float middleHeight = -50f;
-            this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight);
+            float middleHeight = -1 * worldSize / 2f;
+            float randomFactor = 1f;
+            this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight, randomFactor);
 
             heightMap.fillGridFromDiamondSquare(diamondSquare.heights);
             bool isRound = true;
@@ -56,10 +59,18 @@ namespace IllegalOctopusFishing
             return Color.Brown;
         }
 
+        // DEBUGGING (this is actually handled by VirtualGameObject
+        /*
+        public override void Draw(GameTime gameTime)
+        {
+            
+        }
+        */
+
         internal Vector3 getRandomUnderWaterLocation()
         {
             int maxAttempts = (int)(worldSize * worldSize);
-            float buffer = 8f; // how shallow we'll allow water to be
+            float buffer = 2f; // how shallow we'll allow water to be
             for (int i = 0; i < maxAttempts; i++)
             {
                 float x = diamondSquare.getRandInRange(minX, maxX);
@@ -95,15 +106,21 @@ namespace IllegalOctopusFishing
 
         internal Vector3 getPlayerStartPos()
         {
-            float x = minX + (maxX - minX) / 2;
-            float z = minZ + (maxZ - minZ) / 2;
-            float height = getTerrainHeightAtPosition(x, z);
-            if (height > seaLevel)
+            int maxAttempts = (int)(worldSize * worldSize);
+            float buffer = 4f; // how shallow we'll allow water to be
+            for (int i = 0; i < maxAttempts; i++)
             {
-                throw new Exception("Player start pos is over land!");
+                float x = diamondSquare.getRandInRange(minX / 4f, maxX / 4f);
+                float z = diamondSquare.getRandInRange(minZ / 4f, maxZ / 4f);
+                float height = getTerrainHeightAtPosition(x, z);
+                if (height + buffer <= seaLevel)
+                {
+                    return new Vector3(x, seaLevel, z);
+                }
             }
 
-            return new Vector3(x, seaLevel, z);
+            return new Vector3(0, 0, 0);
+            //throw new Exception("Could not find suitable Player start pos");
         }
 
         internal float getTerrainHeightAtPosition(float x, float z)

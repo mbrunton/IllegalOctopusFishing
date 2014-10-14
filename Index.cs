@@ -23,5 +23,13 @@ namespace IllegalOctopusFishing
             Index that = obj as Index;
             return this.i == that.i && this.j == that.j;
         }
+
+        public override int GetHashCode()
+        {
+            int hash = 31;
+            hash = (hash * 17) + i.GetHashCode();
+            hash = (hash * 17) + j.GetHashCode();
+            return hash;
+        }
     }
 }
