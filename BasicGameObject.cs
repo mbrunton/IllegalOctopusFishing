@@ -10,14 +10,14 @@ namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
-    public class VertexGameObject : GameObject
+    public class BasicGameObject : GameObject
     {
         protected Buffer<VertexPositionNormalColor> vertices;
         protected VertexInputLayout inputLayout;
         protected BasicEffect basicEffect;
         protected Color diffuseColor;
 
-        public VertexGameObject(IllegalOctopusFishingGame game)
+        public BasicGameObject(IllegalOctopusFishingGame game)
             : base(game)
         {
             

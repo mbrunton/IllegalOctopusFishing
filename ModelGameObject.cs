@@ -9,7 +9,7 @@ using SharpDX.Toolkit;
 namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
-    abstract public class MovingGameObject : GameObject
+    abstract public class ModelGameObject : GameObject
     {
         internal Model model;
         internal Vector3 pos, dir, vel, up;
@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         internal float acc;
         internal float maxVel;
 
-        public MovingGameObject(IllegalOctopusFishingGame game, Vector3 startPos, String modelName) : base(game)
+        public ModelGameObject(IllegalOctopusFishingGame game, Vector3 startPos, String modelName) : base(game)
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
@@ -33,12 +33,11 @@ namespace IllegalOctopusFishing
         public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
         {
             // maybe i don't have to do anything here
-            /*
+            
             foreach (ModelMesh mesh in model.Meshes)
             {
-                mesh.Effects[0].Parameters["DirLight0Direction"].SetValue(sun.getDir());
-                mesh.Effects[0].Parameters["DirLight1Direction"].SetValue(moon.getDir());
-            }*/
+                mesh.Effects[0].Parameters["DiffuseColor"].SetValue(new Vector4());
+            }
         }
 
         public override void UpdateLightingDirections(HeavenlyBody sun, HeavenlyBody moon)

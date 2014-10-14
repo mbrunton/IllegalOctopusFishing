@@ -10,7 +10,7 @@ namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
-    class Terrain : VertexGameObject
+    class Terrain : BasicGameObject
     {
         private float worldSize;
         private float minX, maxX;

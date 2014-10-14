@@ -7,7 +7,7 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
-    class Fish : MovingGameObject
+    class Fish : ModelGameObject
     {
         public Fish(IllegalOctopusFishingGame game, Vector3 startingPos, String modelName)
             : base(game, startingPos, modelName)

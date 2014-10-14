@@ -8,7 +8,7 @@ using SharpDX.Toolkit;
 namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
-    public class Player : MovingGameObject
+    public class Player : ModelGameObject
     {
         public enum BoatSize { SMALL, LARGE };
         public enum HullPositions { BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT };

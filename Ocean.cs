@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IllegalOctopusFishing
 {
-    class Ocean : VertexGameObject
+    class Ocean : BasicGameObject
     {
         private float worldSize;
         private float seaLevel;

@@ -133,7 +133,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MovingGameObject.cs" />
+    <Compile Include="ModelGameObject.cs" />
     <Compile Include="Ocean.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -144,7 +144,7 @@
     </Compile>
     <Compile Include="Sky.cs" />
     <Compile Include="Terrain.cs" />
-    <Compile Include="VertexGameObject.cs" />
+    <Compile Include="BasicGameObject.cs" />
     <Compile Include="VertexPositionNormalColor.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
