@@ -65,8 +65,13 @@ namespace IllegalOctopusFishing
         internal Matrix getWorld()
         {
             // use pos, dir, up to generate a world matrix
-            Matrix translation = Matrix.Translation(pos);
-            
+            Matrix translation = getTranslationMatrix();
+            Matrix rotation = getRotationMatrix();
+            return rotation * translation;
+        }
+
+        internal Matrix getRotationMatrix()
+        {
             Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
             xzDir.Normalize();
             float angle = (float)Math.Acos(Vector3.Dot(initialDir, xzDir));
@@ -84,7 +89,13 @@ namespace IllegalOctopusFishing
                 rotation = Matrix.Identity;
             }
 
-            return rotation * translation;
+            return rotation;
+        }
+
+        internal Matrix getTranslationMatrix()
+        {
+            Matrix translation = Matrix.Translation(pos);
+            return translation;
         }
 
         public override void Draw(GameTime gameTime)

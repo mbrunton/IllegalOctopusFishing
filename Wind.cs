@@ -19,7 +19,8 @@ namespace IllegalOctopusFishing
 
         public Wind()
         {
-            dir = Vector3.UnitZ - Vector3.UnitX;
+            //dir = Vector3.UnitZ - Vector3.UnitX;
+            dir = Vector3.UnitX;
             dir.Normalize();
             speed = 1f;
 

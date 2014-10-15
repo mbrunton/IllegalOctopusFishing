@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
 
         private Model sailModel;
         private Matrix sailWorld;
-        private float sailTheta, sailOmega;
+        private float initialSailTheta, sailTheta, sailOmega;
         private float sailMaxOmega, sailAlpha;
 
         private BoatSize boatSize;
@@ -63,12 +63,13 @@ namespace IllegalOctopusFishing
                 throw new ArgumentException("failed to load sail model");
             }
             this.sailWorld = Matrix.Identity;
-            this.sailTheta = pi/2; // sail starts off on starboard side
+            this.initialSailTheta = pi/2; // sail starts off on starboard side
+            this.sailTheta = initialSailTheta;
             this.sailOmega = 0f;
 
             this.sailMaxOmega = 0.001f;
             this.sailAlpha = 0.005f;
-            this.slack = pi/2; // start out on full slack
+            this.slack = initialSailTheta; // start out on full slack
             this.slackMin = pi / 2;
             this.slackMax = 3 * pi / 2;
             this.minAbsWindAngle = pi / 6; // min angle one can head into wind at, and still get thrust
@@ -110,10 +111,13 @@ namespace IllegalOctopusFishing
             Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
             xzDir.Normalize();
 
+            // remember X cross Z == -Y
+            // and X cross Y == Z. Left hand rule
+
             // find angle of wind (dir is angle 0, increases clockwise, around to 2*pi)
             Vector3 cross = Vector3.Cross(xzDir, wind.getDir());
             float windAngle = (float)Math.Acos(Vector3.Dot(xzDir, wind.getDir()));
-            if (cross.Y < 0)
+            if (!MathUtil.IsZero(cross.Y) && cross.Y < 0)
             {
                 windAngle = 2 * pi - windAngle;
             }
@@ -131,7 +135,7 @@ namespace IllegalOctopusFishing
                 onSideHigher = sailTheta;
             }
             bool isWindOnside = windAngle >= onSideLower && windAngle <= onSideHigher;
-
+            Debug.WriteLine(isWindOnside);
 
             // find out how much thrust wind is giving boat
             float windFactor; // 0-1
@@ -186,13 +190,13 @@ namespace IllegalOctopusFishing
                     if (isSailRight)
                     {
                         if (windAngle > 3 * pi / 2 || windAngle < sailTheta) { throw new Exception("windAngle outside range [sailTheta - 3*pi/2]"); }
-                        windToSailFactor = (float)Math.Cos(windAngle - sailTheta);
+                        windToSailFactor = (float)Math.Sin(windAngle - sailTheta);
                         sailToBoatFactor = (float)Math.Cos(sailTheta - pi / 2);
                     }
                     else
                     {
                         if (windAngle > sailTheta || windAngle < pi / 2) { throw new Exception("windAngle outside range [pi/2 - sailTheta]"); }
-                        windToSailFactor = (float)Math.Cos(sailTheta - windAngle);
+                        windToSailFactor = (float)Math.Sin(sailTheta - windAngle);
                         sailToBoatFactor = (float)Math.Cos(3*pi / 2 - sailTheta);
                     }
                     windFactor = windToSailFactor * sailToBoatFactor;
@@ -217,7 +221,7 @@ namespace IllegalOctopusFishing
             pos += delta * vel;
 
             // calculate change in sail's angular velocity
-            float sailSpinFactor = (float)Math.Abs(Math.Cos(sailTheta - windAngle)); // how perpendicular wind is to sail
+            float sailSpinFactor = (float)Math.Abs(Math.Sin(sailTheta - windAngle)); // how perpendicular wind is to sail
             float deltaSailOmega;
             if (MathUtil.IsZero(sailSpinFactor))
             {
@@ -262,8 +266,12 @@ namespace IllegalOctopusFishing
                 vel = maxVel * vel;
             }
 
-            this.World = getWorld();
-            this.sailWorld = World;
+            Debug.WriteLine(sailTheta);
+            Matrix rotation = getRotationMatrix();
+            Matrix translation = getTranslationMatrix();
+            Matrix sailRotation = Matrix.RotationY(sailTheta - initialSailTheta);
+            this.World = rotation * translation;
+            this.sailWorld = rotation * sailRotation * translation;
         }
 
         private float getWindFactorFromFrontWindSailAngle(float windSailAngle)
