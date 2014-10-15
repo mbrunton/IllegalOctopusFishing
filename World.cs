@@ -89,7 +89,8 @@ namespace IllegalOctopusFishing
             this.camera = new Camera(game, player.pos, player.dir, player.vel);
 
             // fish
-            numFish = 100;
+            //numFish = 100;
+            numFish = 0;
             this.fish = new List<Fish>(numFish);
             for (int i = 0; i < numFish; i++)
             {
@@ -100,7 +101,8 @@ namespace IllegalOctopusFishing
             }
 
             //coastguard
-            numCoastGuard = 20;
+            //numCoastGuard = 20;
+            numCoastGuard = 0;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {

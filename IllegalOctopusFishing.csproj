@@ -155,16 +155,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <ToolkitModel Include="Content\smallboat.blend">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitModel>
-    <ToolkitModel Include="Content\coastguard.blend">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitModel>
-    <ToolkitModel Include="Content\fish.blend">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitModel>
-    <ToolkitModel Include="Content\largeboat.blend">
+    <ToolkitModel Include="Content\smallboat.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />

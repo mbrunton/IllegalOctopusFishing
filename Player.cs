@@ -65,12 +65,8 @@ namespace IllegalOctopusFishing
         internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullHeights, float seaLevel, Wind wind, Gravity gravity)
         {
             float delta = gameTime.ElapsedGameTime.Milliseconds;
-            this.vel += dir * delta * this.acc;
 
-            if (vel.Length() > maxVel)
-            {
-
-            }
+            this.World = Matrix.RotationY(0.002f * gameTime.TotalGameTime.Milliseconds);
         }
     }
 }

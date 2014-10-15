@@ -12,6 +12,7 @@ namespace IllegalOctopusFishing
     abstract public class ModelGameObject : GameObject
     {
         internal Model model;
+        internal Matrix coordAdjustmentMatrix;
         internal Vector3 pos, dir, vel, up;
         internal float mass;
         internal float acc;
@@ -32,11 +33,12 @@ namespace IllegalOctopusFishing
 
         public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
         {
-            // maybe i don't have to do anything here
-            
+            // TODO: work out what to do here
+            //BasicEffect.EnableDefaultLighting(model, true);
             foreach (ModelMesh mesh in model.Meshes)
             {
-                mesh.Effects[0].Parameters["DiffuseColor"].SetValue(new Vector4());
+                //mesh.Effects[0].Parameters["DirLight0SpecularColor"].SetValue(sun.getSpecularColor());
+                //mesh.Effects[0].Parameters["DiffuseColor"].SetValue(new Vector4());
             }
         }
 
@@ -44,8 +46,8 @@ namespace IllegalOctopusFishing
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
-                mesh.Effects[0].Parameters["DirLight0Direction"].SetValue(sun.getDir());
-                mesh.Effects[0].Parameters["DirLight1Direction"].SetValue(moon.getDir());
+                //mesh.Effects[0].Parameters["DirLight0Direction"].SetValue(sun.getDir());
+                //mesh.Effects[0].Parameters["DirLight1Direction"].SetValue(moon.getDir());
             }
         }
 

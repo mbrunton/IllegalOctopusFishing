@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"smallboat", "largeboat", "fish", "coastguard"};
+        public static List<String> modelNames = new List<String>() {"smallboat"};//{"smallboat", "largeboat", "fish", "coastguard"};
         public Dictionary<String, Model> nameToModel;
         public Player.BoatSize selectedBoat;
 
