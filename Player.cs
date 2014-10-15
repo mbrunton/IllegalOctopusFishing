@@ -8,6 +8,7 @@ using SharpDX.Toolkit;
 namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
+    using System.Diagnostics;
     public class Player : ModelGameObject
     {
         public enum BoatSize { SMALL, LARGE };
@@ -62,11 +63,26 @@ namespace IllegalOctopusFishing
             return hullPositions;
         }
 
-        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullHeights, float seaLevel, Wind wind, Gravity gravity)
+        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullTerrainHeights, Dictionary<HullPositions, float> hullOceanHeights, Wind wind, Gravity gravity)
         {
             float delta = gameTime.ElapsedGameTime.Milliseconds;
+            
+            // TESTING
+            Matrix rotation = Matrix.RotationY(0.001f * delta);
+            //dir = Vector3.TransformCoordinate(dir, rotation);
 
-            this.World = Matrix.RotationY(0.002f * gameTime.TotalGameTime.Milliseconds);
+            vel += delta * acc * dir;
+
+            // actual code
+            if (vel.Length() > maxVel)
+            {
+                vel.Normalize();
+                vel = maxVel * vel;
+            }
+            pos += delta * vel;
+
+            this.World = getWorld();
+            //this.World = Matrix.RotationY(gameTime.TotalGameTime.Seconds);
         }
     }
 }

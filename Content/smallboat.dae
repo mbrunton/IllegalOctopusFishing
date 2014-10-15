@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.72.0 commit date:2014-10-03, commit time:13:58, hash:95182d1</authoring_tool>
     </contributor>
-    <created>2014-10-14T21:49:28</created>
-    <modified>2014-10-14T21:49:28</modified>
+    <created>2014-10-15T01:00:01</created>
+    <modified>2014-10-15T01:00:01</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -202,12 +202,45 @@
         </polylist>
       </mesh>
     </geometry>
+    <geometry id="Plane_001-mesh" name="Plane.001">
+      <mesh>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="12">-1 -1 0 1 -1 0 -1 1 0 1 1 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_003-material" count="2">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <vcount>3 3 </vcount>
+          <p>0 0 1 0 3 0 2 1 0 1 3 1</p>
+        </polylist>
+      </mesh>
+    </geometry>
   </library_geometries>
   <library_controllers/>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Sphere" name="Sphere" type="NODE">
-        <matrix sid="transform">1.741384 -6.34292e-9 6.48556e-9 -0.1554519 6.34156e-9 1.741384 3.63489e-4 -0.004768014 -6.48688e-9 -3.63489e-4 1.741384 0.1663938 0 0 0 1</matrix>
+        <matrix sid="transform">-1.741377 -0.004982701 -1.04655e-6 -0.173919 0.004982701 -1.741377 -3.63487e-4 -0.09778619 -6.48688e-9 -3.63489e-4 1.741384 1.176676 0 0 0 1</matrix>
         <instance_geometry url="#Sphere-mesh">
           <bind_material>
             <technique_common>
@@ -217,7 +250,7 @@
         </instance_geometry>
       </node>
       <node id="Cylinder" name="Cylinder" type="NODE">
-        <matrix sid="transform">0.2979683 -1.08534e-9 1.10974e-9 -0.299679 1.08511e-9 0.2979683 6.21966e-5 -0.0288415 -1.10997e-9 -6.21966e-5 0.2979683 0.6962549 0 0 0 1</matrix>
+        <matrix sid="transform">-0.2979671 -8.5259e-4 -1.79076e-7 -0.0296236 8.5259e-4 -0.2979671 -6.21963e-5 -0.07412529 -1.10997e-9 -6.21966e-5 0.2979683 1.706537 0 0 0 1</matrix>
         <instance_geometry url="#Cylinder-mesh">
           <bind_material>
             <technique_common>
@@ -227,8 +260,18 @@
         </instance_geometry>
       </node>
       <node id="Plane" name="Plane" type="NODE">
-        <matrix sid="transform">0.02903979 -6.24226e-7 0.795842 -0.3253899 5.64884e-7 4.646035 1.06193e-7 -4.764717 -4.204296 6.19924e-7 0.005497017 6.764951 0 0 0 1</matrix>
+        <matrix sid="transform">-0.02903967 -0.01329283 -0.7958387 0.009637028 8.25251e-5 -4.646016 0.002276994 4.607342 -4.204296 6.19924e-7 0.005497017 6.63461 0 0 0 1</matrix>
         <instance_geometry url="#Plane-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_003-material" target="#Material_003-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Plane_001" name="Plane_001" type="NODE">
+        <matrix sid="transform">0.02903918 0.03019988 0.7958251 0.05388856 -1.88202e-4 4.645937 -0.005173086 4.590861 -4.204296 6.19924e-7 0.005497017 6.615465 0 0 0 1</matrix>
+        <instance_geometry url="#Plane_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="Material_003-material" target="#Material_003-material"/>

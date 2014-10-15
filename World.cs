@@ -123,21 +123,25 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
-            Dictionary<Player.HullPositions, float> playerHullHeights = terrain.getTerrainHeightsForPlayerHull(player.getHullPositions());
-            player.Update(gameTime, playerHullHeights, seaLevel, wind, gravity);
+            Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
+            Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
+            Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
+            player.Update(gameTime, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
 
             camera.Update(player.pos, player.dir, player.vel);
 
             foreach (Fish f in fish)
             {
                 float fishTerrainHeight = terrain.getTerrainHeightAtPosition(f.pos.X, f.pos.Z);
-                f.Update(gameTime, fishTerrainHeight, seaLevel, gravity);
+                float fishOceanHeight = ocean.getOceanHeightAtPosition(f.pos.X, f.pos.Z);
+                f.Update(gameTime, fishTerrainHeight, fishOceanHeight, gravity);
             }
 
             foreach (CoastGuardPersonel c in coastGuard)
             {
                 float coastGuardTerrainHeight = terrain.getTerrainHeightAtPosition(c.pos.X, c.pos.Z);
-                c.Update(gameTime, coastGuardTerrainHeight, seaLevel, gravity);
+                float coastGuardOceanHeight = ocean.getOceanHeightAtPosition(c.pos.X, c.pos.Z);
+                c.Update(gameTime, coastGuardTerrainHeight, coastGuardOceanHeight, gravity);
             }
 
             // TODO:

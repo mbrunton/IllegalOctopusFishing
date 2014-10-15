@@ -27,7 +27,7 @@ namespace IllegalOctopusFishing
             this.seaLevel = seaLevel;
             this.verticesPerLength = 1;
 
-            this.diffuseColor = Color.Blue;
+            this.diffuseColor = getColorAtHeight(seaLevel);
 
             this.heightMap = new HeightMap(worldSize, verticesPerLength);
             this.minX = heightMap.minX;
@@ -40,7 +40,7 @@ namespace IllegalOctopusFishing
             float randomFactor = 1f;
             this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight, randomFactor);
 
-            heightMap.fillGridFromDiamondSquare(diamondSquare.heights);
+            heightMap.fillGridFromHeights(diamondSquare.heights);
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 

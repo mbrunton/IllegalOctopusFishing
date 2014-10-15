@@ -80,7 +80,7 @@ namespace IllegalOctopusFishing
                 for (int j = 0; j < numSideVertices; j++)
                 {
                     float x = minX + i * stepSize;
-                    float z = minZ + i * stepSize;
+                    float z = minZ + j * stepSize;
                     float y = 0f;
                     zRow.Add(new Vector3(x, y, z));
                 }
@@ -90,7 +90,7 @@ namespace IllegalOctopusFishing
             isGridFilled = true;
         }
 
-        internal void fillGridFromDiamondSquare(List<List<float>> diamondSquareHeights)
+        internal void fillGridFromHeights(List<List<float>> diamondSquareHeights)
         {
             grid = new List<List<Vector3>>();
             for (int i = 0; i < numSideVertices; i++)
@@ -171,13 +171,36 @@ namespace IllegalOctopusFishing
         private void fillFlatNormalGrid()
         {
             normalGrid = new List<List<Vector3>>();
-            for (int i = 0; i < numSideVertices - 1; i++)
+            for (int i = 0; i < numSideVertices; i++)
             {
                 List<Vector3> row = new List<Vector3>();
-                for (int j = 0; j < numSideVertices - 1; j++)
+                for (int j = 0; j < numSideVertices; j++)
                 {
-                    Vector3 u = grid[i][j] - grid[i + 1][j];
-                    Vector3 v = grid[i][j + 1] - grid[i][j];
+                    Vector3 u, v;
+                    if (i < numSideVertices - 1 && j < numSideVertices - 1)
+                    {
+                        u = grid[i][j] - grid[i + 1][j];
+                        v = grid[i][j + 1] - grid[i][j];
+                    }
+                    else if (i < numSideVertices - 1 && j > 0)
+                    {
+                        u = grid[i][j] - grid[i][j - 1];
+                        v = grid[i + 1][j] - grid[i][j];
+                    }
+                    else if (i > 0 && j < numSideVertices - 1)
+                    {
+                        u = grid[i][j] - grid[i][j + 1];
+                        v = grid[i - 1][j] - grid[i][j];
+                    }
+                    else if (i > 0 && j > 0)
+                    {
+                        u = grid[i][j] - grid[i - 1][j];
+                        v = grid[i][j - 1] - grid[i][j];
+                    }
+                    else
+                    {
+                        throw new ArgumentException("HeightMap.numSideVertices must be >= 2 to calculate normals");
+                    }
                     Vector3 normal = Vector3.Cross(u, v);
                     normal.Normalize();
                     row.Add(normal);

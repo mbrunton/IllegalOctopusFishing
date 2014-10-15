@@ -171,6 +171,9 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <ToolkitFxc Include="Content\Phong.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitFxc>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

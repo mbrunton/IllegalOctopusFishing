@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
             maxVel = 0.01f;
         }
 
-        internal void Update(GameTime gameTime, float coastGuardTerrainHeight, float seaLevel, Gravity gravity)
+        internal void Update(GameTime gameTime, float terrainHeight, float oceanHeight, Gravity gravity)
         {
             //throw new NotImplementedException();
         }
