@@ -17,8 +17,8 @@ namespace IllegalOctopusFishing
 
         private Model sailModel;
         private Matrix sailWorld;
-        private float sailTheta, sailOmega, sailAlpha;
-        private float sailMaxOmega, sailMaxAlpha;
+        private float sailTheta, sailOmega;
+        private float sailMaxOmega, sailAlpha;
 
         private BoatSize boatSize;
         private float length, width;
@@ -65,10 +65,9 @@ namespace IllegalOctopusFishing
             this.sailWorld = Matrix.Identity;
             this.sailTheta = pi/2; // sail starts off on starboard side
             this.sailOmega = 0f;
-            this.sailAlpha = 0f;
 
             this.sailMaxOmega = 0.001f;
-            this.sailMaxAlpha = 0.005f;
+            this.sailAlpha = 0.005f;
             this.slack = pi/2; // start out on full slack
             this.slackMin = pi / 2;
             this.slackMax = 3 * pi / 2;
@@ -212,22 +211,42 @@ namespace IllegalOctopusFishing
             deltaVel = windFactor * wind.getSpeed() * deltaVel;
             this.vel += deltaVel;
 
-            // adjust sailAlpha
-            if (isSailRight && isWindOnside || !isSailRight && !isWindOnside)
+            // TODO buoyant and gravitational forces should also effect velocity
+
+            // finally adjust position of boat
+            pos += delta * vel;
+
+            // calculate change in sail's angular velocity
+            float sailSpinFactor = (float)Math.Abs(Math.Cos(sailTheta - windAngle)); // how perpendicular wind is to sail
+            float deltaSailOmega;
+            if (MathUtil.IsZero(sailSpinFactor))
+            {
+                deltaSailOmega = 0f;
+            }
+            else if (isSailRight && isWindOnside || !isSailRight && !isWindOnside)
             {
                 // wind is trying to turn sail ccw (negative change in angle)
-
+                deltaSailOmega = -1 * delta * sailAlpha;
             }
-
-            // checking bounds
-            if (slack < slackMin)
+            else
             {
-                slack = slackMin;
+                // wind is trying to turn sail cw (positive change in angle)
+                deltaSailOmega = delta * sailAlpha;
             }
-            if (slack > slackMax)
+
+            // adjust sail's angular velocity
+            sailOmega += deltaSailOmega;
+            if (sailOmega > sailMaxOmega)
             {
-                slack = slackMax;
+                sailOmega = sailMaxOmega;
             }
+            else if (sailOmega < -1 * sailMaxOmega)
+            {
+                sailOmega = -1 * sailMaxOmega;
+            }
+
+            // adjust sail angle
+            sailTheta += delta * sailOmega;
             if (isSailRight && sailTheta < slack)
             {
                 sailTheta = slack;
@@ -242,9 +261,6 @@ namespace IllegalOctopusFishing
                 vel.Normalize();
                 vel = maxVel * vel;
             }
-
-            // finally adjust position of boat
-            pos += delta * vel;
 
             this.World = getWorld();
             this.sailWorld = World;
