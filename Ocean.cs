@@ -12,7 +12,6 @@ namespace IllegalOctopusFishing
     {
         private float worldSize;
         private float seaLevel;
-        private float waterDensity;
         private float verticesPerLength;
         private HeightMap heightMap;
         private SearchTree searchTree;
@@ -21,7 +20,6 @@ namespace IllegalOctopusFishing
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
-            this.waterDensity = 1000f; // kgm^-3
 
             this.verticesPerLength = 0.01f;
 

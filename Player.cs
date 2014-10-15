@@ -28,6 +28,9 @@ namespace IllegalOctopusFishing
         private float optimumUpwindAngle;
         private int deviationExp;
 
+        private float linearBuoyancy;
+        private float rotationalBuoyancy;
+
         private Dictionary<HullPositions, Vector3> hullPositions;
 
         public Player(IllegalOctopusFishingGame game, Vector3 startingPos, String boatModelName, String sailModelName, BoatSize boatSize) : base(game, startingPos, boatModelName)
@@ -75,6 +78,9 @@ namespace IllegalOctopusFishing
             this.minAbsWindAngle = pi / 6; // min angle one can head into wind at, and still get thrust
             this.optimumUpwindAngle = pi / 5;
             this.deviationExp = 3;
+
+            this.linearBuoyancy = 0.001f;
+            this.rotationalBuoyancy = 0.0001f;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -216,9 +222,57 @@ namespace IllegalOctopusFishing
             this.vel += deltaVel;
 
             // TODO buoyant and gravitational forces should also effect velocity
+            // gravity
+            Vector3 deltaGravityVel = delta * gravity.getG() * gravity.getDir();
+            this.vel += deltaGravityVel;
+
+            // want to reduce 4 hull ocean heights (due to 4 buoyant forces) to one deltaVel, one rotation
+            float oceanHeightSum = 0f;
+            foreach (HullPositions hullPos in hullOceanHeights.Keys)
+            {
+                oceanHeightSum += pos.Y - hullOceanHeights[hullPos];
+            }
+
+            // no such thing as anti-buoyant force for being above water
+            if (!MathUtil.IsZero(oceanHeightSum) && oceanHeightSum < 0f)
+            {
+                Vector3 deltaBuoyancyVel = delta * (-1 * oceanHeightSum / 4) * linearBuoyancy * Vector3.UnitY; // unit Y rather than up, since can be sideways underwater
+                this.vel += deltaBuoyancyVel;
+            }
+            
+            // TODO
+            // calculate rotations due to buoyancy forces
+            // break into pitch and roll
+            float backOceanHeightSum = 0f;
+            float frontOceanHeightSum = 0f;
+            float leftOceanHeightSum = 0f;
+            float rightOceanHeightSum = 0f;
+            backOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.BACK_RIGHT];
+            frontOceanHeightSum = hullOceanHeights[HullPositions.FRONT_LEFT] + hullOceanHeights[HullPositions.FRONT_RIGHT];
+            leftOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.FRONT_LEFT];
+            rightOceanHeightSum = hullOceanHeights[HullPositions.BACK_RIGHT] + hullOceanHeights[HullPositions.FRONT_RIGHT];
+
+            float deltaPitch = (backOceanHeightSum - frontOceanHeightSum) / 2 * rotationalBuoyancy * delta;
+            float deltaRoll = (rightOceanHeightSum - leftOceanHeightSum) / 2 * rotationalBuoyancy * delta;
+            if (!MathUtil.IsZero(deltaPitch))
+            {
+                Vector3 right = Vector3.Cross(up, dir);
+                if (!MathUtil.IsOne(right.Length())) { throw new Exception("right unit vector not one"); }
+
+                Matrix pitchRotation = Matrix.RotationAxis(right, deltaPitch);
+                dir = Vector3.TransformCoordinate(dir, pitchRotation);
+                up = Vector3.TransformCoordinate(up, pitchRotation);
+            }
+            if (!MathUtil.IsZero(deltaRoll))
+            {
+                // TODO: do we even want to bother with roll?
+                Matrix rollRotation = Matrix.RotationAxis(dir, deltaRoll);
+                up = Vector3.TransformCoordinate(up, rollRotation);
+            }
 
             // finally adjust position of boat
             pos += delta * vel;
+            // TODO: check if hull positions are underground, and if so bump them up
 
             // calculate change in sail's angular velocity
             float sailSpinFactor = (float)Math.Abs(Math.Sin(sailTheta - windAngle)); // how perpendicular wind is to sail

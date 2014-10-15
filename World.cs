@@ -43,7 +43,7 @@ namespace IllegalOctopusFishing
             this.seaLevel = 0;
             
             this.wind = new Wind();
-            this.gravity = new Gravity(-1 * Vector3.UnitY, 9.81f);
+            this.gravity = new Gravity(-1 * Vector3.UnitY);
 
             // sun
             this.secsPerGameDay = 180;

@@ -12,10 +12,10 @@ namespace IllegalOctopusFishing
         private Vector3 dir;
         private float g; // ms^-2
 
-        public Gravity(Vector3 dir, float g)
+        public Gravity(Vector3 dir)
         {
             this.dir = dir;
-            this.g = g;
+            this.g = 0.01f;
         }
 
         public Vector3 getDir()
