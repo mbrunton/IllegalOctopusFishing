@@ -7,5 +7,9 @@ namespace IllegalOctopusFishing
 {
     class Wind
     {
+        internal SharpDX.Vector3 getDir()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

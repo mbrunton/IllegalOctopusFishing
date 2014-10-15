@@ -14,11 +14,16 @@ namespace IllegalOctopusFishing
         public enum BoatSize { SMALL, LARGE };
         public enum HullPositions { BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT };
 
+        private Model sailModel;
+        private Matrix sailWorld;
+        private float sailTheta, sailOmega, sailAlpha;
+
         private BoatSize boatSize;
         private float length, width;
+        private float slack;
         private Dictionary<HullPositions, Vector3> hullPositions;
 
-        public Player(IllegalOctopusFishingGame game, Vector3 startingPos, String modelName, BoatSize boatSize) : base(game, startingPos, modelName)
+        public Player(IllegalOctopusFishingGame game, Vector3 startingPos, String boatModelName, String sailModelName, BoatSize boatSize) : base(game, startingPos, boatModelName)
         {
             hullPositions = new Dictionary<HullPositions, Vector3>();
             hullPositions.Add(HullPositions.BACK_LEFT, new Vector3());
@@ -32,8 +37,8 @@ namespace IllegalOctopusFishing
                 length = 5f;
                 width = 3f;
                 mass = 400f;
-                acc = 0.05f;
-                maxVel = 0.1f;
+                acc = 0.001f;
+                maxVel = 0.08f;
             }
             else
             {
@@ -43,6 +48,18 @@ namespace IllegalOctopusFishing
                 acc = 0.1f;
                 maxVel = 0.15f;
             }
+
+            // sail
+            bool success = game.nameToModel.TryGetValue(sailModelName, out sailModel);
+            if (!success)
+            {
+                throw new ArgumentException("failed to load sail model");
+            }
+            this.sailWorld = Matrix.Identity;
+            this.sailTheta = (float)Math.PI;
+            this.sailOmega = 0.001f;
+            this.sailAlpha = 0.005f;
+            this.slack = (float)Math.PI/4f;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -68,12 +85,27 @@ namespace IllegalOctopusFishing
             float delta = gameTime.ElapsedGameTime.Milliseconds;
             
             // TESTING
+            
             Matrix rotation = Matrix.RotationY(0.001f * delta);
-            //dir = Vector3.TransformCoordinate(dir, rotation);
-
+            dir = Vector3.TransformCoordinate(dir, rotation);
             vel += delta * acc * dir;
-
+            
             // actual code
+
+            // wind
+            Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
+            xzDir.Normalize();
+
+            Vector3 cross = Vector3.Cross(xzDir, wind.getDir());
+            float windAngle = (float)Math.Acos(Vector3.Dot(xzDir, wind.getDir()));
+            if (cross.Y < 0)
+            {
+                windAngle = 2 * (float)Math.PI - windAngle;
+            }
+
+
+
+
             if (vel.Length() > maxVel)
             {
                 vel.Normalize();
@@ -82,7 +114,13 @@ namespace IllegalOctopusFishing
             pos += delta * vel;
 
             this.World = getWorld();
-            //this.World = Matrix.RotationY(gameTime.TotalGameTime.Seconds);
+            this.sailWorld = World;
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            sailModel.Draw(game.GraphicsDevice, sailWorld, View, Projection);
+            base.Draw(gameTime);
         }
     }
 }

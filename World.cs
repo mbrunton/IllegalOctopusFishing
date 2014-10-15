@@ -73,16 +73,18 @@ namespace IllegalOctopusFishing
 
             // player
             Vector3 playerStartPos = terrain.getPlayerStartPos();
-            String playerModelName;
+            String playerBoatModelName, playerSailModelName;
             if (selectedBoat == Player.BoatSize.SMALL)
             {
-                playerModelName = "smallboat";
+                playerBoatModelName = "smallboat";
+                playerSailModelName = "smallsail";
             }
             else
             {
-                playerModelName = "largeboat";
+                playerBoatModelName = "largeboat";
+                playerSailModelName = "largeSail";
             }
-            this.player = new Player(game, playerStartPos, playerModelName, selectedBoat);
+            this.player = new Player(game, playerStartPos, playerBoatModelName, playerSailModelName, selectedBoat);
             objectsForDrawing.Add(player);
 
             // camera

@@ -36,7 +36,7 @@ namespace IllegalOctopusFishing
 
         public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
         {
-            this.effect = game.Content.Load<Effect>("Phong");
+            //this.effect = game.Content.Load<Effect>("Phong");
             // TODO: work out what to do here
             //BasicEffect.EnableDefaultLighting(model, true);
             /*
@@ -65,20 +65,18 @@ namespace IllegalOctopusFishing
         internal Matrix getWorld()
         {
             // use pos, dir, up to generate a world matrix
-            Matrix invTranslation = Matrix.Translation(-1 * pos);
             Matrix translation = Matrix.Translation(pos);
             
-            Vector3 xzDir = new Vector3(dir.X, 0, dir.Z); // right now we're only considering x-z component of dir in model's orientation
+            Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
             xzDir.Normalize();
-            Matrix rotation;
             float angle = (float)Math.Acos(Vector3.Dot(initialDir, xzDir));
-            
             Vector3 cross = Vector3.Cross(initialDir, dir);
             if (cross.Y < 0)
             {
                 angle = 2 * (float)Math.PI - angle;
             }
 
+            Matrix rotation;
             if (angle > 0.001f)
             {
                 rotation = Matrix.RotationY(angle);
@@ -86,7 +84,7 @@ namespace IllegalOctopusFishing
                 rotation = Matrix.Identity;
             }
 
-            return invTranslation * rotation * translation;
+            return rotation * translation;
         }
 
         public override void Draw(GameTime gameTime)
