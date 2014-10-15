@@ -68,7 +68,7 @@ namespace IllegalOctopusFishing
             this.sailOmega = 0f;
 
             this.sailMaxOmega = 0.001f;
-            this.sailAlpha = 0.005f;
+            this.sailAlpha = 0.0005f;
             this.slack = initialSailTheta; // start out on full slack
             this.slackMin = pi / 2;
             this.slackMax = 3 * pi / 2;
@@ -258,6 +258,22 @@ namespace IllegalOctopusFishing
             if (!isSailRight && sailTheta > slack)
             {
                 sailTheta = slack;
+            }
+
+            // switch slack to other side if we've changed sides
+            bool updatedIsSailRight = sailTheta <= pi;
+            if (!(isSailRight && updatedIsSailRight))
+            {
+                if (isSailRight)
+                {
+                    // sail was on right, now on left
+                    slack = slackMax - (slack - slackMin);
+                }
+                else
+                {
+                    // sail was on left, now on right
+                    slack = slackMin + (slackMax - slack);
+                }
             }
 
             if (vel.Length() > maxVel)
