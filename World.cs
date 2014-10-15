@@ -157,6 +157,7 @@ namespace IllegalOctopusFishing
             moon.Update(gameTime);
             sky.Update(sun, moon);
             ocean.Update(gameTime);
+            wind.Update(gameTime);
         }
 
         internal void Draw(GameTime gameTime)
