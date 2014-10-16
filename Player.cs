@@ -58,8 +58,8 @@ namespace IllegalOctopusFishing
             {
                 length = 10f;
                 width = 3f;
-                acc = 0.001f;
-                maxVel = 0.8f;
+                acc = 0.0005f;
+                maxVel = 0.06f;
             }
             else
             {
@@ -97,9 +97,9 @@ namespace IllegalOctopusFishing
             this.groundAccCooloff = 0f;
             this.maxGroundAccCooloff = 10f;
 
-            this.alpha = 0.000001f;
+            this.alpha = 0.00001f;
             this.omega = 0f;
-            this.maxOmega = 0.05f;
+            this.maxOmega = 0.005f;
             this.rotationalDamping = 0.04f;
 
             this.attackCooloff = 0f;

@@ -104,13 +104,15 @@ namespace IllegalOctopusFishing
 
             //coastguard
             //numCoastGuard = 20;
-            numCoastGuard = 0;
+            numCoastGuard = 400;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
                 Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
+                //Vector3 coastGuardStartPos = new Vector3();
                 CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, "coastguard");
                 coastGuard.Add(c);
+                objectsForDrawing.Add(c);
             }
 
             // harpoons

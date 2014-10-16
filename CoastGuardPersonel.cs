@@ -18,12 +18,8 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, float terrainHeight, float oceanHeight, Gravity gravity)
         {
-            //throw new NotImplementedException();
-        }
 
-        public override void Draw(GameTime gameTime)
-        {
-            //throw new NotImplementedException();
+            this.World = getWorld();
         }
     }
 }
