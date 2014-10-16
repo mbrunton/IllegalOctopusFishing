@@ -15,7 +15,7 @@ namespace IllegalOctopusFishing
         internal Model model;
         internal Effect effect;
         internal Vector3 pos, dir, vel, up;
-        internal Vector3 initialDir; // direction model is facing in its own coord sys
+        internal Vector3 modelDir; // direction model is facing in its own coord sys
         internal float acc;
         internal float maxVel;
 
@@ -23,20 +23,14 @@ namespace IllegalOctopusFishing
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
-            this.initialDir = Vector3.UnitX;
-            this.dir = initialDir;
+            this.modelDir = Vector3.UnitX;
+            this.dir = modelDir;
 
             bool success = game.nameToModel.TryGetValue(modelName, out model);
             if (!success)
             {
                 throw new ArgumentException("failed to load model");
             }
-        }
-
-        public ModelGameObject(IllegalOctopusFishingGame game, Vector3 startPos, Vector3 initialDir, String modelName) : this(game, startPos, modelName)
-        {
-            this.initialDir = initialDir;
-            this.dir = initialDir;
         }
 
         public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
@@ -79,9 +73,9 @@ namespace IllegalOctopusFishing
         {
             Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
             xzDir.Normalize();
-            float angle = (float)Math.Acos(Vector3.Dot(initialDir, xzDir));
-            Vector3 cross = Vector3.Cross(initialDir, dir);
-            if (cross.Y < 0)
+            float angle = (float)Math.Acos(Vector3.Dot(modelDir, xzDir));
+            Vector3 cross = Vector3.Cross(modelDir, xzDir);
+            if (!MathUtil.IsZero(cross.Y) && cross.Y < 0)
             {
                 angle = 2 * (float)Math.PI - angle;
             }

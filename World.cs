@@ -181,26 +181,49 @@ namespace IllegalOctopusFishing
              * harpoon hit ground
              */
 
+            List<Harpoon> harpoonsToDelete = new List<Harpoon>();
+            List<CoastGuardPersonel> coastGuardToDelete = new List<CoastGuardPersonel>();
             foreach (Harpoon harpoon in harpoons)
             {
-                harpoon.Update(gameTime);
+                harpoon.Update(gameTime, gravity);
+                float harpoonTerrainHeight = terrain.getTerrainHeightAtPosition(harpoon.pos.X, harpoon.pos.Z);
+                if (harpoonTerrainHeight > harpoon.pos.Y)
+                {
+                    harpoonsToDelete.Add(harpoon);
+                    continue;
+                }
                 if (harpoon.cooloff == 0)
                 {
                     float playerDist = (player.pos - harpoon.pos).Length();
                     if (playerDist < harpoon.attackRange)
                     {
                         player.health -= harpoon.damage;
+                        harpoonsToDelete.Add(harpoon);
+                        continue;
+
                     }
                     foreach (CoastGuardPersonel c in coastGuard)
                     {
                         float coastGuardDist = (c.pos - harpoon.pos).Length();
                         if (coastGuardDist < harpoon.attackRange)
                         {
-                            coastGuard.Remove(c);
-                            objectsForDrawing.Remove(c);
+                            coastGuardToDelete.Add(c);
+                            harpoonsToDelete.Add(harpoon);
+                            break;
                         }
                     }
                 }
+            }
+
+            foreach (Harpoon harpoon in harpoonsToDelete)
+            {
+                harpoons.Remove(harpoon);
+                objectsForDrawing.Remove(harpoon);
+            }
+            foreach (CoastGuardPersonel c in coastGuardToDelete)
+            {
+                coastGuard.Remove(c);
+                objectsForDrawing.Remove(c);
             }
 
 
@@ -211,9 +234,9 @@ namespace IllegalOctopusFishing
             wind.Update(gameTime);
         }
 
-        internal void AddHarpoon(Vector3 pos, Vector3 dir)
+        internal void AddHarpoon(Vector3 pos, Vector3 dir, Vector3 initialVel)
         {
-            Harpoon harpoon = new Harpoon(game, pos, dir, "harpoon");
+            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, initialVel, "harpoon");
             this.harpoons.Add(harpoon);
             objectsForDrawing.Add(harpoon);
         }

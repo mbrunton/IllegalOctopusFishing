@@ -407,8 +407,6 @@ namespace IllegalOctopusFishing
                 dir = Vector3.TransformCoordinate(dir, yawRotation);
             }
 
-            Debug.WriteLine(vel);
-
             // finally adjust position of boat
             pos += delta * vel;
 
@@ -485,7 +483,6 @@ namespace IllegalOctopusFishing
             {
                 float total = (float)gameTime.TotalGameTime.TotalMilliseconds;
                 float rippleTheta = (float)Math.Sin(total * 0.05f) / 8f;
-                Debug.WriteLine(total * 0.001f);
                 sailRipple = Matrix.RotationY(rippleTheta);
             }
 
@@ -600,7 +597,7 @@ namespace IllegalOctopusFishing
         {
             if (attackCooloff == 0)
             {
-                world.AddHarpoon(pos, dir);
+                world.AddHarpoon(pos, dir, vel);
                 attackCooloff = maxAttackCooloff;
             }
         }
