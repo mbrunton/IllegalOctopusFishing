@@ -30,6 +30,11 @@ namespace IllegalOctopusFishing
 
         private float linearBuoyancy;
         private float rotationalBuoyancy;
+        private float oceanDamping;
+
+        private float alpha;
+        private float omega, maxOmega;
+        private float rotationalDamping;
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
@@ -72,7 +77,7 @@ namespace IllegalOctopusFishing
 
             this.sailMaxOmega = 0.001f;
             this.sailAlpha = 0.0005f;
-            this.slack = initialSailTheta; // start out on full slack
+            this.slack = 3*pi / 4;//initialSailTheta; // start out on full slack
             this.slackMin = pi / 2;
             this.slackMax = 3 * pi / 2;
             this.minAbsWindAngle = pi / 6; // min angle one can head into wind at, and still get thrust
@@ -81,6 +86,12 @@ namespace IllegalOctopusFishing
 
             this.linearBuoyancy = 0.001f;
             this.rotationalBuoyancy = 0.0001f;
+            this.oceanDamping = 0.008f;
+
+            this.alpha = 0.000001f;
+            this.omega = 0f;
+            this.maxOmega = 0.01f;
+            this.rotationalDamping = 0.04f;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -103,7 +114,7 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullTerrainHeights, Dictionary<HullPositions, float> hullOceanHeights, Wind wind, Gravity gravity)
         {
-            float delta = gameTime.ElapsedGameTime.Milliseconds;
+            float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             
             // TESTING
             /*
@@ -128,7 +139,7 @@ namespace IllegalOctopusFishing
                 windAngle = 2 * pi - windAngle;
             }
 
-            bool isSailRight = sailTheta <= pi;
+            bool isSailRight = getIsSailRight();
             float onSideLower, onSideHigher; // range of wind angles to be onside (on good side of sail)
             if (isSailRight)
             {
@@ -141,13 +152,12 @@ namespace IllegalOctopusFishing
                 onSideHigher = sailTheta;
             }
             bool isWindOnside = windAngle >= onSideLower && windAngle <= onSideHigher;
-            Debug.WriteLine(isWindOnside);
 
             // find out how much thrust wind is giving boat
             float windFactor; // 0-1
-            if ( ! MathUtil.IsZero(sailTheta - slack))
+            if (getIsSailLoose())
             {
-                // can't have thrust unless sail is fully extended
+                // can't have thrust unless sail is taut
                 windFactor = 0f;
             }
             else if (isWindOnside)
@@ -214,15 +224,36 @@ namespace IllegalOctopusFishing
                 windFactor = 0f;
             }
 
-            if (windFactor < 0f || windFactor > 1f) { throw new Exception("windFactor outside range [0, 1]"); }
+            if (!MathUtil.IsZero(windFactor) && !MathUtil.IsOne(windFactor) && (windFactor < 0f || windFactor > 1f)) { 
+                throw new Exception("windFactor outside range [0, 1]"); 
+            }
 
             // adjust velocity of boat based on windFactor and windSpeed
             Vector3 deltaVel = delta * acc * dir; // note this is the max possible value deltaVel can take, since windFactor,windSpeed <= 1
             deltaVel = windFactor * wind.getSpeed() * deltaVel;
             this.vel += deltaVel;
 
+            // damping of vel
+            Vector3 velUnit = vel;
+            velUnit.Normalize();
+            // 1 - abs value of cosine of angle between vel and dir (0 when aligned, 1 when orthogonal)
+            float directionalDamping = 1 - (float)Math.Abs(Vector3.Dot(velUnit, dir));
+            vel = (1 - directionalDamping) * (1 - oceanDamping) * vel;
+
+            // damping of rotational velocity
+            if (!MathUtil.IsZero(omega))
+            {
+                omega = (1 - rotationalDamping) * omega;
+                // adjust boat's yaw
+                float deltaYaw = delta * omega;
+                Matrix yawRotation = Matrix.RotationAxis(up, deltaYaw);
+                dir = Vector3.TransformCoordinate(dir, yawRotation);
+            }
+
+
             // TODO buoyant and gravitational forces should also effect velocity
             // gravity
+            /*
             Vector3 deltaGravityVel = delta * gravity.getG() * gravity.getDir();
             this.vel += deltaGravityVel;
 
@@ -230,13 +261,13 @@ namespace IllegalOctopusFishing
             float oceanHeightSum = 0f;
             foreach (HullPositions hullPos in hullOceanHeights.Keys)
             {
-                oceanHeightSum += pos.Y - hullOceanHeights[hullPos];
+                oceanHeightSum += hullOceanHeights[hullPos] - pos.Y;
             }
 
             // no such thing as anti-buoyant force for being above water
-            if (!MathUtil.IsZero(oceanHeightSum) && oceanHeightSum < 0f)
+            if (!MathUtil.IsZero(oceanHeightSum) && oceanHeightSum > 0f)
             {
-                Vector3 deltaBuoyancyVel = delta * (-1 * oceanHeightSum / 4) * linearBuoyancy * Vector3.UnitY; // unit Y rather than up, since can be sideways underwater
+                Vector3 deltaBuoyancyVel = delta * (oceanHeightSum / 4) * linearBuoyancy * Vector3.UnitY; // unit Y rather than up, since can be sideways underwater
                 this.vel += deltaBuoyancyVel;
             }
             
@@ -247,10 +278,10 @@ namespace IllegalOctopusFishing
             float frontOceanHeightSum = 0f;
             float leftOceanHeightSum = 0f;
             float rightOceanHeightSum = 0f;
-            backOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.BACK_RIGHT];
-            frontOceanHeightSum = hullOceanHeights[HullPositions.FRONT_LEFT] + hullOceanHeights[HullPositions.FRONT_RIGHT];
-            leftOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.FRONT_LEFT];
-            rightOceanHeightSum = hullOceanHeights[HullPositions.BACK_RIGHT] + hullOceanHeights[HullPositions.FRONT_RIGHT];
+            backOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.BACK_RIGHT] - 2*pos.Y;
+            frontOceanHeightSum = hullOceanHeights[HullPositions.FRONT_LEFT] + hullOceanHeights[HullPositions.FRONT_RIGHT] - 2*pos.Y;
+            leftOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.FRONT_LEFT] - 2*pos.Y;
+            rightOceanHeightSum = hullOceanHeights[HullPositions.BACK_RIGHT] + hullOceanHeights[HullPositions.FRONT_RIGHT] - 2*pos.Y;
 
             float deltaPitch = (backOceanHeightSum - frontOceanHeightSum) / 2 * rotationalBuoyancy * delta;
             float deltaRoll = (rightOceanHeightSum - leftOceanHeightSum) / 2 * rotationalBuoyancy * delta;
@@ -269,6 +300,8 @@ namespace IllegalOctopusFishing
                 Matrix rollRotation = Matrix.RotationAxis(dir, deltaRoll);
                 up = Vector3.TransformCoordinate(up, rollRotation);
             }
+            */
+
 
             // finally adjust position of boat
             pos += delta * vel;
@@ -305,18 +338,10 @@ namespace IllegalOctopusFishing
 
             // adjust sail angle
             sailTheta += delta * sailOmega;
-            if (isSailRight && sailTheta < slack)
-            {
-                sailTheta = slack;
-            }
-            if (!isSailRight && sailTheta > slack)
-            {
-                sailTheta = slack;
-            }
-
+            
             // switch slack to other side if we've changed sides
-            bool updatedIsSailRight = sailTheta <= pi;
-            if (!(isSailRight && updatedIsSailRight))
+            bool updatedIsSailRight = getIsSailRight();
+            if (isSailRight != updatedIsSailRight)
             {
                 if (isSailRight)
                 {
@@ -329,19 +354,128 @@ namespace IllegalOctopusFishing
                     slack = slackMin + (slackMax - slack);
                 }
             }
+            // check if sail has moved past slack allowance
+            if (updatedIsSailRight && sailTheta < slack)
+            {
+                sailTheta = slack;
+            } else if (!updatedIsSailRight && sailTheta > slack)
+            {
+                sailTheta = slack;
+            }
 
             if (vel.Length() > maxVel)
             {
                 vel.Normalize();
                 vel = maxVel * vel;
             }
-
-            Debug.WriteLine(sailTheta);
-            Matrix rotation = getRotationMatrix();
-            Matrix translation = getTranslationMatrix();
+            /*
+            Debug.WriteLine("sailTheta: " + sailTheta.ToString());
+            Debug.WriteLine("windDir: " + wind.getDir().ToString());
+            */
+            Matrix modelRotation = getRotationMatrix();
+            Matrix modelTranslation = getTranslationMatrix();
             Matrix sailRotation = Matrix.RotationY(sailTheta - initialSailTheta);
-            this.World = rotation * translation;
-            this.sailWorld = rotation * sailRotation * translation;
+            Matrix sailRipple = Matrix.Identity;
+            if (getIsSailLoose())
+            {
+                float total = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                float rippleTheta = (float)Math.Sin(total * 0.05f) / 8f;
+                Debug.WriteLine(total * 0.001f);
+                sailRipple = Matrix.RotationY(rippleTheta);
+            }
+
+            this.World = modelRotation * modelTranslation;
+            this.sailWorld = sailRipple * modelRotation * sailRotation * modelTranslation;
+        }
+
+        private bool getIsSailLoose()
+        {
+            return !MathUtil.IsZero(sailTheta - slack);
+        }
+
+        private bool getIsSailRight() 
+        {
+            return sailTheta <= pi; 
+        }
+
+        public void releaseSlack(GameTime gameTime)
+        {
+            float delta = gameTime.ElapsedGameTime.Milliseconds;
+            float deltaTheta = delta * sailMaxOmega;
+            if (getIsSailRight())
+            {
+                deltaTheta = -1 * deltaTheta;
+            }
+            updateSlack(deltaTheta);
+        }
+
+        public void reduceSlack(GameTime gameTime)
+        {
+            float delta = gameTime.ElapsedGameTime.Milliseconds;
+            float deltaTheta = delta * sailMaxOmega;
+            if ( ! getIsSailRight())
+            {
+                deltaTheta = -1 * deltaTheta;
+            }
+            updateSlack(deltaTheta);
+        }
+
+        public void turnLeft(GameTime gameTime)
+        {
+            float delta = gameTime.ElapsedGameTime.Milliseconds;
+            float deltaOmega = -1 * alpha * delta;
+            omega += deltaOmega;
+            if (omega > maxOmega)
+            {
+                omega = maxOmega;
+            }
+            else if (omega < -1 * maxOmega)
+            {
+                omega = -1 * maxOmega;
+            }
+            float deltaTheta = delta * omega;
+        }
+
+        public void turnRight(GameTime gameTime)
+        {
+            float delta = gameTime.ElapsedGameTime.Milliseconds;
+            float deltaOmega = alpha * delta;
+            omega += deltaOmega;
+            if (omega > maxOmega)
+            {
+                omega = maxOmega;
+            }
+            else if (omega < -1 * maxOmega)
+            {
+                omega = -1 * maxOmega;
+            }
+            float deltaTheta = delta * omega;
+        }
+
+        private void updateSlack(float deltaTheta)
+        {
+            this.slack += deltaTheta;
+            bool isSailRight = getIsSailRight();
+            if (isSailRight)
+            {
+                if (slack > pi)
+                {
+                    slack = pi;
+                } else if (slack < slackMin) {
+                    slack = slackMin;
+                }
+            }
+            else
+            {
+                if (slack < pi)
+                {
+                    slack = pi;
+                }
+                else if (slack > slackMax)
+                {
+                    slack = slackMax;
+                }
+            }
         }
 
         private float getWindFactorFromFrontWindSailAngle(float windSailAngle)

@@ -128,6 +128,22 @@ namespace IllegalOctopusFishing
             Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
             Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
             Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
+            if (keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.turnLeft(gameTime);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Right) && !keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.turnRight(gameTime);
+            }
+            if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                player.releaseSlack(gameTime);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                player.reduceSlack(gameTime);
+            }
             player.Update(gameTime, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
 
             camera.Update(player.pos, player.dir, player.vel);

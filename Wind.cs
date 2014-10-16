@@ -25,19 +25,21 @@ namespace IllegalOctopusFishing
             speed = 1f;
 
             random = new Random();
-            secondsTillSwitch = 20f;
+            secondsTillSwitch = 6f;
             secondsSinceSwitch = 0f;
             probabilityOfSwitch = 1.0f;
         }
 
         internal Vector3 getDir()
         {
-            return this.dir;
+            return Vector3.UnitX;
+            //return this.dir;
         }
 
         internal float getSpeed()
         {
-            return this.speed;
+            return 1;
+            //return this.speed;
         }
 
         internal void Update(GameTime gameTime)
