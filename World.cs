@@ -104,11 +104,12 @@ namespace IllegalOctopusFishing
 
             //coastguard
             //numCoastGuard = 20;
-            numCoastGuard = 400;
+            numCoastGuard = 20;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
                 Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
+                coastGuardStartPos = (1 / 200) * coastGuardStartPos;
                 //Vector3 coastGuardStartPos = new Vector3();
                 CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, "coastguard");
                 coastGuard.Add(c);
@@ -171,7 +172,7 @@ namespace IllegalOctopusFishing
             {
                 float coastGuardTerrainHeight = terrain.getTerrainHeightAtPosition(c.pos.X, c.pos.Z);
                 float coastGuardOceanHeight = ocean.getOceanHeightAtPosition(c.pos.X, c.pos.Z);
-                c.Update(gameTime, coastGuardTerrainHeight, coastGuardOceanHeight, gravity);
+                c.Update(this, gameTime, coastGuardTerrainHeight, coastGuardOceanHeight);
             }
 
             // TODO:

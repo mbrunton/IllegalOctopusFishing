@@ -21,13 +21,13 @@ namespace IllegalOctopusFishing
             this.modelDir = modelDir;
             this.dir = new Vector3(initialDir.X, 0, initialDir.Z);
             Vector3 left = Vector3.Cross(initialDir, up);
-            Matrix dirRotation = Matrix.RotationAxis(left, (float)Math.PI / 4);
+            Matrix dirRotation = Matrix.RotationAxis(left, (float)Math.PI / 8);
             this.dir = Vector3.TransformCoordinate(initialDir, dirRotation);
             this.up = Vector3.TransformCoordinate(up, dirRotation);
             dir.Normalize();
             up.Normalize();
             
-            this.maxVel = initialVel.Length() + 0.1f;
+            this.maxVel = initialVel.Length() + 0.2f;
             this.omega = 0.001f;
 
             // unused
@@ -44,8 +44,8 @@ namespace IllegalOctopusFishing
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Debug.WriteLine(delta);
 
-            if (!MathUtil.IsOne(dir.Length())) { throw new Exception("harpoon dir vector doesn't have length 1"); }
-            if (!MathUtil.IsOne(up.Length())) { throw new Exception("harpoon up vector doesn't have length 1"); }
+            //if (!MathUtil.IsOne(dir.Length())) { throw new Exception("harpoon dir vector doesn't have length 1"); }
+            //if (!MathUtil.IsOne(up.Length())) { throw new Exception("harpoon up vector doesn't have length 1"); }
 
             if (cooloff > 0f)
             {
