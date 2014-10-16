@@ -21,9 +21,10 @@ namespace IllegalOctopusFishing
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
 
-            this.verticesPerLength = 0.01f;
+            this.verticesPerLength = 0.001f;
 
             this.diffuseColor = Color.DarkBlue;
+            diffuseColor.A = (byte)200;
 
             this.heightMap = new HeightMap(worldSize, verticesPerLength, true);
             
@@ -60,6 +61,12 @@ namespace IllegalOctopusFishing
                 hullHeights.Add(hullKey, getOceanHeightAtPosition(hullPosition.X, hullPosition.Z));
             }
             return hullHeights;
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            game.GraphicsDevice.SetBlendState(game.GraphicsDevice.BlendStates.AlphaBlend);
+            base.Draw(gameTime);
         }
     }
 }

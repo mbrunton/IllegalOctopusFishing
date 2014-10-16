@@ -16,7 +16,6 @@ namespace IllegalOctopusFishing
         internal Effect effect;
         internal Vector3 pos, dir, vel, up;
         internal Vector3 initialDir; // direction model is facing in its own coord sys
-        internal float mass;
         internal float acc;
         internal float maxVel;
 

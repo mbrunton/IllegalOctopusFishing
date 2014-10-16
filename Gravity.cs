@@ -15,7 +15,7 @@ namespace IllegalOctopusFishing
         public Gravity(Vector3 dir)
         {
             this.dir = dir;
-            this.g = 0.01f;
+            this.g = 0.001f;
         }
 
         public Vector3 getDir()

@@ -31,6 +31,7 @@ namespace IllegalOctopusFishing
         private float linearBuoyancy;
         private float rotationalBuoyancy;
         private float oceanDamping;
+        private float groundDamping;
 
         private float alpha;
         private float omega, maxOmega;
@@ -51,17 +52,15 @@ namespace IllegalOctopusFishing
             {
                 length = 5f;
                 width = 3f;
-                mass = 400f;
                 acc = 0.001f;
-                maxVel = 0.08f;
+                maxVel = 0.8f;
             }
             else
             {
                 length = 10f;
                 width = 4f;
-                mass = 800f;
                 acc = 0.1f;
-                maxVel = 0.15f;
+                maxVel = 1.15f;
             }
 
             // sail
@@ -87,10 +86,11 @@ namespace IllegalOctopusFishing
             this.linearBuoyancy = 0.001f;
             this.rotationalBuoyancy = 0.0001f;
             this.oceanDamping = 0.008f;
+            this.groundDamping = 0.05f;
 
             this.alpha = 0.000001f;
             this.omega = 0f;
-            this.maxOmega = 0.01f;
+            this.maxOmega = 0.05f;
             this.rotationalDamping = 0.04f;
         }
 
@@ -112,17 +112,9 @@ namespace IllegalOctopusFishing
             return hullPositions;
         }
 
-        internal void Update(GameTime gameTime, Dictionary<HullPositions, float> hullTerrainHeights, Dictionary<HullPositions, float> hullOceanHeights, Wind wind, Gravity gravity)
+        internal void Update(GameTime gameTime, Dictionary<HullPositions, Vector3> hullPositions, Dictionary<HullPositions, float> hullTerrainHeights, Dictionary<HullPositions, float> hullOceanHeights, Wind wind, Gravity gravity)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            
-            // TESTING
-            /*
-            Matrix rotation = Matrix.RotationY(0.001f * delta);
-            dir = Vector3.TransformCoordinate(dir, rotation);
-            vel += delta * acc * dir;
-            */
-            // actual code
 
             // wind
             Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
@@ -251,9 +243,16 @@ namespace IllegalOctopusFishing
             }
 
 
+
+
+
+
+
+
+
+
             // TODO buoyant and gravitational forces should also effect velocity
             // gravity
-            /*
             Vector3 deltaGravityVel = delta * gravity.getG() * gravity.getDir();
             this.vel += deltaGravityVel;
 
@@ -261,7 +260,7 @@ namespace IllegalOctopusFishing
             float oceanHeightSum = 0f;
             foreach (HullPositions hullPos in hullOceanHeights.Keys)
             {
-                oceanHeightSum += hullOceanHeights[hullPos] - pos.Y;
+                oceanHeightSum += hullOceanHeights[hullPos] - hullPositions[hullPos].Y;
             }
 
             // no such thing as anti-buoyant force for being above water
@@ -278,10 +277,14 @@ namespace IllegalOctopusFishing
             float frontOceanHeightSum = 0f;
             float leftOceanHeightSum = 0f;
             float rightOceanHeightSum = 0f;
-            backOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.BACK_RIGHT] - 2*pos.Y;
-            frontOceanHeightSum = hullOceanHeights[HullPositions.FRONT_LEFT] + hullOceanHeights[HullPositions.FRONT_RIGHT] - 2*pos.Y;
-            leftOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] + hullOceanHeights[HullPositions.FRONT_LEFT] - 2*pos.Y;
-            rightOceanHeightSum = hullOceanHeights[HullPositions.BACK_RIGHT] + hullOceanHeights[HullPositions.FRONT_RIGHT] - 2*pos.Y;
+            backOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT]  - hullPositions[HullPositions.BACK_LEFT].Y;
+            backOceanHeightSum += hullOceanHeights[HullPositions.BACK_RIGHT] - hullPositions[HullPositions.BACK_RIGHT].Y;
+            frontOceanHeightSum = hullOceanHeights[HullPositions.FRONT_LEFT] - hullPositions[HullPositions.FRONT_LEFT].Y;
+            frontOceanHeightSum += hullOceanHeights[HullPositions.FRONT_RIGHT] - hullPositions[HullPositions.FRONT_RIGHT].Y;
+            leftOceanHeightSum = hullOceanHeights[HullPositions.BACK_LEFT] - hullPositions[HullPositions.BACK_LEFT].Y;
+            leftOceanHeightSum += hullOceanHeights[HullPositions.FRONT_LEFT] - hullPositions[HullPositions.FRONT_LEFT].Y;
+            rightOceanHeightSum = hullOceanHeights[HullPositions.BACK_RIGHT] - hullPositions[HullPositions.BACK_RIGHT].Y;
+            rightOceanHeightSum += hullOceanHeights[HullPositions.FRONT_RIGHT] - hullPositions[HullPositions.FRONT_RIGHT].Y;
 
             float deltaPitch = (backOceanHeightSum - frontOceanHeightSum) / 2 * rotationalBuoyancy * delta;
             float deltaRoll = (rightOceanHeightSum - leftOceanHeightSum) / 2 * rotationalBuoyancy * delta;
@@ -300,12 +303,35 @@ namespace IllegalOctopusFishing
                 Matrix rollRotation = Matrix.RotationAxis(dir, deltaRoll);
                 up = Vector3.TransformCoordinate(up, rollRotation);
             }
-            */
 
+
+
+
+
+            // check if hull positions are underground, and if so bump them up
+            bool isOnLand = false;
+            float maxHeightAboveLand = 0;
+            foreach (HullPositions hullPos in hullTerrainHeights.Keys)
+            {
+                float terrainHeight = hullTerrainHeights[hullPos];
+                float hullHeight = hullPositions[hullPos].Y;
+                if (terrainHeight > hullHeight)
+                {
+                    isOnLand = true;
+                    if (!isOnLand || terrainHeight - hullHeight > maxHeightAboveLand)
+                    {
+                        maxHeightAboveLand = terrainHeight - hullHeight;
+                    }
+                }
+            }
+            if (isOnLand)
+            {
+                vel = (1 - groundDamping) * vel;
+                pos.Y += 2 * maxHeightAboveLand;
+            }
 
             // finally adjust position of boat
             pos += delta * vel;
-            // TODO: check if hull positions are underground, and if so bump them up
 
             // calculate change in sail's angular velocity
             float sailSpinFactor = (float)Math.Abs(Math.Sin(sailTheta - windAngle)); // how perpendicular wind is to sail

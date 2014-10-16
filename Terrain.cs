@@ -25,7 +25,7 @@ namespace IllegalOctopusFishing
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
-            this.verticesPerLength = 1;
+            this.verticesPerLength = 0.01f;
 
             this.diffuseColor = getColorAtHeight(seaLevel);
 
@@ -36,8 +36,8 @@ namespace IllegalOctopusFishing
             this.maxZ = heightMap.maxZ;
 
             float cornerHeight = 0f;
-            float middleHeight = -1 * worldSize / 2f;
-            float randomFactor = 1f;
+            float middleHeight = -1 * Math.Min(worldSize / 2f, 100f);
+            float randomFactor = 5f;
             this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight, randomFactor);
 
             heightMap.fillGridFromHeights(diamondSquare.heights);
@@ -54,7 +54,7 @@ namespace IllegalOctopusFishing
 
         private Color getColorAtHeight(float y)
         {
-            return Color.Brown;
+            return Color.Green;
         }
 
         internal Vector3 getRandomUnderWaterLocation()

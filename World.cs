@@ -39,7 +39,7 @@ namespace IllegalOctopusFishing
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();
 
-            this.worldSize = 500f;
+            this.worldSize = 8000f;
             this.seaLevel = 0;
             
             this.wind = new Wind();
@@ -125,6 +125,7 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
+            // player
             Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
             Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
             Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
@@ -144,7 +145,7 @@ namespace IllegalOctopusFishing
             {
                 player.reduceSlack(gameTime);
             }
-            player.Update(gameTime, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
+            player.Update(gameTime, playerHullPositions, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
 
             camera.Update(player.pos, player.dir, player.vel);
 
