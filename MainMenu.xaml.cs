@@ -27,10 +27,18 @@ namespace IllegalOctopusFishing
         private Instructions instructions = null;
         private Settings settings = null;
 
-        public MainMenu(MainPage mainPage)
+        public MainMenu(MainPage mainPage, bool displayGameOver)
         {
             this.InitializeComponent();
             this.mainPage = mainPage;
+            if (displayGameOver)
+            {
+                this.gameOverTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                this.gameOverTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed; 
+            }
         }
 
         private void onInstructionsButtonClicked(object sender, RoutedEventArgs e)

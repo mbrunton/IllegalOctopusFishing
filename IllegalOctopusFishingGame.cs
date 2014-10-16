@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"smallboat", "smallsail"};//{"smallboat", "largeboat", "fish", "coastguard"};
+        public static List<String> modelNames = new List<String>() {"smallboat", "smallsail", "harpoon"};//{"smallboat", "largeboat", "fish", "coastguard"};
         public Dictionary<String, Model> nameToModel;
         public Player.BoatSize selectedBoat;
 
@@ -117,6 +117,11 @@ namespace IllegalOctopusFishing
         public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
         {
 
+        }
+
+        internal void GameOver()
+        {
+            this.mainPage.GameOver();
         }
     }
 }

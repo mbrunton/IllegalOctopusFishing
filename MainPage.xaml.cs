@@ -28,7 +28,12 @@ namespace IllegalOctopusFishing
         public MainPage()
         {
             this.InitializeComponent();
-            this.mainMenu = new MainMenu(this);
+            AddMainMenu();
+        }
+
+        private void AddMainMenu(bool displayGameOver = false)
+        {
+            this.mainMenu = new MainMenu(this, displayGameOver);
             this.Children.Add(mainMenu);
         }
 
@@ -38,6 +43,12 @@ namespace IllegalOctopusFishing
             game = new IllegalOctopusFishingGame(this, selectedBoat);
             game.Run(this);
             game.setIsPaused(false);
+        }
+
+        internal void GameOver()
+        {
+            game.Exit();
+            AddMainMenu(displayGameOver: true);
         }
     }
 }

@@ -8,9 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="titleTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Illegal Octopus Fishing" VerticalAlignment="Top" Margin="184,62,181,0" Height="74" Width="1001" FontSize="72" FontFamily="Simplified Arabic Fixed"/>
+        <TextBlock x:Name="titleTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Extreme Sailing" VerticalAlignment="Top" Margin="365,62,181,0" Height="74" Width="820" FontSize="72" FontFamily="Simplified Arabic Fixed"/>
         <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,267,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onPlayButtonClicked"/>
         <Button x:Name="instructionsButton" Content="Instructions" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,358,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onInstructionsButtonClicked"/>
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,454,0,0" Height="68" Width="293" FontSize="35" FontFamily="Simplified Arabic Fixed" Click="onSettingsButtonClicked"/>
+        <TextBlock x:Name="gameOverTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Game Over! Play again, if you dare..." VerticalAlignment="Top" Margin="440,176,0,0" Height="40" Width="494" Foreground="#FFD41010" FontSize="30" Visibility="Collapsed"/>
     </Grid>
 </Page>

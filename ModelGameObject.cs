@@ -33,6 +33,12 @@ namespace IllegalOctopusFishing
             }
         }
 
+        public ModelGameObject(IllegalOctopusFishingGame game, Vector3 startPos, Vector3 initialDir, String modelName) : this(game, startPos, modelName)
+        {
+            this.initialDir = initialDir;
+            this.dir = initialDir;
+        }
+
         public override void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon)
         {
             //this.effect = game.Content.Load<Effect>("Phong");

@@ -126,6 +126,11 @@ namespace IllegalOctopusFishing
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
         {
             // player
+            if (player.health <= 0)
+            {
+                // game over!
+                game.GameOver();
+            }
             Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
             Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
             Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
@@ -144,6 +149,10 @@ namespace IllegalOctopusFishing
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 player.reduceSlack(gameTime);
+            }
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                player.Fire(this);
             }
             player.Update(gameTime, playerHullPositions, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
 
@@ -168,13 +177,45 @@ namespace IllegalOctopusFishing
              * enemy spotting player
              * enemy shooting at player
              * player hit by harpoon
+             * enemy hit by harpoon
+             * harpoon hit ground
              */
+
+            foreach (Harpoon harpoon in harpoons)
+            {
+                harpoon.Update(gameTime);
+                if (harpoon.cooloff == 0)
+                {
+                    float playerDist = (player.pos - harpoon.pos).Length();
+                    if (playerDist < harpoon.attackRange)
+                    {
+                        player.health -= harpoon.damage;
+                    }
+                    foreach (CoastGuardPersonel c in coastGuard)
+                    {
+                        float coastGuardDist = (c.pos - harpoon.pos).Length();
+                        if (coastGuardDist < harpoon.attackRange)
+                        {
+                            coastGuard.Remove(c);
+                            objectsForDrawing.Remove(c);
+                        }
+                    }
+                }
+            }
+
 
             sun.Update(gameTime);
             moon.Update(gameTime);
             sky.Update(sun, moon);
             ocean.Update(gameTime);
             wind.Update(gameTime);
+        }
+
+        internal void AddHarpoon(Vector3 pos, Vector3 dir)
+        {
+            Harpoon harpoon = new Harpoon(game, pos, dir, "harpoon");
+            this.harpoons.Add(harpoon);
+            objectsForDrawing.Add(harpoon);
         }
 
         internal void Draw(GameTime gameTime)

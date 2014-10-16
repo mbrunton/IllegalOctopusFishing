@@ -15,6 +15,8 @@ namespace IllegalOctopusFishing
         public enum HullPositions { BACK_LEFT, BACK_RIGHT, FRONT_LEFT, FRONT_RIGHT };
         private float pi = (float)Math.PI;
 
+        internal float health = 100f;
+
         private Model sailModel;
         private Matrix sailWorld;
         private float initialSailTheta, sailTheta, sailOmega;
@@ -38,6 +40,8 @@ namespace IllegalOctopusFishing
         private float alpha;
         private float omega, maxOmega;
         private float rotationalDamping;
+
+        private float attackCooloff, maxAttackCooloff;
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
@@ -97,6 +101,9 @@ namespace IllegalOctopusFishing
             this.omega = 0f;
             this.maxOmega = 0.05f;
             this.rotationalDamping = 0.04f;
+
+            this.attackCooloff = 0f;
+            this.maxAttackCooloff = 500f;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -120,6 +127,16 @@ namespace IllegalOctopusFishing
         internal void Update(GameTime gameTime, Dictionary<HullPositions, Vector3> hullPositions, Dictionary<HullPositions, float> hullTerrainHeights, Dictionary<HullPositions, float> hullOceanHeights, Wind wind, Gravity gravity)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            // attack cooloff
+            if (attackCooloff > 0)
+            {
+                attackCooloff -= delta;
+                if (attackCooloff < 0)
+                {
+                    attackCooloff = 0;
+                }
+            }
 
             // wind
             Vector3 xzDir = new Vector3(dir.X, 0, dir.Z);
@@ -577,6 +594,15 @@ namespace IllegalOctopusFishing
         {
             sailModel.Draw(game.GraphicsDevice, sailWorld, View, Projection);
             base.Draw(gameTime);
+        }
+
+        internal void Fire(World world)
+        {
+            if (attackCooloff == 0)
+            {
+                world.AddHarpoon(pos, dir);
+                attackCooloff = maxAttackCooloff;
+            }
         }
     }
 }
