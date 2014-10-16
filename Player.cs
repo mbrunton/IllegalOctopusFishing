@@ -32,6 +32,8 @@ namespace IllegalOctopusFishing
         private float rotationalBuoyancy;
         private float oceanDamping;
         private float groundDamping;
+        private float groundAcc;
+        private float groundAccCooloff, maxGroundAccCooloff;
 
         private float alpha;
         private float omega, maxOmega;
@@ -50,7 +52,7 @@ namespace IllegalOctopusFishing
             this.boatSize = boatSize;
             if (boatSize == BoatSize.SMALL)
             {
-                length = 5f;
+                length = 10f;
                 width = 3f;
                 acc = 0.001f;
                 maxVel = 0.8f;
@@ -87,6 +89,9 @@ namespace IllegalOctopusFishing
             this.rotationalBuoyancy = 0.0001f;
             this.oceanDamping = 0.008f;
             this.groundDamping = 0.05f;
+            this.groundAcc = 0.5f;
+            this.groundAccCooloff = 0f;
+            this.maxGroundAccCooloff = 10f;
 
             this.alpha = 0.000001f;
             this.omega = 0f;
@@ -225,22 +230,7 @@ namespace IllegalOctopusFishing
             deltaVel = windFactor * wind.getSpeed() * deltaVel;
             this.vel += deltaVel;
 
-            // damping of vel
-            Vector3 velUnit = vel;
-            velUnit.Normalize();
-            // 1 - abs value of cosine of angle between vel and dir (0 when aligned, 1 when orthogonal)
-            float directionalDamping = 1 - (float)Math.Abs(Vector3.Dot(velUnit, dir));
-            vel = (1 - directionalDamping) * (1 - oceanDamping) * vel;
-
-            // damping of rotational velocity
-            if (!MathUtil.IsZero(omega))
-            {
-                omega = (1 - rotationalDamping) * omega;
-                // adjust boat's yaw
-                float deltaYaw = delta * omega;
-                Matrix yawRotation = Matrix.RotationAxis(up, deltaYaw);
-                dir = Vector3.TransformCoordinate(dir, yawRotation);
-            }
+            
 
 
 
@@ -273,6 +263,7 @@ namespace IllegalOctopusFishing
             // TODO
             // calculate rotations due to buoyancy forces
             // break into pitch and roll
+            /*
             float backOceanHeightSum = 0f;
             float frontOceanHeightSum = 0f;
             float leftOceanHeightSum = 0f;
@@ -303,14 +294,22 @@ namespace IllegalOctopusFishing
                 Matrix rollRotation = Matrix.RotationAxis(dir, deltaRoll);
                 up = Vector3.TransformCoordinate(up, rollRotation);
             }
-
+            */
 
 
 
 
             // check if hull positions are underground, and if so bump them up
+            if (groundAccCooloff > 0)
+            {
+                groundAccCooloff -= delta;
+                if (groundAccCooloff < 0)
+                {
+                    groundAccCooloff = 0;
+                }
+            }
             bool isOnLand = false;
-            float maxHeightAboveLand = 0;
+            //float maxHeightAboveLand = 0;
             foreach (HullPositions hullPos in hullTerrainHeights.Keys)
             {
                 float terrainHeight = hullTerrainHeights[hullPos];
@@ -318,17 +317,80 @@ namespace IllegalOctopusFishing
                 if (terrainHeight > hullHeight)
                 {
                     isOnLand = true;
+                    /*
                     if (!isOnLand || terrainHeight - hullHeight > maxHeightAboveLand)
                     {
                         maxHeightAboveLand = terrainHeight - hullHeight;
                     }
+                    */
                 }
             }
             if (isOnLand)
             {
-                vel = (1 - groundDamping) * vel;
-                pos.Y += 2 * maxHeightAboveLand;
+                //pos.Y += maxHeightAboveLand;
+                // calculate land normal
+                /*
+                Vector3 landNormal = Vector3.Zero;
+                Vector3 backLeft = new Vector3(hullPositions[HullPositions.BACK_LEFT].X, hullTerrainHeights[HullPositions.BACK_LEFT], hullPositions[HullPositions.BACK_LEFT].Z);
+                Vector3 backRight = new Vector3(hullPositions[HullPositions.BACK_RIGHT].X, hullTerrainHeights[HullPositions.BACK_RIGHT], hullPositions[HullPositions.BACK_RIGHT].Z);
+                Vector3 frontLeft = new Vector3(hullPositions[HullPositions.FRONT_LEFT].X, hullTerrainHeights[HullPositions.FRONT_LEFT], hullPositions[HullPositions.FRONT_LEFT].Z);
+                Vector3 frontRight = new Vector3(hullPositions[HullPositions.FRONT_RIGHT].X, hullTerrainHeights[HullPositions.FRONT_RIGHT], hullPositions[HullPositions.FRONT_RIGHT].Z);
+
+                landNormal += Vector3.Cross(backLeft - backRight, frontLeft - backLeft);
+                landNormal += Vector3.Cross(frontLeft - backLeft, frontRight - frontLeft);
+                landNormal += Vector3.Cross(frontRight - frontLeft, backRight - frontRight);
+                landNormal += Vector3.Cross(backRight - frontRight, backLeft - backRight);
+                landNormal.Normalize();
+                */
+                
+                
+                // accererate in dir of land normal
+                //vel += delta * groundAcc * landNormal;
+                if (groundAccCooloff == 0)
+                {
+                    vel += delta * groundAcc * Vector3.UnitY;
+                    groundAccCooloff = maxGroundAccCooloff;
+                }
+
+
+                // dampen in x-z plane
+                vel = new Vector3((1 - groundDamping) * vel.X, vel.Y, (1 - groundDamping) * vel.Z);
             }
+
+            // damping of vel
+            bool isInOcean = false;
+            foreach (HullPositions hullPos in hullOceanHeights.Keys)
+            {
+                float oceanHeight = hullOceanHeights[hullPos];
+                float hullHeight = hullPositions[hullPos].Y;
+                if (hullHeight < oceanHeight)
+                {
+                    isInOcean = true;
+                }
+            }
+
+            if (isInOcean) {
+                Vector3 velUnit = vel;
+                velUnit.Normalize();
+                // 1 - abs value of cosine of angle between vel and dir (0 when aligned, 1 when orthogonal)
+                float directionalDamping = 1 - (float)Math.Abs(Vector3.Dot(velUnit, dir));
+                vel = (1 - directionalDamping) * (1 - oceanDamping) * vel;
+            }
+            
+            
+            
+
+            // damping of rotational velocity
+            if (!MathUtil.IsZero(omega))
+            {
+                omega = (1 - rotationalDamping) * omega;
+                // adjust boat's yaw
+                float deltaYaw = delta * omega;
+                Matrix yawRotation = Matrix.RotationAxis(up, deltaYaw);
+                dir = Vector3.TransformCoordinate(dir, yawRotation);
+            }
+
+            Debug.WriteLine(vel);
 
             // finally adjust position of boat
             pos += delta * vel;

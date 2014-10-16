@@ -41,7 +41,8 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            //float total = gameTime.TotalGameTime.TotalMilliseconds;
+
         }
 
         internal float getOceanHeightAtPosition(float x, float z)
