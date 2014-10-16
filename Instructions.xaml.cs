@@ -35,5 +35,10 @@ namespace IllegalOctopusFishing
         {
             mainMenu.removeInstructions();
         }
+
+        private void instructionsBodyTextBlock_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

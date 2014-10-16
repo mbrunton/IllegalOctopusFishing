@@ -36,7 +36,7 @@ namespace IllegalOctopusFishing
             this.maxZ = heightMap.maxZ;
 
             float cornerHeight = 0f;
-            float middleHeight = -1 * Math.Min(worldSize / 2f, 100f);
+            float middleHeight = -1 * Math.Min(worldSize / 2f, 200f);
             float randomFactor = 5f;
             this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight, randomFactor);
 

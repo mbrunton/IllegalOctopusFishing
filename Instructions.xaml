@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="instructionsTitleTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" Margin="480,114,460,0" Height="58" Width="426" FontSize="55" FontFamily="Simplified Arabic Fixed"/>
         <Button x:Name="mainMenuButton" Content="Main Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1182,27,0,0" Height="51" Width="155" FontFamily="Simplified Arabic Fixed" FontSize="20" Click="onMainMenuButtonClicked"/>
-        <TextBlock x:Name="instructionsBodyTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Tilt to steer, adjust sail using slider, catch fish, avoid coast guard" VerticalAlignment="Top" Margin="317,362,0,0" Height="33" Width="702" FontSize="25"/>
+        <TextBlock x:Name="instructionsBodyTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Tilt to steer, adjust sail by swiping screen vertically, catch fish to replenish health, tap screen to fire harpoon" VerticalAlignment="Top" Margin="317,362,0,0" Height="78" Width="702" FontSize="25"/>
 
     </Grid>
 </Page>

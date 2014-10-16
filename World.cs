@@ -39,7 +39,7 @@ namespace IllegalOctopusFishing
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();
 
-            this.worldSize = 8000f;
+            this.worldSize = 16000f;
             this.seaLevel = 0;
             
             this.wind = new Wind();

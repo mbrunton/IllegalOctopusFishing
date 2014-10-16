@@ -89,7 +89,7 @@ namespace IllegalOctopusFishing
             this.rotationalBuoyancy = 0.0001f;
             this.oceanDamping = 0.008f;
             this.groundDamping = 0.05f;
-            this.groundAcc = 0.5f;
+            this.groundAcc = 0.05f;
             this.groundAccCooloff = 0f;
             this.maxGroundAccCooloff = 10f;
 
@@ -369,7 +369,7 @@ namespace IllegalOctopusFishing
                 }
             }
 
-            if (isInOcean) {
+            if (isInOcean && !isOnLand) {
                 Vector3 velUnit = vel;
                 velUnit.Normalize();
                 // 1 - abs value of cosine of angle between vel and dir (0 when aligned, 1 when orthogonal)
