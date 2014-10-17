@@ -18,6 +18,12 @@ namespace IllegalOctopusFishing
 
         public Ocean(ExtremeSailingGame game, float worldSize, float seaLevel) : base(game)
         {
+            // overwrite effect of BasicGameObject
+            this.effect = game.Content.Load<Effect>("OceanShader");
+            effect.Parameters["innerScaleFactor"].SetValue(0.001f);
+            effect.Parameters["outerScaleFactor"].SetValue(10f);
+            effect.Parameters["timeScaleFactor"].SetValue(0.01f);
+
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
 
@@ -45,8 +51,8 @@ namespace IllegalOctopusFishing
 
         internal void Update(GameTime gameTime)
         {
-            //float total = gameTime.TotalGameTime.TotalMilliseconds;
-
+            float total = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            effect.Parameters["totalTime"].SetValue(total);
         }
 
         internal float getOceanHeightAtPosition(float x, float z)

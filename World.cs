@@ -63,7 +63,7 @@ namespace IllegalOctopusFishing
             this.moon = new HeavenlyBody(moonInitialPos, moonDistFromOrigin, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
 
             // sky
-            ambientColor = new Color(.2f, .1f, .3f);
+            ambientColor = new Color(.3f, .3f, .3f);
 
             // terrain
             this.terrain = new Terrain(game, worldSize, seaLevel);
