@@ -18,6 +18,9 @@ namespace IllegalOctopusFishing
             acc = 0.00001f;
             maxVel = 0.01f;
 
+            // TEMPORARY - UNTIL I FIX MODELPHONG.FX
+            effect.Parameters["color"].SetValue(Color.BurlyWood.ToVector3());
+
             this.random = new Random(Guid.NewGuid().GetHashCode());
         }
 

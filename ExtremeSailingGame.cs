@@ -51,12 +51,22 @@ namespace IllegalOctopusFishing
         protected override void LoadContent()
         {
             Dictionary<ModelNames, String> modelNameToString = new Dictionary<ModelNames, String>();
+            
             modelNameToString.Add(ModelNames.SMALLBOAT, "smallboat");
             modelNameToString.Add(ModelNames.SMALLSAIL, "smallsail");
             modelNameToString.Add(ModelNames.COASTGUARD, "coastguard");
             modelNameToString.Add(ModelNames.HARPOON, "harpoon");
             modelNameToString.Add(ModelNames.FISH, "fish");
-
+            
+            
+            // for debugging (just change one model)
+            /*
+            modelNameToString.Add(ModelNames.SMALLBOAT, "smallboat");
+            modelNameToString.Add(ModelNames.SMALLSAIL, "smallboat");
+            modelNameToString.Add(ModelNames.COASTGUARD, "smallboat");
+            modelNameToString.Add(ModelNames.HARPOON, "smallboat");
+            modelNameToString.Add(ModelNames.FISH, "smallboat");
+            */
             Dictionary<ModelNames, Model> modelNameToModel = new Dictionary<ModelNames, Model>();
             // load blender models
             foreach (KeyValuePair<ModelNames,String> keyVal in modelNameToString)

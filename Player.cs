@@ -53,6 +53,9 @@ namespace IllegalOctopusFishing
             hullPositions.Add(HullPositions.FRONT_LEFT, new Vector3());
             hullPositions.Add(HullPositions.FRONT_RIGHT, new Vector3());
 
+            // TEMPORARY - UNTIL I FIX MODELPHONG.FX
+            effect.Parameters["color"].SetValue(Color.Brown.ToVector3());
+
             this.boatSize = boatSize;
             if (boatSize == BoatSize.SMALL)
             {

@@ -16,13 +16,21 @@ namespace IllegalOctopusFishing
         private HeightMap heightMap;
         private SearchTree searchTree;
 
+        private float waveLength;
+        private float waveHeight;
+        private float waveFreq;
+
         public Ocean(ExtremeSailingGame game, float worldSize, float seaLevel) : base(game)
         {
+            waveLength = 0.01f;
+            waveHeight = 10f;
+            waveFreq = 0.003f;
+
             // overwrite effect of BasicGameObject
             this.effect = game.Content.Load<Effect>("OceanShader");
-            effect.Parameters["innerScaleFactor"].SetValue(0.001f);
-            effect.Parameters["outerScaleFactor"].SetValue(10f);
-            effect.Parameters["timeScaleFactor"].SetValue(0.01f);
+            effect.Parameters["innerScaleFactor"].SetValue(waveLength);
+            effect.Parameters["outerScaleFactor"].SetValue(waveHeight);
+            effect.Parameters["timeScaleFactor"].SetValue(waveFreq);
 
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
@@ -44,7 +52,7 @@ namespace IllegalOctopusFishing
 
         internal Color getColorAtHeight(float y)
         {
-            float alpha = 0.4f + 0.2f*(y - seaLevel)/20f;
+            float alpha = 0.8f;//0.4f + 0.2f*(y - seaLevel)/20f;
             Color b = Color.DarkBlue;
             return new Color(b.ToVector3(), alpha);
         }

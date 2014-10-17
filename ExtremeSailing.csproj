@@ -160,9 +160,6 @@
     <ToolkitModel Include="Content\harpoon.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\smallboat.dae">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </ToolkitModel>
     <ToolkitModel Include="Content\smallsail.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
@@ -188,6 +185,9 @@
     <ToolkitFxc Include="Content\OriginalPhong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
+    <ToolkitModel Include="Content\smallboat.dae">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitModel>
     <ToolkitFxc Include="Content\VertexPhong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>

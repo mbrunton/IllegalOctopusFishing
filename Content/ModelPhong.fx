@@ -33,6 +33,7 @@ float4 moonLightAmbCol;
 float4 moonLightPntPos;
 float4 moonLightPntCol;
 float4x4 worldInvTrp;
+float4 color = float4(0.5f, 0.5f, 0.5f, 1.0f);
 //
 
 struct VS_IN
@@ -69,7 +70,7 @@ PS_IN VS( VS_IN input )
 
 	// Just pass along the colour at the vertex
 	//output.col = input.col;
-	output.col = float4(0.5f, 0.5f, 0.5f, 1.0f);
+	output.col = color;
 	return output;
 }
 
