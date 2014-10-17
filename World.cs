@@ -14,7 +14,7 @@ namespace IllegalOctopusFishing
     using SharpDX.Toolkit.Input;
     class World
     {
-        private IllegalOctopusFishingGame game;
+        private ExtremeSailingGame game;
         private Player player;
         private float worldSize;
         private float seaLevel;
@@ -34,7 +34,7 @@ namespace IllegalOctopusFishing
 
         private List<GameObject> objectsForDrawing;
 
-        public World(IllegalOctopusFishingGame game, Player.BoatSize selectedBoat)
+        public World(ExtremeSailingGame game, Player.BoatSize selectedBoat)
         {
             this.game = game;
             this.objectsForDrawing = new List<GameObject>();

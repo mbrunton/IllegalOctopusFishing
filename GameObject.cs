@@ -12,13 +12,13 @@ namespace IllegalOctopusFishing
     using SharpDX.Toolkit.Input;
     abstract public class GameObject
     {
-        protected IllegalOctopusFishingGame game;
+        protected ExtremeSailingGame game;
 
         internal Matrix View;
         internal Matrix Projection;
         internal Matrix World;
 
-        public GameObject(IllegalOctopusFishingGame game)
+        public GameObject(ExtremeSailingGame game)
         {
             this.game = game;
             this.View = Matrix.Identity;

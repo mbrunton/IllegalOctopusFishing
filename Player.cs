@@ -45,7 +45,7 @@ namespace IllegalOctopusFishing
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
-        public Player(IllegalOctopusFishingGame game, Vector3 startingPos, String boatModelName, String sailModelName, BoatSize boatSize) : base(game, startingPos, boatModelName)
+        public Player(ExtremeSailingGame game, Vector3 startingPos, String boatModelName, String sailModelName, BoatSize boatSize) : base(game, startingPos, boatModelName)
         {
             hullPositions = new Dictionary<HullPositions, Vector3>();
             hullPositions.Add(HullPositions.BACK_LEFT, new Vector3());
@@ -59,7 +59,7 @@ namespace IllegalOctopusFishing
                 length = 10f;
                 width = 3f;
                 acc = 0.0005f;
-                maxVel = 0.06f;
+                maxVel = 0.3f;
             }
             else
             {
@@ -525,7 +525,7 @@ namespace IllegalOctopusFishing
         public void turnLeft(GameTime gameTime)
         {
             float delta = gameTime.ElapsedGameTime.Milliseconds;
-            float deltaOmega = -1 * alpha * delta;
+            float deltaOmega = alpha * delta;
             omega += deltaOmega;
             if (omega > maxOmega)
             {
@@ -541,7 +541,7 @@ namespace IllegalOctopusFishing
         public void turnRight(GameTime gameTime)
         {
             float delta = gameTime.ElapsedGameTime.Milliseconds;
-            float deltaOmega = alpha * delta;
+            float deltaOmega = -1 * alpha * delta;
             omega += deltaOmega;
             if (omega > maxOmega)
             {

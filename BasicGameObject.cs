@@ -17,7 +17,7 @@ namespace IllegalOctopusFishing
         protected BasicEffect basicEffect;
         protected Color diffuseColor;
 
-        public BasicGameObject(IllegalOctopusFishingGame game)
+        public BasicGameObject(ExtremeSailingGame game)
             : base(game)
         {
             

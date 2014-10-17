@@ -12,7 +12,7 @@ namespace IllegalOctopusFishing
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
 
-    public class IllegalOctopusFishingGame : Game
+    public class ExtremeSailingGame : Game
     {
         private MainPage mainPage;
         private bool isPaused;
@@ -28,7 +28,7 @@ namespace IllegalOctopusFishing
 
         private World world;
 
-        public IllegalOctopusFishingGame(MainPage mainPage, Player.BoatSize selectedBoat)
+        public ExtremeSailingGame(MainPage mainPage, Player.BoatSize selectedBoat)
         {
             this.mainPage = mainPage;
             this.isPaused = true;

@@ -9,7 +9,7 @@ namespace IllegalOctopusFishing
 {
     class Fish : ModelGameObject
     {
-        public Fish(IllegalOctopusFishingGame game, Vector3 startingPos, String modelName)
+        public Fish(ExtremeSailingGame game, Vector3 startingPos, String modelName)
             : base(game, startingPos, modelName)
         {
             acc = 0.01f;

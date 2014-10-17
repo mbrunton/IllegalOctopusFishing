@@ -46,11 +46,52 @@ namespace IllegalOctopusFishing
             }
         }
 
-        internal float getHeightAtIndex(Index index)
+        // (i,j) is indices of corner square, which contains position (x,z)
+        internal float getHeightAtPosition(Index index, float x, float z)
         {
             int i = index.i;
             int j = index.j;
-            return grid[i][j].Y;
+            if (i == numSideVertices - 1 || j == numSideVertices - 1)
+            {
+                // we don't have a bounding square.. just return height at vertex
+                return grid[i][j].Y;
+            }
+
+            float leftX = grid[i][j].X;
+            float rightX = grid[i + 1][j].X;
+            float bottomZ = grid[i][j].Z;
+            float topZ = grid[i][j + 1].Z;
+
+            if (!(leftX <= x && x <= rightX)) { throw new Exception("x coord not within bounding square"); }
+            if (!(bottomZ <= z && z <= topZ)) { throw new Exception("z coord not within bounding square"); }
+
+            float bottomLeftY = grid[i][j].Y;
+            float topLeftY = grid[i][j+1].Y;
+            float bottomRightY = grid[i+1][j].Y;
+
+            float xProp = (x - leftX) / (rightX - leftX);
+            float zProp = (z - bottomZ) / (topZ - bottomZ);
+
+            float height = bottomLeftY + xProp * (bottomRightY - bottomLeftY) + zProp * (topLeftY - bottomLeftY);
+            return height;
+            /*
+             * max height
+            float maxHeight = grid[i][j].Y;
+            for (int m = i; m < i + 1; m++)
+            {
+                for (int n = j; n < j + 1; n++)
+                {
+                    if (m < numSideVertices && n < numSideVertices)
+                    {
+                        if (grid[m][n].Y > maxHeight)
+                        {
+                            maxHeight = grid[m][n].Y;
+                        }
+                    }
+                }
+            }
+            return maxHeight;
+             */
         }
 
         public List<List<Vector3>> getGrid()
@@ -227,11 +268,12 @@ namespace IllegalOctopusFishing
                     VertexPositionNormalColor bottomleft = new VertexPositionNormalColor(grid[i + 1][j], normalGrid[i + 1][j], getColorAtHeight(grid[i + 1][j].Y));
 
                     VPNClist.Add(topleft);
+                    VPNClist.Add(bottomright);
                     VPNClist.Add(topright);
-                    VPNClist.Add(bottomright);
+                    
                     VPNClist.Add(topleft);
-                    VPNClist.Add(bottomright);
                     VPNClist.Add(bottomleft);
+                    VPNClist.Add(bottomright);
                 }
             }
             

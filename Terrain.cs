@@ -21,7 +21,7 @@ namespace IllegalOctopusFishing
         private DiamondSquare diamondSquare;
         private SearchTree searchTree;
 
-        public Terrain(IllegalOctopusFishingGame game, float worldSize, float seaLevel) : base(game)
+        public Terrain(ExtremeSailingGame game, float worldSize, float seaLevel) : base(game)
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
@@ -118,7 +118,7 @@ namespace IllegalOctopusFishing
         internal float getTerrainHeightAtPosition(float x, float z)
         {
             Index index = searchTree.getIndexAtPosition(x, z);
-            float height = heightMap.getHeightAtIndex(index);
+            float height = heightMap.getHeightAtPosition(index, x, z);
             return height;
         }
 

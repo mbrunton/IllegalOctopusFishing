@@ -16,7 +16,7 @@ namespace IllegalOctopusFishing
 
         private float omega;
 
-        public Harpoon(IllegalOctopusFishingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, Vector3 initialVel, String modelName) : base(game, startPos, modelName)
+        public Harpoon(ExtremeSailingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, Vector3 initialVel, String modelName) : base(game, startPos, modelName)
         {
             this.modelDir = modelDir;
             this.dir = new Vector3(initialDir.X, 0, initialDir.Z);

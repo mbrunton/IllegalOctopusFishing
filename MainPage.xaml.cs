@@ -23,7 +23,7 @@ namespace IllegalOctopusFishing
     public sealed partial class MainPage
     {
         private MainMenu mainMenu;
-        private IllegalOctopusFishingGame game;
+        private ExtremeSailingGame game;
 
         public MainPage()
         {
@@ -40,7 +40,7 @@ namespace IllegalOctopusFishing
         internal void startGame(Player.BoatSize selectedBoat)
         {
             this.Children.Remove(mainMenu);
-            game = new IllegalOctopusFishingGame(this, selectedBoat);
+            game = new ExtremeSailingGame(this, selectedBoat);
             game.Run(this);
             game.setIsPaused(false);
         }

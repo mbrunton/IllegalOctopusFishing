@@ -19,7 +19,7 @@ namespace IllegalOctopusFishing
         internal float acc;
         internal float maxVel;
 
-        public ModelGameObject(IllegalOctopusFishingGame game, Vector3 startPos, String modelName) : base(game)
+        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, String modelName) : base(game)
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;

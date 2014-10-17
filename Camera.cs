@@ -16,9 +16,9 @@ namespace IllegalOctopusFishing
         private float speedDistanceAdjustment;
         private float targetDistanceForwardOfPlayer;
 
-        public Camera(IllegalOctopusFishingGame game, Vector3 playerPos, Vector3 playerDir, Vector3 playerVel)
+        public Camera(ExtremeSailingGame game, Vector3 playerPos, Vector3 playerDir, Vector3 playerVel)
         {
-            this.projection = Matrix.PerspectiveFovLH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 10000.0f);
+            this.projection = Matrix.PerspectiveFovRH((float)Math.PI / 4.0f, (float)game.GraphicsDevice.BackBuffer.Width / game.GraphicsDevice.BackBuffer.Height, 0.1f, 10000.0f);
             this.maxDistanceFromPlayer = 50f;
             this.minDistanceFromPlayer = 30f;
             this.speedDistanceAdjustment = 0.1f;
@@ -38,7 +38,7 @@ namespace IllegalOctopusFishing
             // DEBUGGING - hold view
             //this.view = Matrix.LookAtLH(-20 * Vector3.UnitX + 8 * Vector3.UnitY, Vector3.Zero, Vector3.UnitY);
             
-            this.view = Matrix.LookAtLH(eye, target, Vector3.UnitY);
+            this.view = Matrix.LookAtRH(eye, target, Vector3.UnitY);
         }
 
         public Matrix getView()

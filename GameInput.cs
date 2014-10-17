@@ -19,7 +19,7 @@ namespace IllegalOctopusFishing
         public Accelerometer accelerometer;
         public CoreWindow window;
         public GestureRecognizer gestureRecognizer;
-        public GameInput(IllegalOctopusFishingGame game)
+        public GameInput(ExtremeSailingGame game)
         {
             keyboardManager = new KeyboardManager(game);
             accelerometer = Accelerometer.GetDefault();

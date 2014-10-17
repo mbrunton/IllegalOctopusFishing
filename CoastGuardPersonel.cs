@@ -11,7 +11,7 @@ namespace IllegalOctopusFishing
     {
         private Random random;
 
-        public CoastGuardPersonel(IllegalOctopusFishingGame game, Vector3 startingPos, String modelName)
+        public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, String modelName)
             : base(game, startingPos, modelName)
         {
             acc = 0.00001f;

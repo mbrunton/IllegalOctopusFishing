@@ -16,7 +16,7 @@ namespace IllegalOctopusFishing
         private HeightMap heightMap;
         private SearchTree searchTree;
 
-        public Ocean(IllegalOctopusFishingGame game, float worldSize, float seaLevel) : base(game)
+        public Ocean(ExtremeSailingGame game, float worldSize, float seaLevel) : base(game)
         {
             this.worldSize = worldSize;
             this.seaLevel = seaLevel;
@@ -48,7 +48,7 @@ namespace IllegalOctopusFishing
         internal float getOceanHeightAtPosition(float x, float z)
         {
             Index index = searchTree.getIndexAtPosition(x, z);
-            float height = heightMap.getHeightAtIndex(index);
+            float height = heightMap.getHeightAtPosition(index, x, z);
             return height;
         }
 
