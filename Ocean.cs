@@ -23,9 +23,6 @@ namespace IllegalOctopusFishing
 
             this.verticesPerLength = 0.001f;
 
-            this.diffuseColor = Color.DarkBlue;
-            diffuseColor.A = (byte)200;
-
             this.heightMap = new HeightMap(worldSize, verticesPerLength, true);
             
             bool isRound = false;
@@ -35,8 +32,13 @@ namespace IllegalOctopusFishing
 
             vertices = Buffer.Vertex.New(
                 game.GraphicsDevice,
-                heightMap.getVertexPositionNormalColorList(height => diffuseColor).ToArray());
+                heightMap.getVertexPositionNormalColorList(getColorAtHeight).ToArray());
             inputLayout = VertexInputLayout.FromBuffer(0, vertices);
+        }
+
+        internal Color getColorAtHeight(float y)
+        {
+            return Color.Blue;
         }
 
         internal void Update(GameTime gameTime)
@@ -64,10 +66,10 @@ namespace IllegalOctopusFishing
             return hullHeights;
         }
 
-        public override void Draw(GameTime gameTime, Camera camera, Sky sky, HeavenlyBody sun, HeavenlyBody moon)
+        public override void Draw(Camera camera, Color ambientColor, HeavenlyBody sun, HeavenlyBody moon)
         {
             game.GraphicsDevice.SetBlendState(game.GraphicsDevice.BlendStates.AlphaBlend);
-            base.Draw(gameTime, camera, sky, sun, moon);
+            base.Draw(camera, ambientColor, sun, moon);
         }
     }
 }

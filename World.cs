@@ -24,7 +24,7 @@ namespace IllegalOctopusFishing
         private Gravity gravity;
         private float secsPerGameDay; // number of seconds per in-game day
         private HeavenlyBody sun, moon;
-        private Sky sky;
+        private Color ambientColor;
         private Camera camera;
 
         private int numFish, numCoastGuard;
@@ -46,24 +46,22 @@ namespace IllegalOctopusFishing
             this.gravity = new Gravity(-1 * Vector3.UnitY);
 
             // sun
-            this.secsPerGameDay = 180;
-            float sunDistFromOrigin = 2 * worldSize;
+            this.secsPerGameDay = 18;
+            float sunDistFromOrigin = worldSize;
             Vector3 sunInitialPos = sunDistFromOrigin * Vector3.UnitY;
             Vector3 sunRevolutionNormal = Vector3.UnitX; // normal to sun's plane of motion
-            Color sunSpectralColor = Color.LightYellow;
+            Color sunSpectralColor = new Color(0.8f, 0.4f, 0.1f);
             this.sun = new HeavenlyBody(sunInitialPos, sunDistFromOrigin, sunRevolutionNormal, secsPerGameDay, sunSpectralColor);
 
             // moon
             float moonDistFromOrigin = sunDistFromOrigin;
-            Vector3 moonInitialDir = -1 * moonDistFromOrigin * Vector3.UnitY;
+            Vector3 moonInitialPos = -1 * moonDistFromOrigin * Vector3.UnitY;
             Vector3 moonRevolutionNormal = Vector3.UnitZ; // normal to moon's plane of motion
-            Color moonSpectralColor = Color.GhostWhite;
-            this.moon = new HeavenlyBody(moonInitialDir, moonDistFromOrigin, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
+            Color moonSpectralColor = new Color(.4f, .4f, .4f);
+            this.moon = new HeavenlyBody(moonInitialPos, moonDistFromOrigin, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
 
             // sky
-            Color noonColor = Color.CornflowerBlue;
-            Color midnightColor = Color.DarkBlue;
-            this.sky = new Sky(noonColor, midnightColor);
+            ambientColor = new Color(.2f, .1f, .3f);
 
             // terrain
             this.terrain = new Terrain(game, worldSize, seaLevel);
@@ -84,7 +82,7 @@ namespace IllegalOctopusFishing
             else
             {
                 playerBoatModelName = "largeboat";
-                playerSailModelName = "largeSail";
+                playerSailModelName = "largesail";
             }
             this.player = new Player(game, playerStartPos, playerBoatModelName, playerSailModelName, selectedBoat);
             objectsForDrawing.Add(player);
@@ -228,7 +226,6 @@ namespace IllegalOctopusFishing
 
             sun.Update(gameTime);
             moon.Update(gameTime);
-            sky.Update(sun, moon);
             ocean.Update(gameTime);
             wind.Update(gameTime);
         }
@@ -242,11 +239,11 @@ namespace IllegalOctopusFishing
 
         internal void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(sky.color);
+            game.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             foreach (GameObject obj in objectsForDrawing)
             {
-                obj.Draw(gameTime, camera, sky, sun, moon);
+                obj.Draw(camera, ambientColor, sun, moon);
             }
         }
     }

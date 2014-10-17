@@ -51,7 +51,7 @@ namespace IllegalOctopusFishing
         {
             int i = index.i;
             int j = index.j;
-            if (i == numSideVertices - 1 || j == numSideVertices - 1)
+            if (i == numSideVertices - 1 || j == numSideVertices - 1 || i == 0 || j == 0)
             {
                 // we don't have a bounding square.. just return height at vertex
                 return grid[i][j].Y;

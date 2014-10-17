@@ -42,7 +42,6 @@ namespace IllegalOctopusFishing
         internal void Update(GameTime gameTime, Gravity gravity)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            Debug.WriteLine(delta);
 
             //if (!MathUtil.IsOne(dir.Length())) { throw new Exception("harpoon dir vector doesn't have length 1"); }
             //if (!MathUtil.IsOne(up.Length())) { throw new Exception("harpoon up vector doesn't have length 1"); }

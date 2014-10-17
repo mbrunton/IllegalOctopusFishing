@@ -587,9 +587,9 @@ namespace IllegalOctopusFishing
             return (float)Math.Pow(deviationFactor, deviationExp);
         }
 
-        public override void Draw(GameTime gameTime, Camera camera, Sky sky, HeavenlyBody sun, HeavenlyBody moon)
+        public override void Draw(Camera camera, Color ambientColor, HeavenlyBody sun, HeavenlyBody moon)
         {
-            base.Draw(gameTime, camera, sky, sun, moon);
+            base.Draw(camera, ambientColor, sun, moon);
             sailModel.Draw(game.GraphicsDevice, sailWorld, View, Projection, effectOverride : effect);
         }
 

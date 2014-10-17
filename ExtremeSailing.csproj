@@ -142,7 +142,6 @@
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sky.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="BasicGameObject.cs" />
     <Compile Include="VertexPositionNormalColor.cs">
@@ -155,16 +154,16 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <ToolkitModel Include="Content\smallboat.obj">
+    <ToolkitModel Include="Content\coastguard.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\coastguard.obj">
+    <ToolkitModel Include="Content\harpoon.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\harpoon.obj">
+    <ToolkitModel Include="Content\smallboat.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\smallsail.obj">
+    <ToolkitModel Include="Content\smallsail.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />
@@ -180,10 +179,13 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
-    <ToolkitFxc Include="Content\Phong.fx">
+    <ToolkitFxc Include="Content\OriginalPhong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
-    <ToolkitFxc Include="Content\ModifiedPhong.fx">
+    <ToolkitFxc Include="Content\VertexPhong.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitFxc>
+    <ToolkitFxc Include="Content\ModelPhong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
   </ItemGroup>

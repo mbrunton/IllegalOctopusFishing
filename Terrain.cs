@@ -27,8 +27,6 @@ namespace IllegalOctopusFishing
             this.seaLevel = seaLevel;
             this.verticesPerLength = 0.01f;
 
-            this.diffuseColor = getColorAtHeight(seaLevel);
-
             this.heightMap = new HeightMap(worldSize, verticesPerLength);
             this.minX = heightMap.minX;
             this.maxX = heightMap.maxX;

@@ -13,13 +13,12 @@ namespace IllegalOctopusFishing
     abstract public class ModelGameObject : GameObject
     {
         internal Model model;
-        internal Effect effect;
         internal Vector3 pos, dir, vel, up;
         internal Vector3 modelDir; // direction model is facing in its own coord sys
         internal float acc;
         internal float maxVel;
 
-        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, String modelName) : base(game)
+        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, String modelName) : base(game, "ModelPhong")
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
@@ -31,8 +30,6 @@ namespace IllegalOctopusFishing
             {
                 throw new ArgumentException("failed to load model");
             }
-
-            this.effect = game.Content.Load<Effect>("ModifiedPhong").Clone();
         }
         
         internal Matrix getWorld()
@@ -71,50 +68,10 @@ namespace IllegalOctopusFishing
             return translation;
         }
 
-        public override void Draw(GameTime gameTime, Camera camera, Sky sky, HeavenlyBody sun, HeavenlyBody moon)
+        public override void Draw(Camera camera, Color ambientColor, HeavenlyBody sun, HeavenlyBody moon)
         {
-            /* shader parameters
-            float4x4 World;
-            float4x4 View;
-            float4x4 Projection;
-            float4 cameraPos;
-            float4 sunLightAmbCol;
-            float4 sunLightPntPos;
-            float4 sunLightPntCol;
-            float4 moonLightAmbCol;
-            float4 moonLightPntPos;
-            float4 moonLightPntCol;
-            float4x4 worldInvTrp;
-             */
-
-            View = camera.view;
-            Projection = camera.projection;
-            
-            effect.Parameters["World"].SetValue(World);
-            effect.Parameters["View"].SetValue(View);
-            effect.Parameters["Projection"].SetValue(Projection);
-            effect.Parameters["cameraPos"].SetValue(camera.pos.ToArray());
-            
-            effect.Parameters["sunLightAmbCol"].SetValue(sky.color.ToVector4().ToArray());
-            effect.Parameters["sunLightPntPos"].SetValue(sun.pos.ToArray());
-            effect.Parameters["sunLightPntCol"].SetValue(sun.specularColor.ToVector4().ToArray());
-            effect.Parameters["moonLightAmbCol"].SetValue(sky.color.ToVector3().ToArray());
-            effect.Parameters["moonLightPntPos"].SetValue(moon.pos.ToArray());
-            effect.Parameters["moonLightPntCol"].SetValue(moon.specularColor.ToVector4().ToArray());
-            
-            effect.Parameters["worldInvTrp"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
-            
-
-            /* regular Phong.fx
-            effect.Parameters["World"].SetValue(World);
-            effect.Parameters["View"].SetValue(View);
-            effect.Parameters["Projection"].SetValue(Projection);
-            effect.Parameters["cameraPos"].SetValue(camera.pos.ToArray());
-            effect.Parameters["worldInvTrp"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
-            */
-
+            SetEffectValues(camera, ambientColor, sun, moon);
             model.Draw(game.GraphicsDevice, World, View, Projection, effectOverride : effect);
-            //model.Draw(game.GraphicsDevice, World, View, Projection);
         }
     }
 }
