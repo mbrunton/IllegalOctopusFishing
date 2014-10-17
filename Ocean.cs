@@ -38,7 +38,9 @@ namespace IllegalOctopusFishing
 
         internal Color getColorAtHeight(float y)
         {
-            return Color.Blue;
+            float alpha = 0.4f + 0.2f*(y - seaLevel)/20f;
+            Color b = Color.DarkBlue;
+            return new Color(b.ToVector3(), alpha);
         }
 
         internal void Update(GameTime gameTime)
