@@ -14,11 +14,11 @@ namespace IllegalOctopusFishing
 
     public class ExtremeSailingGame : Game
     {
+        public enum ModelNames { SMALLBOAT, SMALLSAIL, HARPOON, COASTGUARD, FISH };
+
         private MainPage mainPage;
         private bool isPaused;
 
-        public static List<String> modelNames = new List<String>() {"smallboat", "smallsail", "harpoon", "coastguard"};
-        public Dictionary<String, Model> nameToModel;
         public Player.BoatSize selectedBoat;
 
         private GraphicsDeviceManager graphicsDeviceManager;
@@ -50,17 +50,24 @@ namespace IllegalOctopusFishing
 
         protected override void LoadContent()
         {
+            Dictionary<ModelNames, String> modelNameToString = new Dictionary<ModelNames, String>();
+            modelNameToString.Add(ModelNames.SMALLBOAT, "smallboat");
+            modelNameToString.Add(ModelNames.SMALLSAIL, "smallsail");
+            modelNameToString.Add(ModelNames.COASTGUARD, "coastguard");
+            modelNameToString.Add(ModelNames.HARPOON, "harpoon");
+            modelNameToString.Add(ModelNames.FISH, "fish");
+
+            Dictionary<ModelNames, Model> modelNameToModel = new Dictionary<ModelNames, Model>();
             // load blender models
-            nameToModel = new Dictionary<String, Model>();
-            // TODO: these are getting AssetNotFoundExceptions
-            
-            foreach (String name in modelNames)
+            foreach (KeyValuePair<ModelNames,String> keyVal in modelNameToString)
             {
-                Model model = Content.Load<Model>(name);
-                nameToModel.Add(name, model);
+                ModelNames modelName = keyVal.Key;
+                String modelString = keyVal.Value;
+                Model model = Content.Load<Model>(modelString);
+                modelNameToModel.Add(modelName, model);
             }
 
-            world = new World(this, selectedBoat);
+            world = new World(this, modelNameToModel, selectedBoat);
 
             base.LoadContent();
         }

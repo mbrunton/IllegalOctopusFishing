@@ -166,6 +166,9 @@
     <ToolkitModel Include="Content\smallsail.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
+    <ToolkitModel Include="Content\fish.dae">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

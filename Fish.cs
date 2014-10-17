@@ -7,10 +7,11 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
     class Fish : ModelGameObject
     {
-        public Fish(ExtremeSailingGame game, Vector3 startingPos, String modelName)
-            : base(game, startingPos, modelName)
+        public Fish(ExtremeSailingGame game, Vector3 startingPos, Model model)
+            : base(game, startingPos, model)
         {
             acc = 0.01f;
             maxVel = 0.4f;

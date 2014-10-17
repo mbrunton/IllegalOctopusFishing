@@ -45,7 +45,7 @@ namespace IllegalOctopusFishing
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
-        public Player(ExtremeSailingGame game, Vector3 startingPos, String boatModelName, String sailModelName, BoatSize boatSize) : base(game, startingPos, boatModelName)
+        public Player(ExtremeSailingGame game, Vector3 startingPos, Model boatModel, Model sailModel, BoatSize boatSize) : base(game, startingPos, boatModel)
         {
             hullPositions = new Dictionary<HullPositions, Vector3>();
             hullPositions.Add(HullPositions.BACK_LEFT, new Vector3());
@@ -69,12 +69,7 @@ namespace IllegalOctopusFishing
                 maxVel = 1.15f;
             }
 
-            // sail
-            bool success = game.nameToModel.TryGetValue(sailModelName, out sailModel);
-            if (!success)
-            {
-                throw new ArgumentException("failed to load sail model");
-            }
+            this.sailModel = sailModel;
             this.sailWorld = Matrix.Identity;
             this.initialSailTheta = pi/2; // sail starts off on starboard side
             this.sailTheta = initialSailTheta;

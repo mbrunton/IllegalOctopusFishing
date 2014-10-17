@@ -15,6 +15,7 @@ namespace IllegalOctopusFishing
     class World
     {
         private ExtremeSailingGame game;
+        private Dictionary<ExtremeSailingGame.ModelNames, Model> modelNameToModel;
         private Player player;
         private float worldSize;
         private float seaLevel;
@@ -34,9 +35,10 @@ namespace IllegalOctopusFishing
 
         private List<GameObject> objectsForDrawing;
 
-        public World(ExtremeSailingGame game, Player.BoatSize selectedBoat)
+        public World(ExtremeSailingGame game, Dictionary<ExtremeSailingGame.ModelNames, Model> modelNameToModel, Player.BoatSize selectedBoat)
         {
             this.game = game;
+            this.modelNameToModel = modelNameToModel;
             this.objectsForDrawing = new List<GameObject>();
 
             this.worldSize = 16000f;
@@ -73,18 +75,9 @@ namespace IllegalOctopusFishing
 
             // player
             Vector3 playerStartPos = terrain.getPlayerStartPos();
-            String playerBoatModelName, playerSailModelName;
-            if (selectedBoat == Player.BoatSize.SMALL)
-            {
-                playerBoatModelName = "smallboat";
-                playerSailModelName = "smallsail";
-            }
-            else
-            {
-                playerBoatModelName = "largeboat";
-                playerSailModelName = "largesail";
-            }
-            this.player = new Player(game, playerStartPos, playerBoatModelName, playerSailModelName, selectedBoat);
+            Model playerBoatModel = modelNameToModel[ExtremeSailingGame.ModelNames.SMALLBOAT];
+            Model playerSailModel = modelNameToModel[ExtremeSailingGame.ModelNames.SMALLSAIL];
+            this.player = new Player(game, playerStartPos, playerBoatModel, playerSailModel, selectedBoat);
             objectsForDrawing.Add(player);
 
             // camera
@@ -97,7 +90,7 @@ namespace IllegalOctopusFishing
             for (int i = 0; i < numFish; i++)
             {
                 Vector3 fishStartPos = terrain.getRandomUnderWaterLocation();
-                Fish f = new Fish(game, fishStartPos, "fish");
+                Fish f = new Fish(game, fishStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.FISH]);
                 fish.Add(f);
                 objectsForDrawing.Add(f);
             }
@@ -111,7 +104,7 @@ namespace IllegalOctopusFishing
                 Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
                 coastGuardStartPos = (1 / 200) * coastGuardStartPos;
                 //Vector3 coastGuardStartPos = new Vector3();
-                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, "coastguard");
+                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD]);
                 coastGuard.Add(c);
                 objectsForDrawing.Add(c);
             }
@@ -232,7 +225,7 @@ namespace IllegalOctopusFishing
 
         internal void AddHarpoon(Vector3 pos, Vector3 dir, Vector3 initialVel)
         {
-            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, initialVel, "harpoon");
+            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, initialVel, modelNameToModel[ExtremeSailingGame.ModelNames.HARPOON]);
             this.harpoons.Add(harpoon);
             objectsForDrawing.Add(harpoon);
         }

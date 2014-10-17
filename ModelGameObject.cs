@@ -18,18 +18,16 @@ namespace IllegalOctopusFishing
         internal float acc;
         internal float maxVel;
 
-        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, String modelName) : base(game, "ModelPhong")
+        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, Model model) : base(game)
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
             this.modelDir = Vector3.UnitX;
             this.dir = modelDir;
+            this.model = model;
 
-            bool success = game.nameToModel.TryGetValue(modelName, out model);
-            if (!success)
-            {
-                throw new ArgumentException("failed to load model");
-            }
+            String effectName = "ModelPhong";
+            this.effect = game.Content.Load<Effect>(effectName).Clone();
         }
         
         internal Matrix getWorld()
@@ -66,6 +64,40 @@ namespace IllegalOctopusFishing
         {
             Matrix translation = Matrix.Translation(pos);
             return translation;
+        }
+
+        internal override void SetEffectValues(Camera camera, Color ambientColor, HeavenlyBody sun, HeavenlyBody moon)
+        {
+            /* shader parameters
+            float4x4 World;
+            float4x4 View;
+            float4x4 Projection;
+            float4 cameraPos;
+            float4 sunLightAmbCol;
+            float4 sunLightPntPos;
+            float4 sunLightPntCol;
+            float4 moonLightAmbCol;
+            float4 moonLightPntPos;
+            float4 moonLightPntCol;
+            float4x4 worldInvTrp;
+             */
+
+            View = camera.view;
+            Projection = camera.projection;
+
+            effect.Parameters["World"].SetValue(World);
+            effect.Parameters["View"].SetValue(View);
+            effect.Parameters["Projection"].SetValue(Projection);
+            effect.Parameters["cameraPos"].SetValue(camera.pos.ToArray());
+
+            effect.Parameters["sunLightAmbCol"].SetValue(ambientColor.ToVector3());
+            effect.Parameters["sunLightPntPos"].SetValue(sun.pos);
+            effect.Parameters["sunLightPntCol"].SetValue(sun.specularColor.ToVector3());
+            effect.Parameters["moonLightAmbCol"].SetValue(ambientColor.ToVector3());
+            effect.Parameters["moonLightPntPos"].SetValue(moon.pos);
+            effect.Parameters["moonLightPntCol"].SetValue(moon.specularColor);
+
+            effect.Parameters["worldInvTrp"].SetValue(Matrix.Transpose(Matrix.Invert(World)));
         }
 
         public override void Draw(Camera camera, Color ambientColor, HeavenlyBody sun, HeavenlyBody moon)

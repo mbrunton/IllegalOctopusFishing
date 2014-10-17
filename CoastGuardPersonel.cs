@@ -7,12 +7,13 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
     class CoastGuardPersonel : ModelGameObject
     {
         private Random random;
 
-        public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, String modelName)
-            : base(game, startingPos, modelName)
+        public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, Model model)
+            : base(game, startingPos, model)
         {
             acc = 0.00001f;
             maxVel = 0.01f;

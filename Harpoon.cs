@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace IllegalOctopusFishing
 {
+    using SharpDX.Toolkit.Graphics;
     class Harpoon : ModelGameObject
     {
         internal float cooloff;
@@ -16,7 +17,7 @@ namespace IllegalOctopusFishing
 
         private float omega;
 
-        public Harpoon(ExtremeSailingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, Vector3 initialVel, String modelName) : base(game, startPos, modelName)
+        public Harpoon(ExtremeSailingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, Vector3 initialVel, Model model) : base(game, startPos, model)
         {
             this.modelDir = modelDir;
             this.dir = new Vector3(initialDir.X, 0, initialDir.Z);
