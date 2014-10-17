@@ -64,10 +64,10 @@ namespace IllegalOctopusFishing
             return hullHeights;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, Camera camera, Sky sky, HeavenlyBody sun, HeavenlyBody moon)
         {
             game.GraphicsDevice.SetBlendState(game.GraphicsDevice.BlendStates.AlphaBlend);
-            base.Draw(gameTime);
+            base.Draw(gameTime, camera, sky, sun, moon);
         }
     }
 }

@@ -27,16 +27,6 @@ namespace IllegalOctopusFishing
             
         }
 
-        internal void AlignWithCamera(Camera camera)
-        {
-            View = camera.getView();
-            Projection = camera.getProjection();
-        }
-
-        abstract public void SetupLighting(Sky sky, HeavenlyBody sun, HeavenlyBody moon);
-
-        abstract public void UpdateLightingDirections(HeavenlyBody sun, HeavenlyBody moon);
-
-        abstract public void Draw(GameTime gameTime);
+        abstract public void Draw(GameTime gameTime, Camera camera, Sky sky, HeavenlyBody sun, HeavenlyBody moon);
     }
 }

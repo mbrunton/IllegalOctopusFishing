@@ -20,10 +20,5 @@ namespace IllegalOctopusFishing
         {
             //throw new NotImplementedException();
         }
-
-        public override void Draw(GameTime gameTime)
-        {
-            //throw new NotImplementedException();
-        }
     }
 }

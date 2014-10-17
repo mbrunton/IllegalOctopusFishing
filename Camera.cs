@@ -7,10 +7,11 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
-    class Camera
+    public class Camera
     {
-        private Matrix view;
-        private Matrix projection;
+        internal Vector3 pos;
+        internal Matrix view;
+        internal Matrix projection;
         private float maxDistanceFromPlayer;
         private float minDistanceFromPlayer;
         private float speedDistanceAdjustment;
@@ -32,23 +33,10 @@ namespace IllegalOctopusFishing
             float playerSpeed = playerVel.Length();
             float metresBackFromPlayer = Math.Min(speedDistanceAdjustment * playerSpeed + minDistanceFromPlayer, maxDistanceFromPlayer);
             float metresAbovePlayer = 0.4f * metresBackFromPlayer;
-            Vector3 eye = playerPos - (metresBackFromPlayer * playerDir) + (metresAbovePlayer * Vector3.UnitY);
+            this.pos = playerPos - (metresBackFromPlayer * playerDir) + (metresAbovePlayer * Vector3.UnitY);
             Vector3 target = playerPos + targetDistanceForwardOfPlayer * playerDir;
             
-            // DEBUGGING - hold view
-            //this.view = Matrix.LookAtLH(-20 * Vector3.UnitX + 8 * Vector3.UnitY, Vector3.Zero, Vector3.UnitY);
-            
-            this.view = Matrix.LookAtRH(eye, target, Vector3.UnitY);
-        }
-
-        public Matrix getView()
-        {
-            return this.view;
-        }
-
-        public Matrix getProjection()
-        {
-            return this.projection;
+            this.view = Matrix.LookAtRH(pos, target, Vector3.UnitY);
         }
     }
 }

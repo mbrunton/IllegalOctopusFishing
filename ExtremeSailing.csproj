@@ -155,16 +155,16 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <ToolkitModel Include="Content\smallboat.dae">
+    <ToolkitModel Include="Content\smallboat.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\smallsail.dae">
+    <ToolkitModel Include="Content\coastguard.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\harpoon.dae">
+    <ToolkitModel Include="Content\harpoon.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
-    <ToolkitModel Include="Content\coastguard.dae">
+    <ToolkitModel Include="Content\smallsail.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitModel>
     <None Include="IllegalOctopusFishing_TemporaryKey.pfx" />
@@ -181,6 +181,9 @@
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <ToolkitFxc Include="Content\Phong.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </ToolkitFxc>
+    <ToolkitFxc Include="Content\ModifiedPhong.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>
   </ItemGroup>

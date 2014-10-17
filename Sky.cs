@@ -9,36 +9,29 @@ namespace IllegalOctopusFishing
 {
     public class Sky
     {
-        private Color color;
+        internal Color color;
         private Color noonColor;
         private Color midnightColor;
-        private float ambientLight;
 
         public Sky(Color noonColor, Color midnightColor)
         { 
             this.noonColor = noonColor;
             this.midnightColor = midnightColor;
 
-            this.ambientLight = noonColor.ToVector3().Length();
-            this.ambientLight += midnightColor.ToVector3().Length();
-            this.ambientLight = ambientLight / 2f;
-
             this.color = new Color(noonColor.ToVector3());
         }
 
         public void Update(HeavenlyBody sun, HeavenlyBody moon) 
         {
-            //throw new NotImplementedException();
-        }
+            if (sun.pos.Y > 0)
+            {
+                color = noonColor;
+            }
+            else
+            {
+                color = midnightColor;
+            }
 
-        public Color getColor()
-        {
-            return this.color;
-        }
-
-        internal float getAmbientLight()
-        {
-            return this.ambientLight;
         }
     }
 }

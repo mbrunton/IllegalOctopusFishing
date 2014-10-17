@@ -47,16 +47,18 @@ namespace IllegalOctopusFishing
 
             // sun
             this.secsPerGameDay = 180;
-            Vector3 sunInitialDir = -1 * Vector3.UnitY;
+            float sunDistFromOrigin = 2 * worldSize;
+            Vector3 sunInitialPos = sunDistFromOrigin * Vector3.UnitY;
             Vector3 sunRevolutionNormal = Vector3.UnitX; // normal to sun's plane of motion
             Color sunSpectralColor = Color.LightYellow;
-            this.sun = new HeavenlyBody(sunInitialDir, sunRevolutionNormal, secsPerGameDay, sunSpectralColor);
+            this.sun = new HeavenlyBody(sunInitialPos, sunDistFromOrigin, sunRevolutionNormal, secsPerGameDay, sunSpectralColor);
 
             // moon
-            Vector3 moonInitialDir = Vector3.UnitY;
+            float moonDistFromOrigin = sunDistFromOrigin;
+            Vector3 moonInitialDir = -1 * moonDistFromOrigin * Vector3.UnitY;
             Vector3 moonRevolutionNormal = Vector3.UnitZ; // normal to moon's plane of motion
             Color moonSpectralColor = Color.GhostWhite;
-            this.moon = new HeavenlyBody(moonInitialDir, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
+            this.moon = new HeavenlyBody(moonInitialDir, moonDistFromOrigin, moonRevolutionNormal, secsPerGameDay, moonSpectralColor);
 
             // sky
             Color noonColor = Color.CornflowerBlue;
@@ -118,12 +120,6 @@ namespace IllegalOctopusFishing
 
             // harpoons
             harpoons = new List<Harpoon>();
-
-            // setup lighting
-            foreach (GameObject obj in objectsForDrawing)
-            {
-                obj.SetupLighting(sky, sun, moon);
-            }
         }
 
         internal void Update(GameTime gameTime, KeyboardState keyboardState, AccelerometerReading accelerometerReading)
@@ -246,13 +242,11 @@ namespace IllegalOctopusFishing
 
         internal void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(sky.getColor());
+            game.GraphicsDevice.Clear(sky.color);
 
             foreach (GameObject obj in objectsForDrawing)
             {
-                obj.AlignWithCamera(camera);
-                obj.UpdateLightingDirections(sun, moon);
-                obj.Draw(gameTime);
+                obj.Draw(gameTime, camera, sky, sun, moon);
             }
         }
     }

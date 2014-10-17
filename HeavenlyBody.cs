@@ -7,16 +7,18 @@ using SharpDX.Toolkit;
 
 namespace IllegalOctopusFishing
 {
-    public class HeavenlyBody
+    public class  HeavenlyBody
     {
-        private Vector3 dir;
-        private Vector3 revolutionNormal;
-        private float omega;
-        private Color specularColor;
+        internal Vector3 pos;
+        internal float distFromOrigin;
+        internal Vector3 revolutionNormal;
+        internal float omega;
+        internal Color specularColor;
 
-        public HeavenlyBody(Vector3 initialDir, Vector3 revolutionNormal, float secsPerGameDay, Color specularColor)
+        public HeavenlyBody(Vector3 initialPos, float distFromOrigin, Vector3 revolutionNormal, float secsPerGameDay, Color specularColor)
         {
-            this.dir = initialDir;
+            this.pos = initialPos;
+            this.distFromOrigin = distFromOrigin;
             this.revolutionNormal = revolutionNormal;
             // want to revolve by 2pi radians every "secsPerGameDay" seconds
             this.omega = 2 * (float)Math.PI / secsPerGameDay;
@@ -27,17 +29,7 @@ namespace IllegalOctopusFishing
             float deltaSecs = gameTime.ElapsedGameTime.Milliseconds / 1000f;
             float deltaRadians = omega * deltaSecs;
             Matrix rotation = Matrix.RotationAxis(revolutionNormal, deltaRadians);
-            this.dir = Vector3.TransformCoordinate(dir, rotation);
-        }
-
-        public Vector3 getDir()
-        {
-            return this.dir;
-        }
-
-        public Color getSpecularColor()
-        {
-            return this.specularColor;
+            this.pos = Vector3.TransformCoordinate(pos, rotation);
         }
     }
 }
