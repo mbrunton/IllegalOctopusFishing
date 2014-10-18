@@ -9,8 +9,8 @@ namespace IllegalOctopusFishing
 {
     class Wind
     {
-        private Vector3 dir; // in x-z plane
-        private float speed; // [0-1]
+        internal Vector3 dir; // in x-z plane
+        internal float speed; // [0-1]
         
         private Random random;
         private float secondsTillSwitch;
@@ -28,18 +28,6 @@ namespace IllegalOctopusFishing
             secondsTillSwitch = 6f;
             secondsSinceSwitch = 0f;
             probabilityOfSwitch = 1.0f;
-        }
-
-        internal Vector3 getDir()
-        {
-            return Vector3.UnitX;
-            //return this.dir;
-        }
-
-        internal float getSpeed()
-        {
-            return 1;
-            //return this.speed;
         }
 
         internal void Update(GameTime gameTime)

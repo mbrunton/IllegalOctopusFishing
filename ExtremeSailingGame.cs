@@ -154,5 +154,16 @@ namespace IllegalOctopusFishing
         {
             this.mainPage.GameOver();
         }
+
+        internal void updateHUD(float playerHealth, Vector3 playerDir, Vector3 windDir, float windSpeed)
+        {
+            float windAngle = (float)Math.Acos(Vector3.Dot(playerDir, windDir));
+            if (Vector3.Cross(playerDir, windDir).Y < 0) {
+                windAngle = -1 * windAngle;
+            }
+
+            mainPage.setHealthDisplay(playerHealth);
+            mainPage.setWindDisplay(windAngle, windSpeed);
+        }
     }
 }

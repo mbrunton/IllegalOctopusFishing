@@ -179,6 +179,9 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Content\arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <ToolkitFxc Include="Content\OceanShader.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ToolkitFxc>

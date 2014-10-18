@@ -6,5 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Image x:Name="windDirArrowImage" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="1221,626,0,0" Source="Content/arrow.png"/>
+    <TextBlock x:Name="playerHealthTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="100%" VerticalAlignment="Top" Margin="27,24,0,0" Height="23" Width="44" FontSize="15" Foreground="#FF0C0B0B"/>
 
 </SwapChainBackgroundPanel>

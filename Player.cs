@@ -137,8 +137,8 @@ namespace IllegalOctopusFishing
             // and X cross Y == Z. Left hand rule
 
             // find angle of wind (dir is angle 0, increases clockwise, around to 2*pi)
-            Vector3 cross = Vector3.Cross(xzDir, wind.getDir());
-            float windAngle = (float)Math.Acos(Vector3.Dot(xzDir, wind.getDir()));
+            Vector3 cross = Vector3.Cross(xzDir, wind.dir);
+            float windAngle = (float)Math.Acos(Vector3.Dot(xzDir, wind.dir));
             if (!MathUtil.IsZero(cross.Y) && cross.Y < 0)
             {
                 windAngle = 2 * pi - windAngle;
@@ -235,7 +235,7 @@ namespace IllegalOctopusFishing
 
             // adjust velocity of boat based on windFactor and windSpeed
             Vector3 deltaVel = delta * acc * dir; // note this is the max possible value deltaVel can take, since windFactor,windSpeed <= 1
-            deltaVel = windFactor * wind.getSpeed() * deltaVel;
+            deltaVel = windFactor * wind.speed * deltaVel;
             this.vel += deltaVel;
 
             

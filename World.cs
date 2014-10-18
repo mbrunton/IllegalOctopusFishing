@@ -244,6 +244,9 @@ namespace IllegalOctopusFishing
                         }
                     }
                 }
+
+                // update HUD
+                game.updateHUD(player.health, player.dir, wind.dir, wind.speed);
             }
 
             foreach (Harpoon harpoon in harpoonsToDelete)
