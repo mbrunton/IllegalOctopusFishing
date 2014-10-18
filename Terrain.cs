@@ -15,6 +15,7 @@ namespace IllegalOctopusFishing
         private float worldSize;
         private float minX, maxX;
         private float minZ, maxZ;
+        private float minY, maxY;
         private float seaLevel;
         private float verticesPerLength; // how many terrain vertices per unit length
         private HeightMap heightMap;
@@ -39,6 +40,9 @@ namespace IllegalOctopusFishing
             this.diamondSquare = new DiamondSquare(heightMap.numSideVertices, cornerHeight, middleHeight, randomFactor);
 
             heightMap.fillGridFromHeights(diamondSquare.heights);
+            minY = heightMap.getMinY();
+            maxY = heightMap.getMaxY();
+
             bool isRound = true;
             heightMap.fillNormalGrid(isRound);
 
@@ -52,7 +56,18 @@ namespace IllegalOctopusFishing
 
         private Color getColorAtHeight(float y)
         {
-            return Color.Green;
+            if (y < seaLevel)
+            {
+                return Color.DarkGray;
+            }
+            else if (y < maxY / 5)
+            {
+                return Color.SandyBrown;
+            }
+
+            float greenDarkness = (maxY - y) / (maxY - seaLevel);
+
+            return greenDarkness * Color.Green;
         }
 
         internal Vector3 getRandomUnderWaterLocation()

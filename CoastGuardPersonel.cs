@@ -70,7 +70,7 @@ namespace IllegalOctopusFishing
         internal void Update(World world, GameTime gameTime, float terrainHeight, float oceanHeight, Vector3 playerPos, Vector3 playerDir)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
+            /*
             // reduce time till next firing
             if (fireCooloff > 0)
             {
@@ -110,7 +110,7 @@ namespace IllegalOctopusFishing
 
             // movement
 
-            /*
+            
             // TESTING: random movement
             if (random.NextFloat(0, 1) < 0.01) {
                 this.dir = Vector3.TransformCoordinate(dir, Matrix.RotationY(random.NextFloat(0, 2*(float)Math.PI)));
@@ -135,10 +135,7 @@ namespace IllegalOctopusFishing
         internal void AttackPlayer(World world, Vector3 playerPos, Vector3 playerVel)
         {
             // TODO: make this better
-            Vector3 harpoonVel = (playerPos - pos);
-            harpoonVel.Normalize();
-            harpoonVel = harpoonSpeed * harpoonVel;
-            world.AddHarpoon(pos, playerPos - pos, harpoonVel);
+            world.AddHarpoon(pos, playerPos - pos, vel.Length());
         }
     }
 }

@@ -46,6 +46,47 @@ namespace IllegalOctopusFishing
             }
         }
 
+        internal float getMinY()
+        {
+            if (!isGridFilled)
+            {
+                throw new Exception("cannot yet min y before grid has been filled");
+            }
+
+            float minY = grid[0][0].Y;
+            for (int i = 0; i < numSideVertices; i++)
+            {
+                for (int j = 0; j < numSideVertices; j++)
+                {
+                    if (grid[i][j].Y < minY)
+                    {
+                        minY = grid[i][j].Y;
+                    }
+                }
+            }
+            return minY;
+        }
+
+        internal float getMaxY()
+        {
+            if (!isGridFilled)
+            {
+                throw new Exception("cannot yet max y before grid has been filled");
+            }
+            float maxY = grid[0][0].Y;
+            for (int i = 0; i < numSideVertices; i++)
+            {
+                for (int j = 0; j < numSideVertices; j++)
+                {
+                    if (grid[i][j].Y > maxY)
+                    {
+                        maxY = grid[i][j].Y;
+                    }
+                }
+            }
+            return maxY;
+        }
+
         // (i,j) is indices of corner square, which contains position (x,z)
         internal float getHeightAtPosition(Index index, float x, float z)
         {

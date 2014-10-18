@@ -595,7 +595,7 @@ namespace IllegalOctopusFishing
         {
             if (fireCooloff == 0)
             {
-                world.AddHarpoon(pos, dir, vel);
+                world.AddHarpoon(pos, dir, vel.Length());
                 fireCooloff = maxFireCooloff;
             }
         }

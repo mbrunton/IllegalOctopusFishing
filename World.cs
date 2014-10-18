@@ -101,9 +101,10 @@ namespace IllegalOctopusFishing
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
-                Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
-                coastGuardStartPos = (1 / 200) * coastGuardStartPos;
-                //Vector3 coastGuardStartPos = new Vector3();
+                //Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
+                // FOR TESTING PURPOSES
+                Vector3 coastGuardStartPos = new Vector3(135, 0, 0);
+
                 CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD], game.difficulty);
                 coastGuard.Add(c);
                 objectsForDrawing.Add(c);
@@ -198,8 +199,8 @@ namespace IllegalOctopusFishing
                 }
                 if (harpoon.cooloff == 0)
                 {
-                    float playerDist = (player.pos - harpoon.pos).Length();
-                    if (playerDist < harpoon.attackRange)
+                    bool isPlayerHit = harpoon.checkIfHit(player);
+                    if (isPlayerHit)
                     {
                         player.health -= harpoon.damage;
                         harpoonsToDelete.Add(harpoon);
@@ -208,8 +209,8 @@ namespace IllegalOctopusFishing
                     }
                     foreach (CoastGuardPersonel c in coastGuard)
                     {
-                        float coastGuardDist = (c.pos - harpoon.pos).Length();
-                        if (coastGuardDist < harpoon.attackRange)
+                        bool isHit = harpoon.checkIfHit(c);
+                        if (isHit)
                         {
                             coastGuardToDelete.Add(c);
                             harpoonsToDelete.Add(harpoon);
@@ -237,9 +238,9 @@ namespace IllegalOctopusFishing
             wind.Update(gameTime);
         }
 
-        internal void AddHarpoon(Vector3 pos, Vector3 dir, Vector3 initialVel)
+        internal void AddHarpoon(Vector3 pos, Vector3 dir, float shooterSpeed)
         {
-            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, initialVel, modelNameToModel[ExtremeSailingGame.ModelNames.HARPOON]);
+            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, shooterSpeed, modelNameToModel[ExtremeSailingGame.ModelNames.HARPOON]);
             this.harpoons.Add(harpoon);
             objectsForDrawing.Add(harpoon);
         }
