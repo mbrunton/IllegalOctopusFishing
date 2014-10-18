@@ -24,20 +24,25 @@ namespace IllegalOctopusFishing
     {
         private MainMenu mainMenu;
 
-        public Settings(MainMenu mainMenu)
+        public Settings(MainMenu mainMenu, int difficulty, int minDifficulty, int maxDifficulty)
         {
             this.InitializeComponent();
             this.mainMenu = mainMenu;
+
+            this.difficultySlider.Value = difficulty;
+            difficultySlider.Minimum = minDifficulty;
+            difficultySlider.Maximum = maxDifficulty;
+        }
+
+        private void onMainMenuButtonClicked(object sender, RoutedEventArgs e)
+        {
+            int difficulty = (int)difficultySlider.Value;
+            mainMenu.removeSettings(difficulty);
         }
 
         private void onDifficultySliderChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
 
-        }
-
-        private void onMainMenuButtonClicked(object sender, RoutedEventArgs e)
-        {
-            mainMenu.removeSettings();
         }
     }
 }

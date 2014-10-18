@@ -20,6 +20,7 @@ namespace IllegalOctopusFishing
         private bool isPaused;
 
         public Player.BoatSize selectedBoat;
+        public int difficulty;
 
         private GraphicsDeviceManager graphicsDeviceManager;
         private KeyboardState keyboardState;
@@ -28,11 +29,12 @@ namespace IllegalOctopusFishing
 
         private World world;
 
-        public ExtremeSailingGame(MainPage mainPage, Player.BoatSize selectedBoat)
+        public ExtremeSailingGame(MainPage mainPage, Player.BoatSize selectedBoat, int difficulty)
         {
             this.mainPage = mainPage;
             this.isPaused = true;
             this.selectedBoat = selectedBoat;
+            this.difficulty = difficulty;
 
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             input = new GameInput(this);
@@ -118,7 +120,12 @@ namespace IllegalOctopusFishing
 
         public void Tapped(GestureRecognizer sender, TappedEventArgs args)
         {
-            
+            if (isPaused || world == null)
+            {
+                return;
+            }
+
+            world.PlayerFire();
         }
 
         public void OnManipulationStarted(GestureRecognizer sender, ManipulationStartedEventArgs args)

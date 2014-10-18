@@ -37,10 +37,10 @@ namespace IllegalOctopusFishing
             this.Children.Add(mainMenu);
         }
 
-        internal void startGame(Player.BoatSize selectedBoat)
+        internal void startGame(Player.BoatSize selectedBoat, int difficulty)
         {
             this.Children.Remove(mainMenu);
-            game = new ExtremeSailingGame(this, selectedBoat);
+            game = new ExtremeSailingGame(this, selectedBoat, difficulty);
             game.Run(this);
             game.setIsPaused(false);
         }

@@ -26,6 +26,9 @@ namespace IllegalOctopusFishing
         private BoatSelection boatSelection = null;
         private Instructions instructions = null;
         private Settings settings = null;
+        private int difficulty;
+        private int defaultDifficulty;
+        private int minDifficulty, maxDifficulty;
 
         public MainMenu(MainPage mainPage, bool displayGameOver)
         {
@@ -39,6 +42,11 @@ namespace IllegalOctopusFishing
             {
                 this.gameOverTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed; 
             }
+
+            this.defaultDifficulty = 3;
+            this.minDifficulty = 1;
+            this.maxDifficulty = 5;
+            this.difficulty = defaultDifficulty;
         }
 
         private void onInstructionsButtonClicked(object sender, RoutedEventArgs e)
@@ -71,12 +79,18 @@ namespace IllegalOctopusFishing
 
         private void onSettingsButtonClicked(object sender, RoutedEventArgs e)
         {
-            settings = new Settings(this);
+            settings = new Settings(this, difficulty, minDifficulty, maxDifficulty);
             mainPage.Children.Add(settings);
         }
 
-        internal void removeSettings()
+        internal void removeSettings(int difficulty)
         {
+            if (difficulty < minDifficulty || difficulty > maxDifficulty)
+            {
+                throw new Exception("difficulty outside of expected range");
+            }
+
+            this.difficulty = difficulty;
             if (settings != null)
             {
                 mainPage.Children.Remove(settings);
@@ -86,7 +100,7 @@ namespace IllegalOctopusFishing
         internal void startGame(Player.BoatSize selectedBoat)
         {
             mainPage.Children.Remove(boatSelection);
-            mainPage.startGame(selectedBoat);
+            mainPage.startGame(selectedBoat, difficulty);
         }
     }
 }

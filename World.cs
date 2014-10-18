@@ -97,14 +97,14 @@ namespace IllegalOctopusFishing
 
             //coastguard
             //numCoastGuard = 20;
-            numCoastGuard = 20;
+            numCoastGuard = 1;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
                 Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
                 coastGuardStartPos = (1 / 200) * coastGuardStartPos;
                 //Vector3 coastGuardStartPos = new Vector3();
-                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD]);
+                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD], game.difficulty);
                 coastGuard.Add(c);
                 objectsForDrawing.Add(c);
             }
@@ -124,6 +124,8 @@ namespace IllegalOctopusFishing
             Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
             Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
             Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
+            
+            // player turning
             if (keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Right))
             {
                 player.turnLeft(gameTime);
@@ -132,6 +134,12 @@ namespace IllegalOctopusFishing
             {
                 player.turnRight(gameTime);
             }
+            else
+            {
+
+            }
+
+            // player adjusting sail
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 player.releaseSlack(gameTime);
@@ -140,14 +148,20 @@ namespace IllegalOctopusFishing
             {
                 player.reduceSlack(gameTime);
             }
+
+            // player firing
             if (keyboardState.IsKeyDown(Keys.Space))
             {
-                player.Fire(this);
+                PlayerFire();
             }
+
+            // player update
             player.Update(gameTime, playerHullPositions, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
 
+            // camera update
             camera.Update(player.pos, player.dir, player.vel);
 
+            // fish update
             foreach (Fish f in fish)
             {
                 float fishTerrainHeight = terrain.getTerrainHeightAtPosition(f.pos.X, f.pos.Z);
@@ -155,22 +169,22 @@ namespace IllegalOctopusFishing
                 f.Update(gameTime, fishTerrainHeight, fishOceanHeight, gravity);
             }
 
+            // coastguard update
             foreach (CoastGuardPersonel c in coastGuard)
             {
                 float coastGuardTerrainHeight = terrain.getTerrainHeightAtPosition(c.pos.X, c.pos.Z);
                 float coastGuardOceanHeight = ocean.getOceanHeightAtPosition(c.pos.X, c.pos.Z);
-                c.Update(this, gameTime, coastGuardTerrainHeight, coastGuardOceanHeight);
+                c.Update(this, gameTime, coastGuardTerrainHeight, coastGuardOceanHeight, player.pos, player.dir);
             }
 
             // TODO:
             /* player eating fish
              * enemy spotting player
              * enemy shooting at player
-             * player hit by harpoon
-             * enemy hit by harpoon
-             * harpoon hit ground
+             * player/enemy crash
              */
 
+            // harpoon updates/collision detection
             List<Harpoon> harpoonsToDelete = new List<Harpoon>();
             List<CoastGuardPersonel> coastGuardToDelete = new List<CoastGuardPersonel>();
             foreach (Harpoon harpoon in harpoons)
@@ -238,6 +252,11 @@ namespace IllegalOctopusFishing
             {
                 obj.Draw(camera, ambientColor, sun, moon);
             }
+        }
+
+        internal void PlayerFire()
+        {
+            player.Fire(this);
         }
     }
 }

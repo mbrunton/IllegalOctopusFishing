@@ -41,7 +41,7 @@ namespace IllegalOctopusFishing
         private float omega, maxOmega;
         private float rotationalDamping;
 
-        private float attackCooloff, maxAttackCooloff;
+        private float fireCooloff, maxFireCooloff;
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
@@ -100,8 +100,8 @@ namespace IllegalOctopusFishing
             this.maxOmega = 0.005f;
             this.rotationalDamping = 0.04f;
 
-            this.attackCooloff = 0f;
-            this.maxAttackCooloff = 500f;
+            this.fireCooloff = 0f;
+            this.maxFireCooloff = 500f;
         }
 
         internal Dictionary<HullPositions, Vector3> getHullPositions()
@@ -127,12 +127,12 @@ namespace IllegalOctopusFishing
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             // attack cooloff
-            if (attackCooloff > 0)
+            if (fireCooloff > 0)
             {
-                attackCooloff -= delta;
-                if (attackCooloff < 0)
+                fireCooloff -= delta;
+                if (fireCooloff < 0)
                 {
-                    attackCooloff = 0;
+                    fireCooloff = 0;
                 }
             }
 
@@ -593,10 +593,10 @@ namespace IllegalOctopusFishing
 
         internal void Fire(World world)
         {
-            if (attackCooloff == 0)
+            if (fireCooloff == 0)
             {
                 world.AddHarpoon(pos, dir, vel);
-                attackCooloff = maxAttackCooloff;
+                fireCooloff = maxFireCooloff;
             }
         }
     }
