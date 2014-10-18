@@ -209,10 +209,18 @@ namespace IllegalOctopusFishing
             foreach (Harpoon harpoon in harpoons)
             {
                 harpoon.Update(gameTime, gravity);
+                if (harpoon.isDead)
+                {
+                    if (harpoon.deathCooldown == 0) {
+                        harpoonsToDelete.Add(harpoon);
+                    }
+
+                    continue;
+                }
                 float harpoonTerrainHeight = terrain.getTerrainHeightAtPosition(harpoon.pos.X, harpoon.pos.Z);
                 if (harpoonTerrainHeight > harpoon.pos.Y)
                 {
-                    harpoonsToDelete.Add(harpoon);
+                    harpoon.Kill();
                     continue;
                 }
                 if (harpoon.cooloff == 0)
@@ -221,7 +229,7 @@ namespace IllegalOctopusFishing
                     if (isPlayerHit)
                     {
                         player.health -= harpoon.damage;
-                        harpoonsToDelete.Add(harpoon);
+                        harpoon.Kill();
                         continue;
 
                     }
@@ -231,7 +239,7 @@ namespace IllegalOctopusFishing
                         if (isHit)
                         {
                             coastGuardToDelete.Add(c);
-                            harpoonsToDelete.Add(harpoon);
+                            harpoon.Kill();
                             break;
                         }
                     }

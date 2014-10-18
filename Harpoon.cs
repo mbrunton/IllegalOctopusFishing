@@ -16,6 +16,9 @@ namespace IllegalOctopusFishing
         internal float damage;
         internal float angleOfElevation;
         internal Vector3 lastPos;
+        internal bool isDead = false;
+        internal float deathCooldown;
+        internal float maxDeathCooldown;
 
         private float omega;
 
@@ -43,11 +46,29 @@ namespace IllegalOctopusFishing
             this.cooloff = 300f;
             this.attackRange = 10f;
             this.damage = 50f;
+
+            this.deathCooldown = 0f;
+            this.maxDeathCooldown = 500f;
+        }
+
+        internal void Kill()
+        {
+            isDead = true;
+            deathCooldown = maxDeathCooldown;
         }
 
         internal void Update(GameTime gameTime, Gravity gravity)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (isDead)
+            {
+                deathCooldown -= delta;
+                if (deathCooldown < 0)
+                {
+                    deathCooldown = 0;
+                }
+            }
 
             //if (!MathUtil.IsOne(dir.Length())) { throw new Exception("harpoon dir vector doesn't have length 1"); }
             //if (!MathUtil.IsOne(up.Length())) { throw new Exception("harpoon up vector doesn't have length 1"); }
