@@ -16,7 +16,7 @@ namespace IllegalOctopusFishing
     {
         private ExtremeSailingGame game;
         private Dictionary<ExtremeSailingGame.ModelNames, Model> modelNameToModel;
-        private Player player;
+        internal Player player;
         private float worldSize;
         private float seaLevel;
         private Terrain terrain;
@@ -74,10 +74,21 @@ namespace IllegalOctopusFishing
             objectsForDrawing.Add(ocean);
 
             // player
+            float playerLength, playerWidth, playerHeight;
+            if (selectedBoat == Player.BoatSize.SMALL)
+            {
+                playerLength = 10f;
+                playerWidth = 4f;
+                playerHeight = 5f;
+            }
+            else
+            {
+                throw new Exception("large boat not yet implemented sozzle");
+            }
             Vector3 playerStartPos = terrain.getPlayerStartPos();
             Model playerBoatModel = modelNameToModel[ExtremeSailingGame.ModelNames.SMALLBOAT];
             Model playerSailModel = modelNameToModel[ExtremeSailingGame.ModelNames.SMALLSAIL];
-            this.player = new Player(game, playerStartPos, playerBoatModel, playerSailModel, selectedBoat);
+            this.player = new Player(game, playerStartPos, playerBoatModel, playerSailModel, selectedBoat, playerLength, playerWidth, playerHeight);
             objectsForDrawing.Add(player);
 
             // camera
@@ -86,26 +97,33 @@ namespace IllegalOctopusFishing
             // fish
             //numFish = 100;
             numFish = 0;
+            float fishLength = 4;
+            float fishWidth = 1;
+            float fishHeight = 2;
             this.fish = new List<Fish>(numFish);
             for (int i = 0; i < numFish; i++)
             {
                 Vector3 fishStartPos = terrain.getRandomUnderWaterLocation();
-                Fish f = new Fish(game, fishStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.FISH]);
+                Fish f = new Fish(game, fishStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.FISH], fishLength, fishWidth, fishHeight);
                 fish.Add(f);
                 objectsForDrawing.Add(f);
             }
 
             //coastguard
             //numCoastGuard = 20;
-            numCoastGuard = 1;
+            numCoastGuard = 100;
+            float coastGuardLength = 11f;
+            float coastGuardWidth = 5f;
+            float coastGuardHeight = 6f;
             this.coastGuard = new List<CoastGuardPersonel>(numCoastGuard);
             for (int i = 0; i < numCoastGuard; i++)
             {
-                //Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
+                Vector3 coastGuardStartPos = terrain.getRandomOnWaterLocation();
                 // FOR TESTING PURPOSES
-                Vector3 coastGuardStartPos = new Vector3(135, 0, 0);
+                //Vector3 coastGuardStartPos = new Vector3(135, 0, 0);
 
-                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD], game.difficulty);
+                CoastGuardPersonel c = new CoastGuardPersonel(game, coastGuardStartPos, modelNameToModel[ExtremeSailingGame.ModelNames.COASTGUARD], 
+                                                                game.difficulty, coastGuardLength, coastGuardWidth, coastGuardHeight);
                 coastGuard.Add(c);
                 objectsForDrawing.Add(c);
             }
@@ -125,7 +143,7 @@ namespace IllegalOctopusFishing
             Dictionary<Player.HullPositions, Vector3> playerHullPositions = player.getHullPositions();
             Dictionary<Player.HullPositions, float> playerHullTerrainHeights = terrain.getTerrainHeightsForPlayerHull(playerHullPositions);
             Dictionary<Player.HullPositions, float> playerHullOceanHeights = ocean.getOceanHeightsForPlayerHull(playerHullPositions);
-            
+
             // player turning
             if (keyboardState.IsKeyDown(Keys.Left) && !keyboardState.IsKeyDown(Keys.Right))
             {
@@ -153,7 +171,7 @@ namespace IllegalOctopusFishing
             // player firing
             if (keyboardState.IsKeyDown(Keys.Space))
             {
-                PlayerFire();
+                player.Fire(this);
             }
 
             // player update
@@ -240,7 +258,10 @@ namespace IllegalOctopusFishing
 
         internal void AddHarpoon(Vector3 pos, Vector3 dir, float shooterSpeed)
         {
-            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, shooterSpeed, modelNameToModel[ExtremeSailingGame.ModelNames.HARPOON]);
+            float harpoonLength = 4f;
+            float harpoonWidth = 0.5f;
+            float harpoonHeight = 0.5f;
+            Harpoon harpoon = new Harpoon(game, pos, Vector3.UnitX, dir, shooterSpeed, modelNameToModel[ExtremeSailingGame.ModelNames.HARPOON], harpoonLength, harpoonWidth, harpoonHeight);
             this.harpoons.Add(harpoon);
             objectsForDrawing.Add(harpoon);
         }
@@ -253,11 +274,6 @@ namespace IllegalOctopusFishing
             {
                 obj.Draw(camera, ambientColor, sun, moon);
             }
-        }
-
-        internal void PlayerFire()
-        {
-            player.Fire(this);
         }
     }
 }

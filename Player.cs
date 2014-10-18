@@ -23,7 +23,6 @@ namespace IllegalOctopusFishing
         private float sailMaxOmega, sailAlpha;
 
         private BoatSize boatSize;
-        private float length, width;
         private float slack;
         private float slackMin, slackMax;
         private float minAbsWindAngle;
@@ -45,7 +44,8 @@ namespace IllegalOctopusFishing
 
         private Dictionary<HullPositions, Vector3> hullPositions;
 
-        public Player(ExtremeSailingGame game, Vector3 startingPos, Model boatModel, Model sailModel, BoatSize boatSize) : base(game, startingPos, boatModel)
+        public Player(ExtremeSailingGame game, Vector3 startingPos, Model boatModel, Model sailModel, BoatSize boatSize, float length, float width, float height) 
+            : base(game, startingPos, boatModel, length, width, height)
         {
             hullPositions = new Dictionary<HullPositions, Vector3>();
             hullPositions.Add(HullPositions.BACK_LEFT, new Vector3());
@@ -53,21 +53,14 @@ namespace IllegalOctopusFishing
             hullPositions.Add(HullPositions.FRONT_LEFT, new Vector3());
             hullPositions.Add(HullPositions.FRONT_RIGHT, new Vector3());
 
-            // TEMPORARY - UNTIL I FIX MODELPHONG.FX
-            effect.Parameters["color"].SetValue(Color.Brown.ToVector3());
-
             this.boatSize = boatSize;
             if (boatSize == BoatSize.SMALL)
             {
-                length = 10f;
-                width = 3f;
                 acc = 0.0005f;
                 maxVel = 0.3f;
             }
             else
             {
-                length = 10f;
-                width = 4f;
                 acc = 0.1f;
                 maxVel = 1.15f;
             }
@@ -517,6 +510,12 @@ namespace IllegalOctopusFishing
             {
                 deltaTheta = -1 * deltaTheta;
             }
+            updateSlack(deltaTheta);
+        }
+
+        public void changeSlack(float deltaScreenY)
+        {
+            float deltaTheta = deltaScreenY;
             updateSlack(deltaTheta);
         }
 

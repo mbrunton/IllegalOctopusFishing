@@ -19,7 +19,8 @@ namespace IllegalOctopusFishing
 
         private float omega;
 
-        public Harpoon(ExtremeSailingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, float shooterSpeed, Model model) : base(game, startPos, model)
+        public Harpoon(ExtremeSailingGame game, Vector3 startPos, Vector3 modelDir, Vector3 initialDir, float shooterSpeed, Model model, float length, float width, float height) 
+            : base(game, startPos, model, length, width, height)
         {
             this.modelDir = modelDir;
             this.dir = new Vector3(initialDir.X, 0, initialDir.Z);
@@ -42,9 +43,6 @@ namespace IllegalOctopusFishing
             this.cooloff = 300f;
             this.attackRange = 10f;
             this.damage = 50f;
-
-            // temporary
-            effect.Parameters["color"].SetValue(Color.OrangeRed.ToVector3());
         }
 
         internal void Update(GameTime gameTime, Gravity gravity)
@@ -106,12 +104,12 @@ namespace IllegalOctopusFishing
             {
                 return false;
             }
-            
-            BoundingSphere bounds = obj.model.CalculateBounds();
-            bounds.Center += obj.pos;
-            float radius = bounds.Radius;
+
+            BoundingBox box = obj.box;
+            box.Minimum += obj.pos;
+            box.Maximum += obj.pos;
             Ray ray = new Ray(lastPos, pos - lastPos);
-            bool intersects = bounds.Intersects(ref ray);
+            bool intersects = box.Intersects(ref ray);
 
             return intersects;
         }

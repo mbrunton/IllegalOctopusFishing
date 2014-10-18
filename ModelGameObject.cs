@@ -13,18 +13,28 @@ namespace IllegalOctopusFishing
     abstract public class ModelGameObject : GameObject
     {
         internal Model model;
+        internal BoundingBox box;
+        internal float length, width, height;
         internal Vector3 pos, dir, vel, up;
         internal Vector3 modelDir; // direction model is facing in its own coord sys
         internal float acc;
         internal float maxVel;
 
-        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, Model model) : base(game)
+        public ModelGameObject(ExtremeSailingGame game, Vector3 startPos, Model model, float length, float width, float height) : base(game)
         {
             this.pos = startPos;
             this.up = Vector3.UnitY;
             this.modelDir = Vector3.UnitX;
             this.dir = modelDir;
             this.model = model;
+
+            this.length = length;
+            this.width = width;
+            this.height = height;
+
+            Vector3 min = new Vector3(-length/2, -height/2, -width/2);
+            Vector3 max = -min;
+            this.box = new BoundingBox(min, max);
 
             String effectName = "ModelPhong";
             this.effect = game.Content.Load<Effect>(effectName).Clone();

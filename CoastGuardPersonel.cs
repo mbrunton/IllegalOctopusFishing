@@ -18,8 +18,8 @@ namespace IllegalOctopusFishing
         internal float spotPlayerRange;
         internal float harpoonSpeed;
 
-        public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, Model model, int difficulty)
-            : base(game, startingPos, model)
+        public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, Model model, int difficulty, float length, float width, float height)
+            : base(game, startingPos, model, length, width, height)
         {
             acc = 0.00001f;
             maxVel = 0.01f;
@@ -60,17 +60,13 @@ namespace IllegalOctopusFishing
             spotPlayerRange = 500f;
             harpoonSpeed = 0.5f;
 
-
-            // TEMPORARY - UNTIL I FIX MODELPHONG.FX
-            effect.Parameters["color"].SetValue(Color.BurlyWood.ToVector3());
-
             this.random = new Random(Guid.NewGuid().GetHashCode());
         }
 
         internal void Update(World world, GameTime gameTime, float terrainHeight, float oceanHeight, Vector3 playerPos, Vector3 playerDir)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            /*
+            
             // reduce time till next firing
             if (fireCooloff > 0)
             {
@@ -112,7 +108,8 @@ namespace IllegalOctopusFishing
 
             
             // TESTING: random movement
-            if (random.NextFloat(0, 1) < 0.01) {
+            /*
+             if (random.NextFloat(0, 1) < 0.01) {
                 this.dir = Vector3.TransformCoordinate(dir, Matrix.RotationY(random.NextFloat(0, 2*(float)Math.PI)));
             }
 

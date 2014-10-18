@@ -33,14 +33,14 @@ float4 moonLightAmbCol;
 float4 moonLightPntPos;
 float4 moonLightPntCol;
 float4x4 worldInvTrp;
-float4 color = float4(0.5f, 0.5f, 0.5f, 1.0f);
+//float4 color = float4(0.5f, 0.5f, 0.5f, 1.0f);
 //
 
 struct VS_IN
 {
 	float4 pos : SV_POSITION;
 	float4 nrm : NORMAL;
-	//float4 col : COLOR;
+	float4 col : COLOR;
 // Other vertex properties, e.g. texture co-ords, surface Kd, Ks, etc
 };
 
@@ -70,7 +70,7 @@ PS_IN VS( VS_IN input )
 
 	// Just pass along the colour at the vertex
 	//output.col = input.col;
-	output.col = color;
+	output.col = input.col;
 	return output;
 }
 

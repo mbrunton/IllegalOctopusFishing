@@ -60,15 +60,13 @@ namespace IllegalOctopusFishing
             modelNameToString.Add(ModelNames.HARPOON, "harpoon");
             modelNameToString.Add(ModelNames.FISH, "fish");
             
-            
             // for debugging (just change one model)
-            /*
-            modelNameToString.Add(ModelNames.SMALLBOAT, "smallboat");
-            modelNameToString.Add(ModelNames.SMALLSAIL, "smallboat");
-            modelNameToString.Add(ModelNames.COASTGUARD, "smallboat");
-            modelNameToString.Add(ModelNames.HARPOON, "smallboat");
-            modelNameToString.Add(ModelNames.FISH, "smallboat");
-            */
+            //modelNameToString.Add(ModelNames.SMALLBOAT, "smallboat");
+            //modelNameToString.Add(ModelNames.SMALLSAIL, "smallboat");
+            //modelNameToString.Add(ModelNames.COASTGUARD, "smallboat");
+            //modelNameToString.Add(ModelNames.HARPOON, "smallboat");
+            //modelNameToString.Add(ModelNames.FISH, "smallboat");
+            
             Dictionary<ModelNames, Model> modelNameToModel = new Dictionary<ModelNames, Model>();
             // load blender models
             foreach (KeyValuePair<ModelNames,String> keyVal in modelNameToString)
@@ -125,7 +123,7 @@ namespace IllegalOctopusFishing
                 return;
             }
 
-            world.PlayerFire();
+            world.player.Fire(world);
         }
 
         public void OnManipulationStarted(GestureRecognizer sender, ManipulationStartedEventArgs args)
@@ -135,12 +133,21 @@ namespace IllegalOctopusFishing
 
         public void OnManipulationUpdated(GestureRecognizer sender, ManipulationUpdatedEventArgs args)
         {
-            
+            if (isPaused || world == null)
+            {
+                return;
+            }
+
+            float deltaY = (float)args.Delta.Translation.Y;
+            world.player.changeSlack(deltaY);
         }
 
         public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
         {
-
+            if (isPaused || world == null)
+            {
+                return;
+            }
         }
 
         internal void GameOver()
