@@ -137,9 +137,14 @@ namespace IllegalOctopusFishing
             {
                 return;
             }
-
+            /*
             float deltaY = (float)args.Delta.Translation.Y;
             world.player.changeSlack(deltaY);
+            */
+            float screenDeltaY = (float)args.Delta.Translation.Y;
+            float fractionalY = screenDeltaY / (this.GraphicsDevice.BackBuffer.Height);
+            float swipeScale = 2.0f;
+            world.player.changeSlack(swipeScale * fractionalY);
         }
 
         public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
