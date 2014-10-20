@@ -25,7 +25,7 @@ namespace IllegalOctopusFishing
             speed = 1f;
 
             random = new Random();
-            secondsTillSwitch = 6f;
+            secondsTillSwitch = 20f;
             secondsSinceSwitch = 0f;
             probabilityOfSwitch = 1.0f;
         }
