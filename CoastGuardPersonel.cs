@@ -17,6 +17,8 @@ namespace IllegalOctopusFishing
         internal float maxFireCooloff;
         internal float spotPlayerRange;
         internal float harpoonSpeed;
+        internal float attackAngleCutoff;
+        internal float omega;
 
         public CoastGuardPersonel(ExtremeSailingGame game, Vector3 startingPos, Model model, int difficulty, float length, float width, float height)
             : base(game, startingPos, model, length, width, height)
@@ -59,6 +61,8 @@ namespace IllegalOctopusFishing
             maxFireCooloff = fireInterval * 1000f;
             spotPlayerRange = 500f;
             harpoonSpeed = 0.5f;
+            attackAngleCutoff = (float)Math.PI / 4;
+            omega = 0.001f;
 
             this.random = new Random(Guid.NewGuid().GetHashCode());
         }
@@ -66,7 +70,8 @@ namespace IllegalOctopusFishing
         internal void Update(World world, GameTime gameTime, float terrainHeight, float oceanHeight, Vector3 playerPos, Vector3 playerDir)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            
+            float angleWithPlayer = (float)Math.Acos(Vector3.Dot(dir, playerDir));
+
             // reduce time till next firing
             if (fireCooloff > 0)
             {
@@ -83,8 +88,11 @@ namespace IllegalOctopusFishing
             {
                 if (fireCooloff == 0)
                 {
-                    AttackPlayer(world, playerPos, playerDir);
-                    fireCooloff = maxFireCooloff;
+                    if (angleWithPlayer <= attackAngleCutoff)
+                    {
+                        AttackPlayer(world, playerPos, playerDir);
+                        fireCooloff = maxFireCooloff;
+                    }
                 }
 
                 attackPlayerCooloff -= delta;
@@ -105,17 +113,30 @@ namespace IllegalOctopusFishing
             }
 
             // movement
-
-            
-            // TESTING: random movement
-            /*
-             if (random.NextFloat(0, 1) < 0.01) {
-                this.dir = Vector3.TransformCoordinate(dir, Matrix.RotationY(random.NextFloat(0, 2*(float)Math.PI)));
-            }
-
-            if (random.NextFloat(0, 1) < 0.01)
+            if (isAttacking)
             {
-                world.AddHarpoon(pos, dir, vel);
+                if (angleWithPlayer > 0.01f)
+                {
+                    Vector3 cross = Vector3.Cross(dir, playerDir);
+                    float deltaTheta;
+                    if (cross.Y > 0)
+                    {
+                        deltaTheta = delta * omega;
+                    }
+                    else
+                    {
+                        deltaTheta = -1 * delta * omega;
+                    }
+                    Matrix rotation = Matrix.RotationY(deltaTheta);
+                    dir = Vector3.TransformCoordinate(dir, rotation);
+                }
+            }
+            else
+            {
+                if (random.NextFloat(0, 1) < 0.01)
+                {
+                    this.dir = Vector3.TransformCoordinate(dir, Matrix.RotationY(random.NextFloat(0, 2 * (float)Math.PI)));
+                }
             }
 
             this.vel += delta * acc * dir;
@@ -123,8 +144,13 @@ namespace IllegalOctopusFishing
             {
                 vel = Vector3.Zero;
             }
+            else if (vel.Length() > maxVel)
+            {
+                vel.Normalize();
+                vel = maxVel * vel;
+            }
+
             this.pos += delta * vel;
-            */
 
             this.World = getWorld();
         }

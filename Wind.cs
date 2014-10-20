@@ -37,7 +37,7 @@ namespace IllegalOctopusFishing
             if (secondsSinceSwitch >= secondsTillSwitch)
             {
                 secondsSinceSwitch = 0f;
-                if (random.NextFloat(0f, 1f) < probabilityOfSwitch)
+                if (random.NextFloat(0.6f, 1f) < probabilityOfSwitch)
                 {
                     windSwitch();
                 }

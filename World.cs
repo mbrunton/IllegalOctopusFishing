@@ -244,9 +244,6 @@ namespace IllegalOctopusFishing
                         }
                     }
                 }
-
-                // update HUD
-                game.updateHUD(player.health, player.dir, wind.dir, wind.speed);
             }
 
             foreach (Harpoon harpoon in harpoonsToDelete)
@@ -265,6 +262,9 @@ namespace IllegalOctopusFishing
             moon.Update(gameTime);
             ocean.Update(gameTime);
             wind.Update(gameTime);
+
+            // update HUD
+            game.updateHUD(player.health, player.dir, wind.dir, wind.speed);
         }
 
         internal void AddHarpoon(Vector3 pos, Vector3 dir, float shooterSpeed)

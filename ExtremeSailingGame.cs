@@ -163,7 +163,8 @@ namespace IllegalOctopusFishing
             }
 
             mainPage.setHealthDisplay(playerHealth);
-            mainPage.setWindDisplay(windAngle, windSpeed);
+            // TODO: move this to 2d rendering
+            //mainPage.setWindDisplay(windAngle, windSpeed);
         }
     }
 }

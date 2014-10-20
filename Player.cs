@@ -238,16 +238,6 @@ namespace IllegalOctopusFishing
             deltaVel = windFactor * wind.speed * deltaVel;
             this.vel += deltaVel;
 
-            
-
-
-
-
-
-
-
-
-
 
             // TODO buoyant and gravitational forces should also effect velocity
             // gravity

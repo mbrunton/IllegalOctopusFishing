@@ -59,11 +59,13 @@ namespace IllegalOctopusFishing
 
         internal void setWindDisplay(float angle, float speed)
         {
+            /*
             angle = angle % (2 * (float)Math.PI);
             float angleDegrees = angle * 180 / (float)Math.PI;
-            double centreX = windDirArrowImage.Margin.Left + windDirArrowImage.Width / 2;
-            double centreY = windDirArrowImage.Margin.Top + windDirArrowImage.Height / 2;
-            windDirArrowImage.RenderTransform = new RotateTransform() { CenterX = centreX, CenterY = centreY, Angle = angleDegrees };
+            double centreX = 1260;
+            double centreY = 625;
+            windDirRectangle.RenderTransform = new RotateTransform() { CenterX = centreX, CenterY = centreY, Angle = angleDegrees };
+            */
         }
     }
 }
