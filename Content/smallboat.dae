@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.72.0 commit date:2014-10-03, commit time:13:58, hash:95182d1</authoring_tool>
     </contributor>
-    <created>2014-10-17T23:40:11</created>
-    <modified>2014-10-17T23:40:11</modified>
+    <created>2014-10-20T05:55:45</created>
+    <modified>2014-10-20T05:55:45</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -277,6 +277,50 @@
         </polylist>
       </mesh>
     </geometry>
+    <geometry id="Plane_001-mesh" name="Plane.001">
+      <mesh>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="12">-1 -1 0 1 -1 0 -1 1 0 1 1 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="6">0 0 1 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-colors-Col" name="Col">
+          <float_array id="Plane_001-mesh-colors-Col-array" count="18">0.2588235 0.1686275 0.0862745 0.2470588 0.1529412 0.07058823 0.2313725 0.1372549 0.05098038 0.2313725 0.1372549 0.05098038 0.2588235 0.1686275 0.0862745 0.2313725 0.1372549 0.05098038</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-colors-Col-array" count="6" stride="3">
+              <param name="R" type="float"/>
+              <param name="G" type="float"/>
+              <param name="B" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
+        </vertices>
+        <polylist count="2">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <input semantic="COLOR" source="#Plane_001-mesh-colors-Col" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>0 0 0 1 0 1 3 0 2 2 1 3 0 1 4 3 1 5</p>
+        </polylist>
+      </mesh>
+    </geometry>
   </library_geometries>
   <library_controllers/>
   <library_visual_scenes>
@@ -318,6 +362,10 @@
       <node id="Plane" name="Plane" type="NODE">
         <matrix sid="transform">8.55303e-4 2.44433e-7 -0.9999994 -2.89525 -9.7387e-8 1.819281 1.34199e-7 -0.06954277 0.7248275 2.44148e-7 0.001180009 1.121306 0 0 0 1</matrix>
         <instance_geometry url="#Plane-mesh"/>
+      </node>
+      <node id="Plane_001" name="Plane_001" type="NODE">
+        <matrix sid="transform">5.284441 0 0 -2.89525 0 1.363178 0 -0.1072545 0 0 1 1.818974 0 0 0 1</matrix>
+        <instance_geometry url="#Plane_001-mesh"/>
       </node>
     </visual_scene>
   </library_visual_scenes>

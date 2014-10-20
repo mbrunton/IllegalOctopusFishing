@@ -23,7 +23,7 @@ namespace IllegalOctopusFishing
         public Ocean(ExtremeSailingGame game, float worldSize, float seaLevel) : base(game)
         {
             waveLength = 0.01f;
-            waveHeight = 0f;
+            waveHeight = 1f;
             //waveHeight = 10f;
             waveFreq = 0.003f;
 
