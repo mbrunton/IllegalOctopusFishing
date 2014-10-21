@@ -476,7 +476,7 @@ namespace IllegalOctopusFishing
             return !MathUtil.IsZero(sailTheta - slack);
         }
 
-        private bool getIsSailRight() 
+        internal bool getIsSailRight() 
         {
             return sailTheta <= pi; 
         }
@@ -522,7 +522,6 @@ namespace IllegalOctopusFishing
             {
                 omega = -1 * maxOmega;
             }
-            float deltaTheta = delta * omega;
         }
 
         public void turnRight(GameTime gameTime)
@@ -538,7 +537,6 @@ namespace IllegalOctopusFishing
             {
                 omega = -1 * maxOmega;
             }
-            float deltaTheta = delta * omega;
         }
 
         private void updateSlack(float deltaTheta)
@@ -591,8 +589,11 @@ namespace IllegalOctopusFishing
 
         internal void turn(float accelX, GameTime gameTime)
         {
+            Debug.WriteLine(accelX);
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            float deltaTheta = delta * omega * 5*accelX;
+            float maxAccelX = 1 / 3f;
+            float accelProportion = accelX / maxAccelX;
+            omega += delta * accelProportion * acc;
         }
     }
 }

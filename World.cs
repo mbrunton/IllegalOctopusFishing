@@ -202,8 +202,6 @@ namespace IllegalOctopusFishing
 
             // TODO:
             /* player eating fish
-             * enemy spotting player
-             * enemy shooting at player
              * player/enemy crash
              */
 

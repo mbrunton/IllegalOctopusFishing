@@ -11,6 +11,7 @@ namespace IllegalOctopusFishing
 {
     using SharpDX.Toolkit.Graphics;
     using SharpDX.Toolkit.Input;
+    using System.Diagnostics;
 
     public class ExtremeSailingGame : Game
     {
@@ -144,7 +145,15 @@ namespace IllegalOctopusFishing
             float screenDeltaY = (float)args.Delta.Translation.Y;
             float fractionalY = screenDeltaY / (this.GraphicsDevice.BackBuffer.Height);
             float swipeScale = (float)Math.PI; // swipe through half screen height to change slack by maximum amount (pi/2)
-            world.player.changeSlack(swipeScale * fractionalY);
+            float deltaTheta = swipeScale * fractionalY;
+            if (world.player.getIsSailRight())
+            {
+                world.player.changeSlack(deltaTheta);
+            }
+            else
+            {
+                world.player.changeSlack(-1 * deltaTheta);
+            }
         }
 
         public void OnManipulationCompleted(GestureRecognizer sender, ManipulationCompletedEventArgs args)
