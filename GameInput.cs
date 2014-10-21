@@ -27,8 +27,8 @@ namespace IllegalOctopusFishing
 
             // Set up the gesture recognizer.  In this example, it only responds to TranslateX, Scale and Tap events
             gestureRecognizer = new Windows.UI.Input.GestureRecognizer();
-            gestureRecognizer.GestureSettings = GestureSettings.ManipulationTranslateX | GestureSettings.ManipulationScale | GestureSettings.Tap;
-
+            gestureRecognizer.GestureSettings = GestureSettings.ManipulationTranslateY | GestureSettings.Tap;
+            
             // Register event handlers for pointer events
             window.PointerPressed += OnPointerPressed;
             window.PointerMoved += OnPointerMoved;

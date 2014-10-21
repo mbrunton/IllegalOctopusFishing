@@ -588,5 +588,11 @@ namespace IllegalOctopusFishing
                 fireCooloff = maxFireCooloff;
             }
         }
+
+        internal void turn(float accelX, GameTime gameTime)
+        {
+            float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            float deltaTheta = delta * omega * 5*accelX;
+        }
     }
 }

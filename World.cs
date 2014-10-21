@@ -155,7 +155,11 @@ namespace IllegalOctopusFishing
             }
             else
             {
-
+                float accelX = (float)accelerometerReading.AccelerationX;
+                if (accelX > 0.01)
+                {
+                    player.turn(accelX, gameTime);
+                }
             }
 
             // player adjusting sail
