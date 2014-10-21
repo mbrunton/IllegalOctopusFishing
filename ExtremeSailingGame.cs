@@ -97,6 +97,11 @@ namespace IllegalOctopusFishing
             }
             keyboardState = input.keyboardManager.GetState();
             accelerometerReading = input.accelerometer.GetCurrentReading();
+            /*
+            Debug.WriteLine("x" + accelerometerReading.AccelerationX.ToString());
+            Debug.WriteLine("y" + accelerometerReading.AccelerationY.ToString());
+            Debug.WriteLine("z" + accelerometerReading.AccelerationZ.ToString());
+            */
             world.Update(gameTime, keyboardState, accelerometerReading);
             base.Update(gameTime);
         }
@@ -138,10 +143,7 @@ namespace IllegalOctopusFishing
             {
                 return;
             }
-            /*
-            float deltaY = (float)args.Delta.Translation.Y;
-            world.player.changeSlack(deltaY);
-            */
+            
             float screenDeltaY = (float)args.Delta.Translation.Y;
             float fractionalY = screenDeltaY / (this.GraphicsDevice.BackBuffer.Height);
             float swipeScale = (float)Math.PI; // swipe through half screen height to change slack by maximum amount (pi/2)

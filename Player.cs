@@ -589,11 +589,19 @@ namespace IllegalOctopusFishing
 
         internal void turn(float accelX, GameTime gameTime)
         {
-            Debug.WriteLine(accelX);
+            //Debug.WriteLine(accelX);
             float delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             float maxAccelX = 1 / 3f;
-            float accelProportion = accelX / maxAccelX;
+            float accelProportion = 0.05f * accelX / maxAccelX;
             omega += delta * accelProportion * acc;
+            if (omega > maxOmega)
+            {
+                omega = maxOmega;
+            }
+            else if (omega < -1 * maxOmega)
+            {
+                omega = -1 * maxOmega;
+            }
         }
     }
 }

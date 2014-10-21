@@ -156,9 +156,9 @@ namespace IllegalOctopusFishing
             else
             {
                 float accelX = (float)accelerometerReading.AccelerationX;
-                if (accelX > 0.01)
+                if (Math.Abs(accelX) > 0.02f)
                 {
-                    player.turn(accelX, gameTime);
+                    player.turn(-1 * accelX, gameTime);
                 }
             }
 
