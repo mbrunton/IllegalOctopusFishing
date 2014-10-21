@@ -153,7 +153,7 @@ namespace IllegalOctopusFishing
             {
                 player.turnRight(gameTime);
             }
-            else
+            else if (accelerometerReading != null)
             {
                 float accelX = (float)accelerometerReading.AccelerationX;
                 if (Math.Abs(accelX) > 0.02f)
@@ -279,9 +279,21 @@ namespace IllegalOctopusFishing
             objectsForDrawing.Add(harpoon);
         }
 
+        internal Color getSkyColor()
+        {
+            Vector3 midday = new Vector3(0, -1, 0);
+            Vector3 sunDir = sun.pos;
+            sunDir.Normalize();
+            float cos = Vector3.Dot(midday, sunDir) / (midday.Length() * sunDir.Length());
+
+            // cos == 1 -> midday, cos == -1 -> midnight, cos == 0 -> dawn/dusk
+            cos = (cos + 1) / 2; // now in [0, 1]
+            return new Color((float)Math.Min(1 / Math.Abs(cos), 0.2), (float)Math.Pow(cos, 2), (float)Math.Max(cos, 0.4));
+        }
+
         internal void Draw(GameTime gameTime)
         {
-            game.GraphicsDevice.Clear(Color.CornflowerBlue);
+            game.GraphicsDevice.Clear(getSkyColor());
 
             foreach (GameObject obj in objectsForDrawing)
             {

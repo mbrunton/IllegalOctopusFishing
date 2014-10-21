@@ -96,7 +96,12 @@ namespace IllegalOctopusFishing
                 return;
             }
             keyboardState = input.keyboardManager.GetState();
-            accelerometerReading = input.accelerometer.GetCurrentReading();
+
+            if (input.accelerometer != null)
+            {
+                // in case we're running from a desktop
+                accelerometerReading = input.accelerometer.GetCurrentReading();
+            }
             /*
             Debug.WriteLine("x" + accelerometerReading.AccelerationX.ToString());
             Debug.WriteLine("y" + accelerometerReading.AccelerationY.ToString());
