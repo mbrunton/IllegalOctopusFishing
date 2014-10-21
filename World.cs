@@ -180,6 +180,11 @@ namespace IllegalOctopusFishing
 
             // player update
             player.Update(gameTime, playerHullPositions, playerHullTerrainHeights, playerHullOceanHeights, wind, gravity);
+            if (player.pos.Length() > worldSize/2)
+            {
+
+                player.pos = new Vector3(0, 0, 0);
+            }
 
             // camera update
             camera.Update(player.pos, player.dir, player.vel);
